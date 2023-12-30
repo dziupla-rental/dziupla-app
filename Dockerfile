@@ -21,14 +21,10 @@ COPY . .
 RUN npm install
 
 #creating angular build
-RUN if [ "$build_env" = "development" ] ; then \
-    npm run build --dev ; \
-else \
-    npm run build --prod ; \
-fi
+RUN npm run-script ng build --configuration=$build_env
 
 #STEP-2 RUN
-#Defining nginx img 
+#Defining nginx img
 FROM nginx:1.25.3 as ngx
 
 #copying compiled code from dist to nginx folder for serving
