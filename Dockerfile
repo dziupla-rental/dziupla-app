@@ -21,14 +21,18 @@ COPY . .
 RUN npm install
 
 #creating angular build
-RUN ./node_modules/@angular/cli/bin/ng build --configuration=$build_env
+RUN if [ "$build_env" = "development" ] ; then \
+    npm run build --dev ; \
+else \
+    npm run build --prod ; \
+fi
 
 #STEP-2 RUN
 #Defining nginx img 
 FROM nginx:1.25.3 as ngx
 
 #copying compiled code from dist to nginx folder for serving
-COPY --from=node-builder /app/dist/angular-docker-blog /usr/share/nginx/html
+COPY --from=node-builder /app/dist/dziupla-app /usr/share/nginx/html
 
 #copying nginx config from local to image
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
