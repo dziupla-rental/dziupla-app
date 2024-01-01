@@ -27,8 +27,11 @@ RUN npm run-script ng build --configuration=$build_env
 #Defining nginx img
 FROM nginx:1.25.3 as ngx
 
+#removing default nginx files
+RUN rm -rf /usr/share/nginx/html/*
+
 #copying compiled code from dist to nginx folder for serving
-COPY --from=node-builder /app/dist/dziupla-app /usr/share/nginx/html
+COPY --from=node-builder /app/dist/dziupla-app/browser /usr/share/nginx/html
 
 #copying nginx config from local to image
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
