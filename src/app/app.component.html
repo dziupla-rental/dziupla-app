@@ -4,31 +4,24 @@
     @if (showFiller) {
     <p>Lorem, ipsum dolor sit amet consectetur.</p>
     }
-    <button (click)="showFiller = !showFiller" mat-raised-button>
-      Toggle extra text
-    </button>
+    <button (click)="onClick()" mat-raised-button>Toggle extra text</button>
   </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar color="primary">
+      <button
+        mat-icon-button
+        aria-label="Burger menu icon"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <img class="dziupla-logo" src="assets/dziupla-logo.svg" />
+      <span class="example-spacer"></span>
+      <button mat-icon-button aria-label="Login or account icon">
+        <mat-icon>person</mat-icon>
+      </button>
+    </mat-toolbar>
 
-  <mat-toolbar color="primary">
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with menu icon"
-      (click)="drawer.toggle()"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
-    <span class="example-spacer"></span>
-    <button
-      mat-icon-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-    >
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <img class="dziupla-logo" src="assets/dziupla-logo.svg" />
-  </mat-toolbar>
-
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
 </mat-drawer-container>
