@@ -1,22 +1,22 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-
+import {IStatistics} from '../owner-view/owner-view.component'
 export interface StatElement {
   name: string;
   icon: string;
   value: number;
 }
 
-const ELEMENT_DATA: StatElement[] = [
-  {name: 'Liczba aut', icon: 'directions_car', value: 2137},
-  {name: 'Liczba aut wyporzyczonych', icon: 'sell', value: 2137},
-  {name: 'Liczba aut serwisie', icon: 'build', value: 2137},
-  {name: 'Liczba aut w lokalach', icon: 'home', value: 2137},
-  {name: 'Liczba klientów', icon: 'face', value: 2137},
-  {name: 'Liczba lokali', icon: 'store', value: 2137},
-  {name: 'Liczba pracowników', icon: 'accessibility', value: 2137},
+const PLACEHOLDER_DATA: StatElement[] = [
+  {name: 'Liczba aut', icon: 'directions_car', value: NaN},
+  {name: 'Liczba aut wyporzyczonych', icon: 'sell', value: NaN},
+  {name: 'Liczba aut w serwisie', icon: 'build', value: NaN},
+  {name: 'Liczba aut w lokalach', icon: 'home', value: NaN},
+  {name: 'Liczba klientów', icon: 'face', value: NaN},
+  {name: 'Liczba lokali', icon: 'store', value: NaN},
+  {name: 'Liczba pracowników', icon: 'accessibility', value: NaN},
   
 ];
 
@@ -32,7 +32,26 @@ const ELEMENT_DATA: StatElement[] = [
 
 export class GeneralStatsComponent {
   displayedColumns: string[] = ['icon', 'name', 'value'];
-  dataSource = ELEMENT_DATA;
+  @Input() stats?: IStatistics;
+  parseInput(){
+    console.log("stats", this.stats);
+    if(this.stats){
+      return [
+        {name: 'Liczba aut', icon: 'directions_car', value: this.stats.cars_total},
+        {name: 'Liczba aut wypożyczonych', icon: 'sell', value: this.stats.cars_rented},
+        {name: 'Liczba aut w serwisie', icon: 'build', value: this.stats.cars_service},
+        {name: 'Liczba aut w lokalach', icon: 'home', value: this.stats.cars_total-this.stats.cars_rented-this.stats.cars_service},
+        {name: 'Liczba klientów', icon: 'face', value: this.stats.clients_total},
+        {name: 'Liczba lokali', icon: 'store', value: this.stats.offices_total},
+        {name: 'Liczba pracowników', icon: 'accessibility', value: this.stats.employees_total},
+        
+      ];
+    }return PLACEHOLDER_DATA;
+  }
+  ngOnChanges(){
+    this.dataSource = this.parseInput();  
+  }
+  dataSource = PLACEHOLDER_DATA;
 }
 
 

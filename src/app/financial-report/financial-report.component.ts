@@ -1,6 +1,29 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { StickyDirection } from '@angular/cdk/table';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import SillyGraph from 'silly-graphs';
+
+interface IPoint {
+  x: number;
+  y: number;
+}
+interface IAxisData {
+  min?: number;
+  max?: number;
+  labels: number|number[]|string[];
+  labelTemplate?: string;
+
+}
+interface IGrapConfig {
+  lineWidth?: number;
+  color?: string;
+}
+interface IGraphData {
+  axisX?: IAxisData;
+  axisY?: IAxisData;
+  config?: IGrapConfig;
+  points?: IPoint[];
+}
 @Component({
   selector: 'app-financial-report',
   standalone: true,
@@ -9,84 +32,56 @@ import SillyGraph from 'silly-graphs';
   styleUrl: './financial-report.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
+
+
 export class FinancialReportComponent implements OnInit{
   canvas: HTMLElement | null = null;
   sillyGraph: SillyGraph | null = null;
-  dataObject = {"axisX" : {
-    "labels" : [
-        "Sty 2023",
-        "Lut 2023",
-        "Mar 2023",
-        "Kwi 2023",
-        "Maj 2023",
-        "Cze 2023",
-        "Lip 2023",
-        "Sie 2023",
-        "Wrz 2023",
-        "Paź 2023",
-        "Lis 2023",
-        "Gru 2023",
-        "Sty 2023",
-        "Lut 2023",
-        "Mar 2023",
-        "Kwi 2023",
-        "Maj 2023",
-        "Cze 2023",
-        "Lip 2023",
-        "Sie 2023",
-        "Wrz 2023",
-        "Paź 2023",
-        "Lis 2023",
-        "Gru 2023",
-    ],
-    "labelTemplate" : "#"
-},
-"axisY" : {
-    "min" : 0,
-    "max" : 100, 
-    "labels" : 5,
-    "labelTemplate" : "# zł"
-},
-"points" : [
-    {"x": 0, "y": 5},
-    {"x": 1, "y": 15},
-    {"x": 2, "y": 50},
-    {"x": 3, "y": 23},
-    {"x": 4, "y": 34},
-    {"x": 5, "y": 78},
-    {"x": 6, "y": 0},
-    {"x": 7, "y": 100},
-    {"x": 8, "y": 5},
-    {"x": 9, "y": 75},
-    {"x": 10, "y": 65},
-    {"x": 11, "y": 85},
-    {"x": 12, "y": 5},
-    {"x": 13, "y": 15},
-    {"x": 14, "y": 50},
-    {"x": 15, "y": 23},
-    {"x": 16, "y": 34},
-    {"x": 17, "y": 78},
-    {"x": 18, "y": 0},
-    {"x": 19, "y": 100},
-    {"x": 20, "y": 5},
-    {"x": 21, "y": 75},
-    {"x": 22, "y": 65},
-    {"x": 23, "y": 85},
-],
-"config" : {
-    // "color" : "red",
-    "lineWidth": 3,
+  @Input() data : Array<number> = [];
+ 
+parseData(){
+  if(this.data?.length > 0) {
+    console.log("parsing");
+    const max = Math.max.apply(Math, this.data);
+    let min = Math.min.apply(Math, this.data);
+    if(min === max) {min = 0;}
+    
+    let points: IPoint[] = [];
+    this.data.reverse().forEach((entry, index) => {
+      points.push({"x": 23-index, "y": entry})
+    });
+
+    const today = new Date();
+    const startMonth = today.getMonth()+1;
+    const startYear = today.getFullYear()-2;
+    const labelsX: string[] = Array.from({length: 24}, (v, i) => {return String(1+(startMonth+i)%12)+'-'+String(startYear+((Math.floor((i+1)/12))))});
+    let parsedObject: IGraphData = {
+      "axisY":{ 
+        "min" : 0,
+        "max" : max, 
+        "labels" : 5,
+        "labelTemplate" : "# zł"
+      },
+      "axisX":{
+        "labels": labelsX,
+      },
+      "config":{"lineWidth":3},
+      "points": points,
+    };
+
+    this.sillyGraph?.load(parsedObject);
+  }
 }
-};
   ngOnInit() {
     this.canvas = document.getElementById('financeGraph')
-    if(this.canvas){
-      
-      
+    if(this.canvas){ 
       this.sillyGraph = new SillyGraph(this.canvas);
-
-    this.sillyGraph?.load(this.dataObject);
+      this.sillyGraph.load({});
+    
     }
-
+  }
+  ngOnChanges(){
+    this.parseData();
   }
 }

@@ -1,22 +1,34 @@
 <mat-grid-list cols="3" rowHeight="1.5:1">
     <mat-grid-tile>
       
-            <app-general-stats></app-general-stats>
+            <app-general-stats [stats]="statistics"></app-general-stats>
 
       </mat-grid-tile>
     <mat-grid-tile colspan="2">
       <mat-card class="percentage-stats">
         <mat-card-content>
           <mat-card-title><h2>Procenty Pojazdów</h2></mat-card-title>
-        <app-percentage-indicator title="Pojazdy wyporzyczone" [value]="25"></app-percentage-indicator>
-        <app-percentage-indicator title="Pojazdy w lokalach" [value]="85" [hue]="90"></app-percentage-indicator>
-        <app-percentage-indicator title="Pojazdy w serwisie" [value]="52" [color]="'warn'"></app-percentage-indicator>
+        <app-percentage-indicator 
+          title="Pojazdy wypożyczone" 
+          [value]="statistics?round(statistics.cars_rented/statistics.cars_total*100):0"
+        ></app-percentage-indicator>
+
+        <app-percentage-indicator 
+          title="Pojazdy w lokalach" 
+          [value]="statistics?round((statistics.cars_total-statistics.cars_rented-statistics.cars_service)/statistics.cars_total*100):0" 
+          [hue]="90"
+        ></app-percentage-indicator>
+        <app-percentage-indicator 
+          title="Pojazdy w serwisie" 
+          [value]="statistics?round(statistics.cars_service/statistics.cars_total*100):0" 
+          [color]="'warn'"
+        ></app-percentage-indicator>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
     
     <mat-grid-tile colspan="3">
-      <app-financial-report></app-financial-report>
+      <app-financial-report [data]="statistics?statistics.earnings_stats:[]"></app-financial-report>
     </mat-grid-tile>
   </mat-grid-list>
   
