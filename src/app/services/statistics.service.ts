@@ -6,10 +6,13 @@ import { Observable, delay, of } from 'rxjs';
   providedIn: 'root'
 })
 export class StatisticsService {
+  private _response = '{"cars_total":680,"cars_rented":40,"cars_service":300,"employees_total":8,"offices_total":4,"clients_total":200,"earnings_stats":[211.3,223.1,421.1,211.3,223.1,421.1,900,223.1,421.1,211.3,223.1,421.1,-200]}';
 
   constructor() { }
 
   getStatistics(): Observable<string> {
-    return of('{"cars_total":68000,"cars_rented":4001,"cars_service":30000,"employees_total":8,"offices_total":4,"clients_total":200,"earnings_stats":[211.3,223.1,421.1,211.3,223.1,421.1,211.3,223.1,421.1,211.3,223.1,421.1,-200]}').pipe(delay(1000));
+    return of(
+      this._response
+    ).pipe(delay(1000));
   }
 }
