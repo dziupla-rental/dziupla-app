@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, Input } from '@angular/core';
 
 import {MatGridListModule} from '@angular/material/grid-list';
 import { PercentageIndicatorComponent } from '../percentage-indicator/percentage-indicator.component';
@@ -6,6 +6,7 @@ import {MatCardModule} from '@angular/material/card';
 import { FinancialReportComponent } from '../financial-report/financial-report.component';
 import { GeneralStatsComponent } from '../general-stats/general-stats.component';
 import { NumberValueAccessor } from '@angular/forms';
+import { StatisticsService } from '../services/statistics.service';
 
 export interface IStatistics {
   cars_total: number;
@@ -25,10 +26,26 @@ export interface IStatistics {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class OwnerViewComponent  {
-
- @Input() statistics?:  IStatistics;
+export class OwnerViewComponent implements OnInit {
+  statistics?:  IStatistics;
+  constructor(
+    private statisticsService : StatisticsService,
+    private readonly _cdRef: ChangeDetectorRef
+  ) {}
+  
+  ngOnInit(): void {
+    this.statisticsService.getStatistics().subscribe((statsJSON) => {
+      this.statistics = JSON.parse(statsJSON);
+      console.log("got-em",statsJSON);
+      this._cdRef.markForCheck();
+      
+    });
+  }
+  ngOnChange(){
+    
+  }
   round(x: number){
     return Math.round(x);
   }
+
 }

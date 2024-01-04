@@ -39,10 +39,10 @@ export class FinancialReportComponent implements OnInit{
   canvas: HTMLElement | null = null;
   sillyGraph: SillyGraph | null = null;
   @Input() data : Array<number> = [];
- 
+  graphData: IGraphData = {};
 parseData(){
   if(this.data?.length > 0) {
-    console.log("parsing");
+    console.log("parsing", this.data);
     const max = Math.max.apply(Math, this.data);
     let min = Math.min.apply(Math, this.data);
     if(min === max) {min = 0;}
@@ -70,18 +70,21 @@ parseData(){
       "points": points,
     };
 
-    this.sillyGraph?.load(parsedObject);
+    return parsedObject;
   }
+  return {}
 }
   ngOnInit() {
     this.canvas = document.getElementById('financeGraph')
+    console.log("inited");
     if(this.canvas){ 
       this.sillyGraph = new SillyGraph(this.canvas);
-      this.sillyGraph.load({});
+      this.sillyGraph.load(this.graphData);
     
     }
   }
   ngOnChanges(){
-    this.parseData();
+    this.graphData = this.parseData();
+    this.sillyGraph?.load(this.graphData);
   }
 }
