@@ -15,6 +15,7 @@ import {
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 const MATERIALS = [
   MatSelectModule,
@@ -22,6 +23,7 @@ const MATERIALS = [
   MatInputModule,
   MatDatepickerModule,
   MatMomentDateModule,
+  MatIconModule,
 ];
 
 @Component({
@@ -38,8 +40,8 @@ export class FilterSelectBoxComponent implements OnInit {
     label: '',
     list: [],
   };
-
   @Input() parsedControl?: AbstractControl;
+  @Input() matIcon?: string;
 
   selectValue: string = '';
 

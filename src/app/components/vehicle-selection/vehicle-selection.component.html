@@ -1,3 +1,19 @@
 <div class="all">
-  <app-filters class="filters"> </app-filters>
+  <app-filters (filtersChange)="onFiltersChange($event)" class="filters">
+  </app-filters>
+</div>
+<div class="search-results">
+  @if (isShowSpinner) {
+  <app-spinner></app-spinner>
+  } @if (vehicles.length > 0) {
+  <div class="search-results-header">
+    <h2>Wyniki wyszukiwania:</h2>
+    <div class="sort-select">TODO</div>
+  </div>
+  <div class="search-results-list">
+    @for (vehicle of vehicles; track vehicle) {
+    <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
+    }
+  </div>
+  }
 </div>

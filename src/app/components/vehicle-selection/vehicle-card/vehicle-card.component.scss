@@ -1,0 +1,47 @@
+.vehicle-card {
+  width: 300px;
+  height: 400px;
+  max-height: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicle-img {
+  border-radius: 4px;
+  margin: 8px 0;
+  width: 284px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.car-chip {
+  width: fit-content;
+  display: flex;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 16px);
+}
+
+.button-container {
+  width: calc(100% - 16px);
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px;
+}

@@ -1,0 +1,22 @@
+<mat-card class="vehicle-card">
+  <div class="top">
+    <img class="vehicle-img" [src]="vehicle.photoUrl" alt="Vehicle Image" />
+    <mat-card-content class="content">
+      <div class="vehicle-name">{{ vehicle.name }}</div>
+      <div class="chips">
+        @for (chip of chips; track chip.text) {
+        <app-car-chip
+          class="car-chip"
+          [icon]="chip.icon"
+          [text]="chip.text"
+        ></app-car-chip>
+        }
+      </div>
+    </mat-card-content>
+  </div>
+  <div class="button-container">
+    <button color="primary" mat-raised-button class="order-button">
+      <div class="text">Zamów</div>
+    </button>
+  </div>
+</mat-card>

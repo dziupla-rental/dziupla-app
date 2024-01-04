@@ -1,18 +1,22 @@
-@if (selectData.list.length > 0) {
-<mat-form-field>
-  <mat-label>{{ selectData.name }}</mat-label>
-  <mat-select
-    [(value)]="selectValue"
-    (selectionChange)="onSelectionChange($event)"
-  >
-    @for (option of selectData.list; track $index) {
-    <mat-option [value]="option">
-      {{ option }}
-    </mat-option>
-    }
-  </mat-select>
-  @if (parsedControl?.hasError('required')) {
-  <mat-error>Wybór tej opcji jest wymagany</mat-error>
+<div class="select-box">
+  @if (selectData.list.length > 0) { @if (matIcon) {
+  <mat-icon class="icon">{{ matIcon }}</mat-icon>
   }
-</mat-form-field>
-}
+  <mat-form-field class="filter-select-box">
+    <mat-label>{{ selectData.name }}</mat-label>
+    <mat-select
+      [(value)]="selectValue"
+      (selectionChange)="onSelectionChange($event)"
+    >
+      @for (option of selectData.list; track $index) {
+      <mat-option [value]="option">
+        {{ option }}
+      </mat-option>
+      }
+    </mat-select>
+    @if (parsedControl?.hasError('required')) {
+    <mat-error>Wybór tej opcji jest wymagany</mat-error>
+    }
+  </mat-form-field>
+  }
+</div>

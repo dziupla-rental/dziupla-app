@@ -2,6 +2,17 @@ import { FuelType, Vehicle, VehicleType } from '../app/model/external/vehicle';
 
 export const VEHICLES: Vehicle[] = [
   {
+    id: 0,
+    name: 'El Rusho McQueen',
+    type: VehicleType.CAR,
+    numberOfSeats: 2,
+    isAvailable: true,
+    fuelType: FuelType.DIESEL,
+    deposit: 6900,
+    pricePerDay: 420,
+    photoUrl: 'https://i.imgur.com/P74meQD.png',
+  },
+  {
     id: 1,
     name: 'Audi A4',
     type: VehicleType.CAR,
@@ -11,7 +22,7 @@ export const VEHICLES: Vehicle[] = [
     deposit: 1000,
     pricePerDay: 200,
     photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-a4-b9-avant-2015-2019-2-0-tdi-190km-2016-2018-325947.jpg',
+      'https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg',
   },
   {
     id: 2,
@@ -22,8 +33,7 @@ export const VEHICLES: Vehicle[] = [
     fuelType: FuelType.GASOLINE,
     deposit: 1000,
     pricePerDay: 200,
-    photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-a6-c8-2018-2-0-tdi-204km-2018-2019-325948.jpg',
+    photoUrl: 'https://www.topgear.com/sites/default/files/2022/07/13.jpg',
   },
   {
     id: 3,
@@ -35,7 +45,7 @@ export const VEHICLES: Vehicle[] = [
     deposit: 1000,
     pricePerDay: 200,
     photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-a8-d5-2017-3-0-tdi-286km-2017-2019-325949.jpg',
+      'https://img.freepik.com/darmowe-zdjecie/samochod-sportowy-jadacy-po-asfaltowej-drodze-w-nocy-generatywnej-ai_188544-8052.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1703980800&semt=ais',
   },
   {
     id: 4,
@@ -47,7 +57,7 @@ export const VEHICLES: Vehicle[] = [
     deposit: 1000,
     pricePerDay: 200,
     photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-q3-2018-35-tfsi-150km-2018-2019-325950.jpg',
+      'https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Lamborghini-Revuelto-190920231426.jpg',
   },
   {
     id: 5,

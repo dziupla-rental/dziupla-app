@@ -4,6 +4,16 @@
   width: 100%;
 }
 
+.card-title {
+  margin-left: 16px;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.title {
+  margin-left: 16px;
+}
+
 .filter-groups {
   width: 100%;
   display: flex;
@@ -12,7 +22,6 @@
 }
 
 .group {
-  margin-top: 16px;
   width: calc(100% - 32px);
   display: flex;
   justify-content: space-between;
@@ -20,7 +29,20 @@
   padding-right: 16px;
 }
 
+.group:not(:first) {
+  margin-top: 16px;
+}
 .search-button {
   align-self: flex-end;
   margin: 16px 32px;
+}
+
+.button-tooltip {
+  width: fit-content;
+  align-self: flex-end;
+  margin: 16px 32px;
+}
+
+.filter-select-box {
+  width: calc((100% - 64px) / 3);
 }

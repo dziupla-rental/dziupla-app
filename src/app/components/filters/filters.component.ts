@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -17,6 +23,9 @@ import {
 } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
+import { filter } from 'rxjs';
+import { FilterValues } from '../../model/internal/filter-values';
+import { MatTooltipModule } from '@angular/material/tooltip';
 const MATERIALS = [
   MatCardModule,
   MatFormFieldModule,
@@ -26,6 +35,7 @@ const MATERIALS = [
   MatMomentDateModule,
   ReactiveFormsModule,
   MatButtonModule,
+  MatTooltipModule,
 ];
 
 @Component({
@@ -37,9 +47,11 @@ const MATERIALS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent implements OnInit {
+  @Output() filtersChange: EventEmitter<FilterValues> = new EventEmitter();
+
   today: Date = new Date();
   locationSelect: FilterSelect = {
-    name: 'Lokalizacja',
+    name: 'Lokalizacja*',
     label: 'location',
     list: [
       'Warsaw',
@@ -64,7 +76,7 @@ export class FiltersComponent implements OnInit {
   ];
 
   readonly filtersForm = this._fb.group({
-    location: new FormControl(null, [Validators.required]),
+    location: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
     //Other filters
@@ -74,9 +86,15 @@ export class FiltersComponent implements OnInit {
 
   constructor(private readonly _fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.filtersForm.valueChanges.subscribe((value) => {
-      console.log(value);
+  ngOnInit(): void {}
+
+  onApplyFilters(): void {
+    this.filtersChange.emit({
+      location: this.filtersForm.controls.location.value!,
+      startDate: new Date(this.filtersForm.controls.startDate.value as string),
+      endDate: new Date(this.filtersForm.controls.endDate.value as string),
+      seatAmount: Number(this.filtersForm.controls.amountOfSeats.value),
+      fuelType: this.filtersForm.controls.fuelType.value || '',
     });
   }
 }
