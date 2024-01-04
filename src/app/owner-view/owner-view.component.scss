@@ -1,0 +1,15 @@
+mat-grid-list {
+    margin: 1vh;
+}
+mat-grid-tile {
+    background: #f0f0f0;
+    margin: 0.5vh;
+    overflow: scroll;
+  }
+canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: scale(0.76, 0.8) translate(-50%, -50%);
+    
+}

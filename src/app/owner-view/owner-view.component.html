@@ -1,0 +1,23 @@
+<mat-grid-list cols="3" rowHeight="1.5:1">
+    <mat-grid-tile>
+      <mat-card class="percentage-stats">
+        <mat-card-content>
+          <h2>Statystyki ogólne</h2>
+     
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <mat-card class="percentage-stats">
+        <mat-card-content>
+          <mat-card-title><h2>Procenty Pojazdów</h2></mat-card-title>
+        <app-percentage-indicator title="Pojazdy wyporzyczone" [value]="25"></app-percentage-indicator>
+        <app-percentage-indicator title="Pojazdy twojej starej" [value]="85" [hue]="90"></app-percentage-indicator>
+        <app-percentage-indicator title="Pojazdy w serwisie" [value]="52" [color]="'warn'"></app-percentage-indicator>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    
+    <mat-grid-tile colspan="3"><canvas id="financeGraph" width="1200" height="600"></canvas></mat-grid-tile>
+  </mat-grid-list>
+  
