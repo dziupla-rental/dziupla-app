@@ -7,8 +7,8 @@
 @include mat.core();
 
 $custom-theme-palette: (
-  50: #f0f0f0,
-  100: #85d322,
+  50: #85d322,
+  100: #f0f0f0,
   200: #d42626,
   300: #1f1c1c,
   400: #d42626,
@@ -58,28 +58,8 @@ $dziupla-app-theme: mat.define-light-theme(
       primary: $dziupla-app-primary,
       accent: $dziupla-app-accent,
       warn: $dziupla-app-warn,
-      background: $background-color,
     ),
   )
-);
-
-$background: map-get(
-  $map: $dziupla-app-theme,
-  $key: background,
-);
-
-$background: map-merge(
-  $map1: $background,
-  $map2: (
-    background: $background-color,
-  ),
-);
-
-$dziupla-app-theme: map-merge(
-  $map1: $dziupla-app-theme,
-  $map2: (
-    background: $background,
-  ),
 );
 
 // Include theme styles for core and each component used in your app.

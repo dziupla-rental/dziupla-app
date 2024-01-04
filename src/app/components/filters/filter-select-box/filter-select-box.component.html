@@ -1,0 +1,18 @@
+@if (selectData.list.length > 0) {
+<mat-form-field>
+  <mat-label>{{ selectData.name }}</mat-label>
+  <mat-select
+    [(value)]="selectValue"
+    (selectionChange)="onSelectionChange($event)"
+  >
+    @for (option of selectData.list; track $index) {
+    <mat-option [value]="option">
+      {{ option }}
+    </mat-option>
+    }
+  </mat-select>
+  @if (parsedControl?.hasError('required')) {
+  <mat-error>Wybór tej opcji jest wymagany</mat-error>
+  }
+</mat-form-field>
+}
