@@ -1,1 +1,18 @@
-<p>employee-details works!</p>
+@if(personData){
+<h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
+
+<h2><b>Biuro:</b>{{ personData.office }}</h2><br />
+<br />
+<b>Posada: </b>{{personData.position}}<br />
+<b>Płaca: </b>{{personData.salary}}<br />
+<br />
+<b>Poczatek zmiany: </b>{{personData.shift_start}}<br />
+<b>Koniec zmiany: </b>{{personData.shift_end}}<br />
+
+} @else { Proszę wybrać pracownika z listy
+<mat-icon
+  id="missingData"
+  aria-hidden="false"
+  fontIcon="person_outline"
+></mat-icon>
+}
