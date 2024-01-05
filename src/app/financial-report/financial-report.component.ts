@@ -44,17 +44,10 @@ export class FinancialReportComponent implements OnInit, OnChanges {
   graphData: IGraphData = {};
   parseData(): IGraphData {
     if (this.data?.length > 0) {
-      const max = Math.max.apply(Math, this.data);
-      let min = Math.min.apply(Math, this.data);
-      if (min === max) {
-        min = 0;
-      }
+      const max:number = Math.max(...this.data);
 
-      let points: IPoint[] = [];
-      this.data.reverse().forEach((entry, index) => {
-        points.push({ x: 23 - index, y: entry });
-      });
-
+      let points: IPoint[] = this.data.reverse().map((entry, index) => ({"x": 23-index, "y": entry}));
+      
       const today = new Date();
       const startMonth = today.getMonth() + 1;
       const startYear = today.getFullYear() - 2;

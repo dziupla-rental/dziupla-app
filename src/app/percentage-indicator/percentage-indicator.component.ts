@@ -27,7 +27,7 @@ export class PercentageIndicatorComponent {
   @Input() color: ThemePalette = 'accent';
   mode: ProgressSpinnerMode = 'determinate';
 
-  @Input() title = 'default';
-  @Input() value = 0;
-  @Input() hue = 0;
+  @Input() title: string = 'default';
+  @Input() value: number = 0;
+  @Input() hue: number = 0;
 }

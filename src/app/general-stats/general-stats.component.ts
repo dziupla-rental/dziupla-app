@@ -33,8 +33,11 @@ const PLACEHOLDER_DATA: StatElement[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralStatsComponent implements OnChanges {
-  displayedColumns: string[] = ['icon', 'name', 'value'];
   @Input() stats?: IStatistics;
+
+  displayedColumns: string[] = ['icon', 'name', 'value'];
+  dataSource = PLACEHOLDER_DATA;
+
   parseInput(): StatElement[] {
     if (this.stats) {
       return [
@@ -83,5 +86,4 @@ export class GeneralStatsComponent implements OnChanges {
   ngOnChanges(): void {
     this.dataSource = this.parseInput();
   }
-  dataSource = PLACEHOLDER_DATA;
 }
