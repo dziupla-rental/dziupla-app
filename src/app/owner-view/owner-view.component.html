@@ -1,0 +1,58 @@
+<div class="layoutBox-v" fxLayout="column" fxLayoutGap="1%">
+  <div class="layoutBox-h" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
+    <app-general-stats [stats]="statistics" fxFlex="50"></app-general-stats>
+
+    <mat-card class="percentage-stats" fxFlex="50">
+      <mat-card-header>
+        <mat-card-title><h2>Procenty Pojazdów</h2></mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div
+          class="layoutBox-percentages"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="space-around center"
+        >
+          <app-percentage-indicator
+            title="Pojazdy wypożyczone"
+            [value]="
+              statistics
+                ? round((statistics.cars_rented / statistics.cars_total) * 100)
+                : 0
+            "
+          ></app-percentage-indicator>
+
+          <app-percentage-indicator
+            title="Pojazdy w lokalach"
+            [value]="
+              statistics
+                ? round(
+                    ((statistics.cars_total -
+                      statistics.cars_rented -
+                      statistics.cars_service) /
+                      statistics.cars_total) *
+                      100
+                  )
+                : 0
+            "
+            [hue]="90"
+          ></app-percentage-indicator>
+          <app-percentage-indicator
+            title="Pojazdy w serwisie"
+            [value]="
+              statistics
+                ? round((statistics.cars_service / statistics.cars_total) * 100)
+                : 0
+            "
+            color="warn"
+          ></app-percentage-indicator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <app-financial-report
+    [data]="statistics ? statistics.earnings_stats : []"
+  ></app-financial-report>
+</div>
