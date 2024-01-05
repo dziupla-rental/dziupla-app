@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -27,11 +27,10 @@ const PLACEHOLDER_DATA: StatElement[] = [
   styleUrl: './general-stats.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralStatsComponent {
+export class GeneralStatsComponent implements OnChanges {
   displayedColumns: string[] = ['icon', 'name', 'value'];
   @Input() stats?: IStatistics;
-  parseInput() {
-    console.log('stats', this.stats);
+  parseInput(): StatElement[] {
     if (this.stats) {
       return [
         {
@@ -76,7 +75,7 @@ export class GeneralStatsComponent {
     }
     return PLACEHOLDER_DATA;
   }
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.dataSource = this.parseInput();
   }
   dataSource = PLACEHOLDER_DATA;

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   OnInit,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -36,14 +37,13 @@ interface IGraphData {
   styleUrl: './financial-report.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FinancialReportComponent implements OnInit {
+export class FinancialReportComponent implements OnInit, OnChanges {
   canvas: HTMLElement | null = null;
   sillyGraph: SillyGraph | null = null;
   @Input() data: Array<number> = [];
   graphData: IGraphData = {};
-  parseData() {
+  parseData(): IGraphData {
     if (this.data?.length > 0) {
-      console.log('parsing', this.data);
       const max = Math.max.apply(Math, this.data);
       let min = Math.min.apply(Math, this.data);
       if (min === max) {
@@ -83,15 +83,14 @@ export class FinancialReportComponent implements OnInit {
     }
     return {};
   }
-  ngOnInit() {
+  ngOnInit(): void {
     this.canvas = document.getElementById('financeGraph');
-    console.log('inited');
     if (this.canvas) {
       this.sillyGraph = new SillyGraph(this.canvas);
       this.sillyGraph.load(this.graphData);
     }
   }
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.graphData = this.parseData();
     this.sillyGraph?.load(this.graphData);
   }
