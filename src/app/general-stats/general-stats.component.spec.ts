@@ -8,10 +8,9 @@ describe('GeneralStatsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GeneralStatsComponent]
-    })
-    .compileComponents();
-    
+      imports: [GeneralStatsComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(GeneralStatsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

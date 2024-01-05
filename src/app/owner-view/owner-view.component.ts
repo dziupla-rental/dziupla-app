@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  Input,
+} from '@angular/core';
 
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { PercentageIndicatorComponent } from '../percentage-indicator/percentage-indicator.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { FinancialReportComponent } from '../financial-report/financial-report.component';
 import { GeneralStatsComponent } from '../general-stats/general-stats.component';
 import { NumberValueAccessor } from '@angular/forms';
@@ -20,32 +27,33 @@ export interface IStatistics {
 @Component({
   selector: 'app-owner-view',
   standalone: true,
-  imports: [MatGridListModule, PercentageIndicatorComponent, MatCardModule, FinancialReportComponent, GeneralStatsComponent],
+  imports: [
+    MatGridListModule,
+    PercentageIndicatorComponent,
+    MatCardModule,
+    FinancialReportComponent,
+    GeneralStatsComponent,
+  ],
   templateUrl: './owner-view.component.html',
   styleUrl: './owner-view.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class OwnerViewComponent implements OnInit {
-  statistics?:  IStatistics;
+  statistics?: IStatistics;
   constructor(
-    private statisticsService : StatisticsService,
+    private statisticsService: StatisticsService,
     private readonly _cdRef: ChangeDetectorRef
   ) {}
-  
+
   ngOnInit(): void {
     this.statisticsService.getStatistics().subscribe((statsJSON) => {
       this.statistics = JSON.parse(statsJSON);
-      console.log("got-em",statsJSON);
+      console.log('got-em', statsJSON);
       this._cdRef.markForCheck();
-      
     });
   }
-  ngOnChange(){
-    
-  }
-  round(x: number){
+  ngOnChange() {}
+  round(x: number) {
     return Math.round(x);
   }
-
 }

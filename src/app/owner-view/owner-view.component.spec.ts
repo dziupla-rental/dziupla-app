@@ -8,10 +8,9 @@ describe('OwnerViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OwnerViewComponent]
-    })
-    .compileComponents();
-    
+      imports: [OwnerViewComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(OwnerViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

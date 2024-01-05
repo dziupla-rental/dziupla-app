@@ -8,10 +8,9 @@ describe('PercentageIndicatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PercentageIndicatorComponent]
-    })
-    .compileComponents();
-    
+      imports: [PercentageIndicatorComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PercentageIndicatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
