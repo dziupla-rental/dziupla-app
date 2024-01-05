@@ -47,39 +47,36 @@ export class FinancialReportComponent implements OnChanges, AfterViewInit {
   graphData: IGraphData = {};
 
   parseData(): IGraphData {
-    if (this.data?.length > 0) {
-      const max: number = Math.max(...this.data);
+    const max: number = Math.max(...this.data);
 
-      let points: IPoint[] = this.data
-        .reverse()
-        .map((entry, index) => ({ x: 23 - index, y: entry }));
+    let points: IPoint[] = this.data
+      .reverse()
+      .map((entry, index) => ({ x: 23 - index, y: entry }));
 
-      const today = new Date();
-      const startMonth = today.getMonth() + 1;
-      const startYear = today.getFullYear() - 2;
-      const labelsX: string[] = Array.from({ length: 24 }, (v, i) => {
-        return (
-          String(1 + ((startMonth + i) % 12)) +
-          '-' +
-          String(startYear + Math.floor((i + 1) / 12))
-        );
-      });
-      let parsedObject: IGraphData = {
-        axisY: {
-          min: 0,
-          max: max,
-          labels: 5,
-          labelTemplate: '# zł',
-        },
-        axisX: {
-          labels: labelsX,
-        },
-        config: { lineWidth: 3 },
-        points: points,
-      };
-      return parsedObject;
-    }
-    return {};
+    const today = new Date();
+    const startMonth = today.getMonth() + 1;
+    const startYear = today.getFullYear() - 2;
+    const labelsX: string[] = Array.from({ length: 24 }, (v, i) => {
+      return (
+        String(1 + ((startMonth + i) % 12)) +
+        '-' +
+        String(startYear + Math.floor((i + 1) / 12))
+      );
+    });
+    let parsedObject: IGraphData = {
+      axisY: {
+        min: 0,
+        max: max,
+        labels: 5,
+        labelTemplate: '# zł',
+      },
+      axisX: {
+        labels: labelsX,
+      },
+      config: { lineWidth: 3 },
+      points: points,
+    };
+    return parsedObject;
   }
 
   ngAfterViewInit(): void {
@@ -90,7 +87,7 @@ export class FinancialReportComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(): void {
-    this.graphData = this.parseData();
+    this.graphData = this.data?.length > 0 ? this.parseData() : {};
     this.sillyGraph?.load(this.graphData);
   }
 }

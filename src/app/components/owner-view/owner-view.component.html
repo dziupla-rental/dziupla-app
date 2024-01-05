@@ -1,3 +1,5 @@
+@if (statistics) {
+
 <div class="layoutBox-v" fxLayout="column" fxLayoutGap="1%">
   <div class="layoutBox-h" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
     <app-general-stats [stats]="statistics" fxFlex="50"></app-general-stats>
@@ -56,3 +58,6 @@
     [data]="statistics ? statistics.earnings_stats : []"
   ></app-financial-report>
 </div>
+} @else {
+<app-spinner class="spinner"></app-spinner>
+}
