@@ -1,10 +1,12 @@
-import { StickyDirection } from '@angular/cdk/table';
 import {
   ChangeDetectionStrategy,
   Component,
+  ViewChild,
   Input,
   OnChanges,
   OnInit,
+  AfterViewInit,
+  ElementRef,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import SillyGraph from 'silly-graphs';
@@ -37,11 +39,13 @@ interface IGraphData {
   styleUrl: './financial-report.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FinancialReportComponent implements OnInit, OnChanges {
-  canvas: HTMLElement | null = null;
-  sillyGraph: SillyGraph | null = null;
+export class FinancialReportComponent implements OnChanges, AfterViewInit {
+  @ViewChild('financeGraph') canvas!: ElementRef;
   @Input() data: Array<number> = [];
+
+  sillyGraph?: SillyGraph;
   graphData: IGraphData = {};
+
   parseData(): IGraphData {
     if (this.data?.length > 0) {
       const max: number = Math.max(...this.data);
@@ -73,18 +77,19 @@ export class FinancialReportComponent implements OnInit, OnChanges {
         config: { lineWidth: 3 },
         points: points,
       };
-
       return parsedObject;
     }
     return {};
   }
-  ngOnInit(): void {
-    this.canvas = document.getElementById('financeGraph');
+
+  ngAfterViewInit(): void {
+    console.log(this.canvas);
     if (this.canvas) {
-      this.sillyGraph = new SillyGraph(this.canvas);
+      this.sillyGraph = new SillyGraph(this.canvas.nativeElement);
       this.sillyGraph.load(this.graphData);
     }
   }
+
   ngOnChanges(): void {
     this.graphData = this.parseData();
     this.sillyGraph?.load(this.graphData);
