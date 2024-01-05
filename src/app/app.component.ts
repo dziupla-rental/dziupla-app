@@ -5,6 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { InMemoryDataService } from './services/in-memory-data.service';
+
+
 const MATERIALS = [
   MatToolbarModule,
   MatButtonModule,
@@ -24,4 +27,11 @@ export class AppComponent {
   title = 'dziupla-app';
 
   showFiller = false;
+  constructor(private readonly _data: InMemoryDataService) {}
+
+  onClick() {
+    this._data.getVehicles([2, 5]).subscribe((vehicles) => {
+      console.log(vehicles);
+    });
+  }
 }
