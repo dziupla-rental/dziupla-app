@@ -1,0 +1,17 @@
+<mat-icon class="icon">sort</mat-icon>
+<mat-form-field>
+  <mat-label>Sortuj po:</mat-label>
+  <mat-select
+    [ngModel]="selectedOption"
+    (selectionChange)="onSelectionChange($event)"
+  >
+    @for (option of options; track $index) {
+    <mat-option [value]="option">
+      {{ option }}
+    </mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+<button mat-icon-button (click)="onDirectionChange()">
+  <mat-icon>@if (isAsc) { arrow_upward } @else {arrow_downward}</mat-icon>
+</button>

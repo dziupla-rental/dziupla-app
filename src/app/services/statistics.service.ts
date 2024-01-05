@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IStatistics } from '../owner-view/owner-view.component';
+import { IStatistics } from '../components/owner-view/owner-view.component';
 import { Observable, delay, of } from 'rxjs';
 
 @Injectable({
