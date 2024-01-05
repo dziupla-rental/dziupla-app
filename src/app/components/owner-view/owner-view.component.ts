@@ -6,12 +6,13 @@ import {
 } from '@angular/core';
 
 import { MatGridListModule } from '@angular/material/grid-list';
-import { PercentageIndicatorComponent } from '../percentage-indicator/percentage-indicator.component';
+import { PercentageIndicatorComponent } from './percentage-indicator/percentage-indicator.component';
 import { MatCardModule } from '@angular/material/card';
-import { FinancialReportComponent } from '../financial-report/financial-report.component';
-import { GeneralStatsComponent } from '../general-stats/general-stats.component';
-import { StatisticsService } from '../services/statistics.service';
+import { FinancialReportComponent } from './financial-report/financial-report.component';
+import { GeneralStatsComponent } from './general-stats/general-stats.component';
+import { StatisticsService } from '../../services/statistics.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 export interface IStatistics {
   cars_total: number;
@@ -32,6 +33,7 @@ export interface IStatistics {
     FinancialReportComponent,
     GeneralStatsComponent,
     FlexLayoutModule,
+    SpinnerComponent,
   ],
   templateUrl: './owner-view.component.html',
   styleUrl: './owner-view.component.scss',
@@ -50,6 +52,7 @@ export class OwnerViewComponent implements OnInit {
       this._cdRef.markForCheck();
     });
   }
+
   round(x: number): number {
     return Math.round(x);
   }

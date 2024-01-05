@@ -1,4 +1,5 @@
 export enum FuelType {
+  NULL = '',
   GASOLINE = 'BENZYNA',
   DIESEL = 'DIESEL',
   LPG = 'LPG',
@@ -7,6 +8,7 @@ export enum FuelType {
 }
 
 export enum VehicleType {
+  NULL = '',
   CAR = 'OSOBOWY',
   BUS = 'AUTOBUS',
   TRUCK = 'DOSTAWCZY',
@@ -22,4 +24,5 @@ export interface Vehicle {
   deposit: number;
   pricePerDay: number;
   photoUrl: string;
+  office: string;
 }

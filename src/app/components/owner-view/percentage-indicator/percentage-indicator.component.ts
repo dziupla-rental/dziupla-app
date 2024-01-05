@@ -24,7 +24,7 @@ import { MatCardModule } from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PercentageIndicatorComponent {
-  @Input() color: ThemePalette = 'accent';
+  @Input() color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'determinate';
 
   @Input() title: string = 'default';

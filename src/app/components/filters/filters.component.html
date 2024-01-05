@@ -1,0 +1,88 @@
+<mat-card class="filters-card">
+  <mat-card-header>
+    <mat-card-title class="card-title"
+      >Wyszukaj pojazdy do wynajęcia</mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="filtersForm">
+      <div class="filter-groups">
+        <div class="title">Uzupełnij niezbędne informacje</div>
+        <div class="group base">
+          <!--Base filters-->
+          <app-filter-select-box
+            class="filter-select-box"
+            [selectData]="locationSelect"
+            [parsedControl]="filtersForm.get('location')!"
+            matIcon="location_pin"
+            [isRequired]="true"
+          ></app-filter-select-box>
+
+          <mat-form-field class="filter-select-box">
+            <mat-label>Od</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              formControlName="startDate"
+              [min]="today"
+              [max]="filtersForm.get('endDate')!.value"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="filter-select-box">
+            <mat-label>Do</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              formControlName="endDate"
+              [min]="filtersForm.get('startDate')!.value || today"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        @if (filtersForm.valid) {
+        <div class="title">Dodatkowe opcje filtrowania</div>
+        <div class="group other">
+          <!--Other filters-->
+          @for (element of basicFilters; track $index) {
+          <app-filter-select-box
+            class="filter-select-box"
+            [selectData]="element"
+            [parsedControl]="filtersForm.get(element.label)!"
+          ></app-filter-select-box>
+          }
+        </div>
+        }
+      </div>
+    </form>
+  </mat-card-content>
+  <div
+    class="button-tooltip"
+    [matTooltip]="
+      filtersForm.valid
+        ? 'Kliknij, aby wyszukać pojazdy spełniające podane kryteria'
+        : 'Uzupełnij wszystkie wymagane pola'
+    "
+  >
+    <button
+      [disabled]="!filtersForm.valid"
+      class=""
+      color="primary"
+      mat-raised-button
+      (click)="onApplyFilters()"
+    >
+      Wyszukaj
+    </button>
+  </div>
+</mat-card>

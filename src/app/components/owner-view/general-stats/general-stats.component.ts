@@ -7,7 +7,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { IStatistics } from '../owner-view/owner-view.component';
+import { IStatistics } from '../owner-view.component';
 export interface StatElement {
   name: string;
   icon: string;

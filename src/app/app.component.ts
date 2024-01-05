@@ -30,8 +30,6 @@ export class AppComponent {
   constructor(private readonly _data: InMemoryDataService) {}
 
   onClick() {
-    this._data.getVehicles([2, 5]).subscribe((vehicles) => {
-      console.log(vehicles);
-    });
+    this._data.getVehicles([2, 5]).subscribe((vehicles) => {});
   }
 }
