@@ -21,3 +21,15 @@ body {
 .global-warn {
   color: #d42626;
 }
+
+::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #afafaf;
+}

@@ -1,38 +1,53 @@
 import { ReplaySubject } from 'rxjs';
+import { Vehicle } from '../model/external/vehicle';
+import { FilterValues, sortValue } from '../model/internal/filter-values';
 
 export namespace FilterUtils {
-  export function filterSelectOptions(
-    list: string[],
-    searchValue: string,
-    filteredOptions: ReplaySubject<string[]>,
-    noneValue: string
-  ): void {
-    if (!list) {
-      return;
-    }
-    // get the search keyword
-    let search = searchValue;
-    if (!search) {
-      filteredOptions.next(
-        list
-          .sort((first: string, second: string) => {
-            if (first === noneValue && second !== noneValue) {
-              return -1; // "none" comes before any other value
-            } else if (first !== noneValue && second === noneValue) {
-              return 1; // Any other value comes after "none"
-            } else {
-              return first.localeCompare(second); // Sort other values normally
-            }
-          })
-          .slice()
-      );
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the options
-    filteredOptions.next(
-      list.filter((element) => element.toLowerCase().indexOf(search) > -1)
-    );
+  export function filterOptions(
+    list: Vehicle[],
+    filters: FilterValues,
+    sort: sortValue
+  ): Vehicle[] {
+    const sortFactor = sort.isAsc ? 1 : -1;
+    return list
+      .filter((vehicle) => {
+        switch (true) {
+          //Don't know how the dates are gonna be handled yet
+          /*
+      case filters.startDate &&
+        filters.startDate.getTime() > vehicle.endDate.getTime():
+      case filters.endDate &&
+        filters.endDate.getTime() < vehicle.startDate.getTime():
+      */
+
+          case filters.location !== vehicle.office:
+          case filters.seatAmount &&
+            ((filters.seatAmount === '10+' && vehicle.numberOfSeats < 10) ||
+              (filters.seatAmount !== '10+' &&
+                filters.seatAmount !== String(vehicle.numberOfSeats))):
+          case filters.fuelType && filters.fuelType !== vehicle.fuelType:
+          case filters.vehicleType && filters.vehicleType !== vehicle.type:
+            return false;
+          default:
+            return true;
+        }
+      })
+      .sort((a, b) => {
+        switch (sort.sort) {
+          case 'typ':
+            return a.type.localeCompare(b.type) * sortFactor;
+          case 'ilość miejsc':
+            return (a.numberOfSeats - b.numberOfSeats) * sortFactor;
+          case 'cena':
+            return (a.pricePerDay - b.pricePerDay) * sortFactor;
+          case 'dostępność':
+            return (
+              (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1) *
+              sortFactor
+            );
+          default:
+            return 0;
+        }
+      });
   }
 }

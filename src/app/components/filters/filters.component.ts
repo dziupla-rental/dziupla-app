@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs';
 import { FilterValues } from '../../model/internal/filter-values';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FuelType, VehicleType } from '../../model/external/vehicle';
 const MATERIALS = [
   MatCardModule,
   MatFormFieldModule,
@@ -70,8 +71,24 @@ export class FiltersComponent implements OnInit {
   readonly basicFilters: FilterSelect[] = [
     {
       name: 'Ilość miejsc',
-      label: 'seats',
+      label: 'numberOfSeats',
       list: ['2', '5', '7', '10', '10+'],
+    },
+    {
+      name: 'Rodzaj paliwa',
+      label: 'fuelType',
+      list: [
+        FuelType.DIESEL,
+        FuelType.ELECTRIC,
+        FuelType.GASOLINE,
+        FuelType.HYBRID,
+        FuelType.LPG,
+      ],
+    },
+    {
+      name: 'Typ nadwozia',
+      label: 'vehicleType',
+      list: [VehicleType.CAR, VehicleType.TRUCK, VehicleType.BUS],
     },
   ];
 
@@ -80,8 +97,9 @@ export class FiltersComponent implements OnInit {
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
     //Other filters
-    amountOfSeats: new FormControl(''),
+    numberOfSeats: new FormControl(''),
     fuelType: new FormControl(''),
+    vehicleType: new FormControl(''),
   });
 
   constructor(private readonly _fb: FormBuilder) {}
@@ -93,8 +111,9 @@ export class FiltersComponent implements OnInit {
       location: this.filtersForm.controls.location.value!,
       startDate: new Date(this.filtersForm.controls.startDate.value as string),
       endDate: new Date(this.filtersForm.controls.endDate.value as string),
-      seatAmount: Number(this.filtersForm.controls.amountOfSeats.value),
+      seatAmount: this.filtersForm.controls.numberOfSeats.value || '',
       fuelType: this.filtersForm.controls.fuelType.value || '',
+      vehicleType: this.filtersForm.controls.vehicleType.value || '',
     });
   }
 }

@@ -46,3 +46,13 @@
 .filter-select-box {
   width: calc((100% - 64px) / 3);
 }
+
+@media screen and (max-width: 1000px) {
+  .group {
+    flex-direction: column;
+  }
+
+  .filter-select-box {
+    width: 100%;
+  }
+}

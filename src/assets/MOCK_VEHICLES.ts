@@ -11,6 +11,7 @@ export const VEHICLES: Vehicle[] = [
     deposit: 6900,
     pricePerDay: 420,
     photoUrl: 'https://i.imgur.com/P74meQD.png',
+    office: 'Warsaw',
   },
   {
     id: 1,
@@ -23,6 +24,7 @@ export const VEHICLES: Vehicle[] = [
     pricePerDay: 200,
     photoUrl:
       'https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg',
+    office: 'Krakow',
   },
   {
     id: 2,
@@ -34,6 +36,7 @@ export const VEHICLES: Vehicle[] = [
     deposit: 1000,
     pricePerDay: 200,
     photoUrl: 'https://www.topgear.com/sites/default/files/2022/07/13.jpg',
+    office: 'Katowice',
   },
   {
     id: 3,
@@ -46,6 +49,7 @@ export const VEHICLES: Vehicle[] = [
     pricePerDay: 200,
     photoUrl:
       'https://img.freepik.com/darmowe-zdjecie/samochod-sportowy-jadacy-po-asfaltowej-drodze-w-nocy-generatywnej-ai_188544-8052.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1703980800&semt=ais',
+    office: 'Warsaw',
   },
   {
     id: 4,
@@ -57,7 +61,8 @@ export const VEHICLES: Vehicle[] = [
     deposit: 1000,
     pricePerDay: 200,
     photoUrl:
-      'https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Lamborghini-Revuelto-190920231426.jpg',
+      'https://d2m3nfprmhqjvd.cloudfront.net/blog/20221004191046/Hyundai-Venue-2022-1160x653.jpg',
+    office: 'Warsaw',
   },
   {
     id: 5,
@@ -68,8 +73,8 @@ export const VEHICLES: Vehicle[] = [
     fuelType: FuelType.GASOLINE,
     deposit: 1000,
     pricePerDay: 200,
-    photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-q5-2017-2-0-tdi-190km-2017-2019-325951.jpg',
+    photoUrl: 'https://media.zigcdn.com/media/model/2021/May/v8_360x240.jpg',
+    office: 'Warsaw',
   },
   {
     id: 6,
@@ -81,7 +86,8 @@ export const VEHICLES: Vehicle[] = [
     deposit: 5000,
     pricePerDay: 500,
     photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-q5-2017-2-0-tdi-190km-2017-2019-325951.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoQprvuyZ2FMeMajushsIBLH26MMp1gnLriQ&usqp=CAU',
+    office: 'Warsaw',
   },
   {
     id: 7,
@@ -93,6 +99,20 @@ export const VEHICLES: Vehicle[] = [
     deposit: 2000,
     pricePerDay: 400,
     photoUrl:
-      'https://www.autocentrum.pl/ac-file/car-version-photo/1/audi-q5-2017-2-0-tdi-190km-2017-2019-325951.jpg',
+      'https://i1.sndcdn.com/avatars-8bUmoRyW1I2QiAvN-8OMaVQ-t500x500.jpg',
+    office: 'Warsaw',
+  },
+  {
+    id: 8,
+    name: 'BUSS',
+    type: VehicleType.BUS,
+    numberOfSeats: 24,
+    isAvailable: true,
+    fuelType: FuelType.DIESEL,
+    deposit: 2000,
+    pricePerDay: 400,
+    photoUrl:
+      'https://i1.sndcdn.com/avatars-8bUmoRyW1I2QiAvN-8OMaVQ-t500x500.jpg',
+    office: 'Warsaw',
   },
 ];

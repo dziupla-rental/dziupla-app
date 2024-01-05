@@ -56,6 +56,7 @@
           <!--Other filters-->
           @for (element of basicFilters; track $index) {
           <app-filter-select-box
+            class="filter-select-box"
             [selectData]="element"
             [parsedControl]="filtersForm.get(element.label)!"
           ></app-filter-select-box>

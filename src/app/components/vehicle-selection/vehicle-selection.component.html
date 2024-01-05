@@ -1,19 +1,29 @@
 <div class="all">
   <app-filters (filtersChange)="onFiltersChange($event)" class="filters">
   </app-filters>
-</div>
-<div class="search-results">
-  @if (isShowSpinner) {
-  <app-spinner></app-spinner>
-  } @if (vehicles.length > 0) {
-  <div class="search-results-header">
-    <h2>Wyniki wyszukiwania:</h2>
-    <div class="sort-select">TODO</div>
+
+  <div class="search-results">
+    @if (isReady) {
+    <div class="search-results-header">
+      <h2>Wyniki wyszukiwania:</h2>
+      <div class="sort-select">
+        <app-sort-box (sortChange)="onSortChange($event)"></app-sort-box>
+      </div>
+    </div>
+    @if (isShowSpinner) {
+    <app-spinner class="spinner-component"></app-spinner>
+    } @if (!isShowSpinner && vehicles.length == 0) {
+    <div class="no-results">
+      <mat-icon style="scale: 3">car_crash</mat-icon>
+      <div>Brak wyników o podanych parametrach</div>
+    </div>
+    } @else {
+    <div class="search-results-list">
+      @for (vehicle of vehicles; track vehicle) {
+      <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
+      }
+    </div>
+
+    } }
   </div>
-  <div class="search-results-list">
-    @for (vehicle of vehicles; track vehicle) {
-    <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
-    }
-  </div>
-  }
 </div>

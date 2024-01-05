@@ -1,9 +1,11 @@
 <div class="select-box">
-  @if (selectData.list.length > 0) { @if (matIcon) {
-  <mat-icon class="icon">{{ matIcon }}</mat-icon>
-  }
+  @if (selectData.list.length > 0) {
   <mat-form-field class="filter-select-box">
-    <mat-label>{{ selectData.name }}</mat-label>
+    <mat-label
+      >@if (matIcon) {
+      <mat-icon class="icon">{{ matIcon }}</mat-icon>
+      }{{ selectData.name }}</mat-label
+    >
     <mat-select
       [(value)]="selectValue"
       (selectionChange)="onSelectionChange($event)"
