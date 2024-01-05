@@ -1,11 +1,16 @@
-<mat-grid-list cols="3" rowHeight="1.5:1">
-  <mat-grid-tile>
-    <app-general-stats [stats]="statistics"></app-general-stats>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="2">
-    <mat-card class="percentage-stats">
-      <mat-card-content>
+<div class="layoutBox-v" fxLayout="column" fxLayoutGap="1%">
+  <div class="layoutBox-h" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
+    <app-general-stats [stats]="statistics" fxFlex="50"></app-general-stats>
+
+    <mat-card class="percentage-stats" fxFlex="50">
+      <mat-card-header>
         <mat-card-title><h2>Procenty Pojazdów</h2></mat-card-title>
+      </mat-card-header>
+      <mat-card-content
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="space-around center"
+      >
         <app-percentage-indicator
           title="Pojazdy wypożyczone"
           [value]="
@@ -41,11 +46,9 @@
         ></app-percentage-indicator>
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
+  </div>
 
-  <mat-grid-tile colspan="3">
-    <app-financial-report
-      [data]="statistics ? statistics.earnings_stats : []"
-    ></app-financial-report>
-  </mat-grid-tile>
-</mat-grid-list>
+  <app-financial-report
+    [data]="statistics ? statistics.earnings_stats : []"
+  ></app-financial-report>
+</div>

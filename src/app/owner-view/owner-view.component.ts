@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FinancialReportComponent } from '../financial-report/financial-report.component';
 import { GeneralStatsComponent } from '../general-stats/general-stats.component';
 import { StatisticsService } from '../services/statistics.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export interface IStatistics {
   cars_total: number;
@@ -30,6 +31,7 @@ export interface IStatistics {
     MatCardModule,
     FinancialReportComponent,
     GeneralStatsComponent,
+    FlexLayoutModule,
   ],
   templateUrl: './owner-view.component.html',
   styleUrl: './owner-view.component.scss',
