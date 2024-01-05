@@ -6,11 +6,13 @@
       <mat-card-header>
         <mat-card-title><h2>Procenty Pojazdów</h2></mat-card-title>
       </mat-card-header>
-      <mat-card-content
+      
+      <mat-card-content>
+        <div class="layoutBox-percentages"
         fxLayout="row"
         fxLayout.xs="column"
         fxLayoutAlign="space-around center"
-      >
+        >
         <app-percentage-indicator
           title="Pojazdy wypożyczone"
           [value]="
@@ -44,6 +46,7 @@
           "
           [color]="'warn'"
         ></app-percentage-indicator>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
