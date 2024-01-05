@@ -83,7 +83,6 @@ export class FinancialReportComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.canvas);
     if (this.canvas) {
       this.sillyGraph = new SillyGraph(this.canvas.nativeElement);
       this.sillyGraph.load(this.graphData);
