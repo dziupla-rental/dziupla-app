@@ -17,13 +17,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FilterSelectBoxComponent } from './filter-select-box/filter-select-box.component';
 import { FilterSelect } from '../../model/internal/filter-select';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MatDatepickerInputEvent,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
-import { filter } from 'rxjs';
 import { FilterValues } from '../../model/internal/filter-values';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuelType, VehicleType } from '../../model/external/vehicle';

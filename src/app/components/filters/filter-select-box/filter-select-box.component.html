@@ -20,5 +20,10 @@
     <mat-error>Wybór tej opcji jest wymagany</mat-error>
     }
   </mat-form-field>
-  }
+  @if (!isRequired) {
+
+  <button class="clear-icon" mat-icon-button (click)="onClear()">
+    <mat-icon style="scale: 1.75; color: rgba(0, 0, 0, 0.65)">clear</mat-icon>
+  </button>
+  } }
 </div>

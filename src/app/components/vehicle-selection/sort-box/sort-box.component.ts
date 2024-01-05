@@ -30,7 +30,7 @@ const MATERIALS = [
 export class SortBoxComponent implements OnInit {
   @Output() sortChange: EventEmitter<sortValue> = new EventEmitter();
 
-  isAsc: boolean = true;
+  isAsc: boolean = false;
 
   options: string[] = ['Typ', 'Ilość miejsc', 'Cena', 'Dostępność'];
 

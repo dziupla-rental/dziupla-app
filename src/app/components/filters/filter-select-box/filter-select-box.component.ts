@@ -16,6 +16,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 const MATERIALS = [
   MatSelectModule,
@@ -24,6 +25,7 @@ const MATERIALS = [
   MatDatepickerModule,
   MatMomentDateModule,
   MatIconModule,
+  MatButtonModule,
 ];
 
 @Component({
@@ -42,20 +44,24 @@ export class FilterSelectBoxComponent implements OnInit {
   };
   @Input() parsedControl?: AbstractControl;
   @Input() matIcon?: string;
+  @Input() isRequired: boolean = false;
 
   selectValue: string = '';
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.selectData);
-  }
+  ngOnInit(): void {}
 
-  onSelectionChange(event: MatSelectChange) {
+  onSelectionChange(event: MatSelectChange): void {
     this.parsedControl!.setValue(event.value);
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
+  onDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.parsedControl!.setValue(event.value);
+  }
+
+  onClear(): void {
+    this.selectValue = '';
+    this.parsedControl!.setValue('');
   }
 }
