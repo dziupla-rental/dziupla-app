@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy,   ChangeDetectorRef, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { EntryListComponent } from '../entry-list/entry-list.component';
 import { EmployeeDetailsComponent, PersonData } from './employee-details/employee-details.component';
 
-export interface EmployeeListing {
+export interface ListingRecord {
   name: string;
   id: number;
 }
 export interface ManagementData {
-  employees: EmployeeListing[];
+  employees: ListingRecord[];
   offices: string[];
   positions: string[];
 }
@@ -20,7 +20,7 @@ export interface ManagementData {
   imports: [
     MatCardModule,
     FlexLayoutModule,
-    EmployeeListComponent,
+    EntryListComponent,
     EmployeeDetailsComponent,
   ],
   templateUrl: './management-view.component.html',
@@ -28,16 +28,8 @@ export interface ManagementData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementViewComponent {
-  personResponse? : PersonData= {
-    first_name: "Steve",
-    last_name: "Gomez",
-    position: "Mechanik",
-    id: 12,
-    salary: 12.3,
-    shift_start: 800,
-    shift_end: 2000,
-    office: "Gliwice",
-    };
+  personResponse? : PersonData;
+  
   responseData?: ManagementData = {
     employees: [
       { name: 'John Deere', id: 1 },
@@ -64,4 +56,19 @@ export class ManagementViewComponent {
     offices: ['brazil'],
     positions: ['your mom'],
   };
+
+  constructor(    private readonly _cdRef: ChangeDetectorRef){}
+
+  selectEntry(id: number){
+    this.personResponse = {
+      first_name: "Steve",
+      last_name: "Gomez",
+      position: "Mechanik",
+      id: id,
+      salary: 12.3,
+      shift_start: 800,
+      shift_end: 2000,
+      office: "Gliwice",
+    }
+  }
 }

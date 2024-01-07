@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
 
 export interface PersonData {
     first_name: string;
@@ -21,6 +22,12 @@ export interface PersonData {
   styleUrl: './employee-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployeeDetailsComponent {
+export class EmployeeDetailsComponent implements OnChanges {
+
   @Input() personData?: PersonData
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.personData);
+  }
 }
