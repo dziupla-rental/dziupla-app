@@ -2,7 +2,7 @@
     <div class="layoutBox-h" fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-evenly stretch">
       
   
-      <mat-card class="percentage-stats" fxFlex="50"  fxFlexOrder="1" fxFlexOrder.xs="2" >
+      <mat-card  fxFlex="50"  fxFlexOrder="1" fxFlexOrder.xs="2" >
         <mat-card-header>
           <mat-card-title><h2>Lista Pracowników</h2></mat-card-title>
         </mat-card-header>
@@ -10,13 +10,13 @@
          <app-entry-list  name_header="Imię i nazwisko"  [entries]="responseData?.employees" (selectionEmitter)="selectEntry($event)"></app-entry-list>
         </mat-card-content>
       </mat-card>
-      <mat-card class="percentage-stats" fxFlex="50" fxFlexOrder="2" fxFlexOrder.xs="1">
+      <mat-card  fxFlex="50" fxFlexOrder="2" fxFlexOrder.xs="1">
         <mat-card-header>
           <mat-card-title><h2>Profil Pracownika</h2></mat-card-title>
         </mat-card-header>
             
         <mat-card-content>
-            <app-employee-details [personData]="personResponse"></app-employee-details>
+            <app-employee-details [positionList]="responseData?.positions" [officeList]="responseData?.offices"  [personData]="personResponse"></app-employee-details>
         </mat-card-content>
       </mat-card>
     </div>

@@ -53,8 +53,8 @@ export class ManagementViewComponent {
       { name: 'Zbigniew Wodecki', id: 3 },
       { name: 'Adam Małysz', id: 4 },
     ],
-    offices: ['brazil'],
-    positions: ['your mom'],
+    offices: ['Gliwice', 'Warszawa', 'Katowice'],
+    positions: ['Mechanik', 'Kierowca', 'Sprzedawca', 'Właściciel'],
   };
 
   constructor(    private readonly _cdRef: ChangeDetectorRef){}
@@ -65,7 +65,7 @@ export class ManagementViewComponent {
       last_name: "Gomez",
       position: "Mechanik",
       id: id,
-      salary: 12.3,
+      salary: 12.30,
       shift_start: "08:00",
       shift_end: "20:00",
       office: "Gliwice",

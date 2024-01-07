@@ -1,84 +1,105 @@
-@if(!personData){ 
-  
-  Proszę wybrać pracownika z listy
+@if(!personData){ Proszę wybrać pracownika z listy
 <mat-icon
   id="missingData"
   aria-hidden="false"
   fontIcon="person_outline"
 ></mat-icon>
- 
-}  
 
-@else { 
-  <mat-slide-toggle [(ngModel)]="isChecked">{{isChecked?'edit':'view'}}</mat-slide-toggle>
-  @if( !isChecked ){
-  
-  <h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
-  
-  <h2><b>Biuro:</b>{{ personData.office }}</h2>
-  <br />
-  <br />
-  
-  
-    <b>Posada: </b>  {{ personData.position }} <br />
-      
-  <br />
-  <b>Płaca: </b>{{ personData.salary }}<br />
-  <br />
-  <b>Poczatek zmiany: </b>{{ personData.shift_start }}<br />
-  <b>Koniec zmiany: </b>{{ personData.shift_end }}<br />
-  <b>ID: </b>{{ personData.id }}<br />
-  
-  } @else {
+} @else {
+<h3 id="edit-toggle">
+  Edycja:<mat-slide-toggle
+    color="accent"
+    [(ngModel)]="isChecked"
+  ></mat-slide-toggle>
+</h3>
+@if( !isChecked ){
 
-    <h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
-  
-  <h2><b>Biuro:</b>{{ personData.office }}</h2>
-  <br />
-  <br />
-  
-  <mat-form-field appearance="outline">
-    <mat-label><b>Posada</b></mat-label>
-    <mat-select value="{{ personData.position }}" disabled>
-      <mat-option value="Mechanik">Mechanik</mat-option>
-      <mat-option value="Sprzedawca">Sprzedawca</mat-option>
-      <mat-option value="driver">Kierowca</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br />
-  <mat-form-field appearance="outline">
-    <mat-label><b>Płaca</b></mat-label>
-    <input
-      value="{{ personData.salary }}"
-      class="example-right-align"
-      type="number"
-      matInput
-    />
-    <span matTextSuffix>PLN/GODZ</span>
-  </mat-form-field>
-  <br />
-  <br />
-  
-  <mat-form-field appearance="outline">
-    <mat-label><b>Poczatek zmiany</b></mat-label>
-    <input
-      value="{{ personData.shift_start }}"
-      class="example-right-align"
-      type="time"
-      matInput
-    />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label><b>Koniec zmiany</b></mat-label>
-    <input
-      value="{{ personData.shift_end }}"
-      class="example-right-align"
-      type="time"
-      matInput
-    />
-  </mat-form-field>
-  
-  <b>ID: </b>{{ personData.id }}<br />
-}
+<h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
 
-}
+<h2><b>Biuro:</b>{{ personData.office }}</h2>
+<br />
+<br />
+
+<b>Posada: </b> {{ personData.position }} <br />
+
+<br />
+<b>Płaca: </b>{{ personData.salary }}<br />
+<br />
+<b>Poczatek zmiany: </b>{{ personData.shift_start }}<br />
+<b>Koniec zmiany: </b>{{ personData.shift_end }}<br />
+<b>ID: </b>{{ personData.id }}<br />
+
+} @else {
+
+<br />
+<mat-form-field appearance="outline">
+  <mat-label><b>Imię</b></mat-label>
+  <input value="{{ personData.first_name }}" matInput />
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label><b>Imię</b></mat-label>
+  <input value="{{ personData.last_name }}" matInput />
+</mat-form-field>
+<br />
+
+<mat-form-field appearance="outline">
+  <mat-label><b>Biuro</b></mat-label>
+  <mat-select value="{{ personData.office }}">
+    <mat-option value="Gliwice">Gliwice</mat-option>
+    <mat-option value="Katowice">Katowice</mat-option>
+    <mat-option value="Warszawa">Warszawa</mat-option>
+  </mat-select>
+</mat-form-field>
+<br />
+
+<mat-form-field appearance="outline">
+  <mat-label><b>Posada</b></mat-label>
+  <mat-select value="{{ personData.position }}">
+    @for (position of positionList; track position) {
+    <mat-option [value]="position">{{ position }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+<br />
+<mat-form-field appearance="outline">
+  <mat-label><b>Płaca</b></mat-label>
+  <input
+    value="{{ personData.salary }}"
+    class="example-right-align"
+    type="number"
+    min="0"
+    step="0.05"
+    matInput
+  />
+  <span matTextSuffix>PLN/GODZ</span>
+</mat-form-field>
+<br />
+<br />
+
+<mat-form-field appearance="outline">
+  <mat-label><b>Poczatek zmiany</b></mat-label>
+  <input
+    value="{{ personData.shift_start }}"
+    class="example-right-align"
+    type="time"
+    matInput
+  />
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label><b>Koniec zmiany</b></mat-label>
+  <input
+    value="{{ personData.shift_end }}"
+    class="example-right-align"
+    type="time"
+    matInput
+  />
+</mat-form-field>
+<br />
+<b>ID: </b>{{ personData.id }}<br />
+<div class="save-controls">
+  <button mat-raised-button color="warn"><h5>Usuń pracownika</h5></button>
+  <button mat-raised-button color="primary"><h5>Zapisz zmiany</h5></button>
+
+</div>
+} }

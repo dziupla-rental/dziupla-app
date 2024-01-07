@@ -50,8 +50,11 @@ export interface PersonData {
 })
 export class EmployeeDetailsComponent implements OnChanges {
   @Input() personData?: PersonData;
+  @Input() officeList?: string[];
+  @Input() positionList?: string[];
   edit: boolean = true;
-  isChecked = false;
+  isChecked = true;
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.personData);
   }
