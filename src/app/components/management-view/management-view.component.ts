@@ -61,7 +61,7 @@ export class ManagementViewComponent {
 
   selectEntry(id: number){
     this.personResponse = {
-      first_name: "Steve",
+      first_name: this.personResponse?.first_name||'',
       last_name: "Gomez",
       position: "Mechanik",
       id: id,
@@ -70,5 +70,9 @@ export class ManagementViewComponent {
       shift_end: "20:00",
       office: "Gliwice",
     }
+  }
+  modifyEmployee(employee: PersonData){
+    console.log("mg view", employee);
+    this.personResponse = {...employee};
   }
 }

@@ -32,74 +32,81 @@
 } @else {
 
 <br />
-<mat-form-field appearance="outline">
-  <mat-label><b>Imię</b></mat-label>
-  <input value="{{ personData.first_name }}" matInput />
-</mat-form-field>
+<form [formGroup]="employeeForm">
+  <mat-form-field appearance="outline">
+    <mat-label><b>Imię</b></mat-label>
+    <input
+      formControlName="first_name"
+      
+      matInput
+    />
+  </mat-form-field>
 
-<mat-form-field appearance="outline">
-  <mat-label><b>Imię</b></mat-label>
-  <input value="{{ personData.last_name }}" matInput />
-</mat-form-field>
-<br />
+  <mat-form-field appearance="outline">
+    <mat-label><b>Nazwisko</b></mat-label>
+    <input formControlName="last_name" matInput />
+  </mat-form-field>
+  <br />
 
-<mat-form-field appearance="outline">
-  <mat-label><b>Biuro</b></mat-label>
-  <mat-select value="{{ personData.office }}">
-    <mat-option value="Gliwice">Gliwice</mat-option>
-    <mat-option value="Katowice">Katowice</mat-option>
-    <mat-option value="Warszawa">Warszawa</mat-option>
-  </mat-select>
-</mat-form-field>
-<br />
+  <mat-form-field appearance="outline">
+    <mat-label><b>Biuro</b></mat-label>
+    <mat-select  formControlName="office" >
+      @for (office of officeList; track office) {
+        <mat-option [value]="office">{{ office }}</mat-option>
+        }
+    </mat-select>
+  </mat-form-field>
+  <br />
 
-<mat-form-field appearance="outline">
-  <mat-label><b>Posada</b></mat-label>
-  <mat-select value="{{ personData.position }}">
-    @for (position of positionList; track position) {
-    <mat-option [value]="position">{{ position }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
-<br />
-<mat-form-field appearance="outline">
-  <mat-label><b>Płaca</b></mat-label>
-  <input
-    value="{{ personData.salary }}"
-    class="example-right-align"
-    type="number"
-    min="0"
-    step="0.05"
-    matInput
-  />
-  <span matTextSuffix>PLN/GODZ</span>
-</mat-form-field>
-<br />
-<br />
+  <mat-form-field appearance="outline">
+    <mat-label><b>Posada</b></mat-label>
+    <mat-select formControlName="position">
+      @for (position of positionList; track position) {
+      <mat-option [value]="position">{{ position }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <br />
+  <mat-form-field appearance="outline">
+    <mat-label><b>Płaca</b></mat-label>
+    <input
+    formControlName="salary"
+      class="example-right-align"
+      type="number"
+      min="0"
+      step="0.05"
+      matInput
+    />
+    <span matTextSuffix>PLN/GODZ</span>
+  </mat-form-field>
+  <br />
+  <br />
 
-<mat-form-field appearance="outline">
-  <mat-label><b>Poczatek zmiany</b></mat-label>
-  <input
-    value="{{ personData.shift_start }}"
-    class="example-right-align"
-    type="time"
-    matInput
-  />
-</mat-form-field>
-<mat-form-field appearance="outline">
-  <mat-label><b>Koniec zmiany</b></mat-label>
-  <input
-    value="{{ personData.shift_end }}"
-    class="example-right-align"
-    type="time"
-    matInput
-  />
-</mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label><b>Poczatek zmiany</b></mat-label>
+    <input
+    formControlName="shift_start"
+      class="example-right-align"
+      type="time"
+      matInput
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label><b>Koniec zmiany</b></mat-label>
+    <input
+      formControlName="shift_end"
+      class="example-right-align"
+      type="time"
+      matInput
+    />
+  </mat-form-field>
+</form>
 <br />
 <b>ID: </b>{{ personData.id }}<br />
 <div class="save-controls">
   <button mat-raised-button color="warn"><h5>Usuń pracownika</h5></button>
-  <button mat-raised-button color="primary"><h5>Zapisz zmiany</h5></button>
-
+  <button mat-raised-button color="primary" (click)="printPerson()">
+    <h5>Zapisz zmiany</h5>
+  </button>
 </div>
 } }
