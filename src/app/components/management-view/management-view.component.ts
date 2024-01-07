@@ -66,8 +66,8 @@ export class ManagementViewComponent {
       position: "Mechanik",
       id: id,
       salary: 12.3,
-      shift_start: 800,
-      shift_end: 2000,
+      shift_start: "08:00",
+      shift_end: "20:00",
       office: "Gliwice",
     }
   }

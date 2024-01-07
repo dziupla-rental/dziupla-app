@@ -1,29 +1,84 @@
-@if(personData){
-<h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
-
-<h2><b>Biuro:</b>{{ personData.office }}</h2><br />
-<br />
-
-
-<mat-form-field appearance="outline">
-  <mat-label><b>Posada: </b></mat-label>
-  <mat-select value="{{personData.position}}" disabled >
-    <mat-option value="Mechanik">Mechanik</mat-option>
-    <mat-option value="Sprzedawca">Sprzedawca</mat-option>
-    <mat-option value="driver">Kierowca</mat-option>
-  </mat-select>
-</mat-form-field>
-<br />
-<b>Płaca: </b>{{personData.salary}}<br />
-<br />
-<b>Poczatek zmiany: </b>{{personData.shift_start}}<br />
-<b>Koniec zmiany: </b>{{personData.shift_end}}<br />
-<b>ID: </b>{{personData.id}}<br />
-
-} @else { Proszę wybrać pracownika z listy
+@if(!personData){ 
+  
+  Proszę wybrać pracownika z listy
 <mat-icon
   id="missingData"
   aria-hidden="false"
   fontIcon="person_outline"
 ></mat-icon>
+ 
+}  
+
+@else { 
+  <mat-slide-toggle [(ngModel)]="isChecked">{{isChecked?'edit':'view'}}</mat-slide-toggle>
+  @if( !isChecked ){
+  
+  <h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
+  
+  <h2><b>Biuro:</b>{{ personData.office }}</h2>
+  <br />
+  <br />
+  
+  
+    <b>Posada: </b>  {{ personData.position }} <br />
+      
+  <br />
+  <b>Płaca: </b>{{ personData.salary }}<br />
+  <br />
+  <b>Poczatek zmiany: </b>{{ personData.shift_start }}<br />
+  <b>Koniec zmiany: </b>{{ personData.shift_end }}<br />
+  <b>ID: </b>{{ personData.id }}<br />
+  
+  } @else {
+
+    <h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
+  
+  <h2><b>Biuro:</b>{{ personData.office }}</h2>
+  <br />
+  <br />
+  
+  <mat-form-field appearance="outline">
+    <mat-label><b>Posada</b></mat-label>
+    <mat-select value="{{ personData.position }}" disabled>
+      <mat-option value="Mechanik">Mechanik</mat-option>
+      <mat-option value="Sprzedawca">Sprzedawca</mat-option>
+      <mat-option value="driver">Kierowca</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br />
+  <mat-form-field appearance="outline">
+    <mat-label><b>Płaca</b></mat-label>
+    <input
+      value="{{ personData.salary }}"
+      class="example-right-align"
+      type="number"
+      matInput
+    />
+    <span matTextSuffix>PLN/GODZ</span>
+  </mat-form-field>
+  <br />
+  <br />
+  
+  <mat-form-field appearance="outline">
+    <mat-label><b>Poczatek zmiany</b></mat-label>
+    <input
+      value="{{ personData.shift_start }}"
+      class="example-right-align"
+      type="time"
+      matInput
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label><b>Koniec zmiany</b></mat-label>
+    <input
+      value="{{ personData.shift_end }}"
+      class="example-right-align"
+      type="time"
+      matInput
+    />
+  </mat-form-field>
+  
+  <b>ID: </b>{{ personData.id }}<br />
+}
+
 }
