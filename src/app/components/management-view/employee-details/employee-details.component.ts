@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 export interface PersonData {
     first_name: string;
@@ -17,7 +19,7 @@ export interface PersonData {
 @Component({
   selector: 'app-employee-details',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

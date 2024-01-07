@@ -3,7 +3,17 @@
 
 <h2><b>Biuro:</b>{{ personData.office }}</h2><br />
 <br />
-<b>Posada: </b>{{personData.position}}<br />
+
+
+<mat-form-field appearance="outline">
+  <mat-label><b>Posada: </b></mat-label>
+  <mat-select value="{{personData.position}}" disabled >
+    <mat-option value="Mechanik">Mechanik</mat-option>
+    <mat-option value="Sprzedawca">Sprzedawca</mat-option>
+    <mat-option value="driver">Kierowca</mat-option>
+  </mat-select>
+</mat-form-field>
+<br />
 <b>Płaca: </b>{{personData.salary}}<br />
 <br />
 <b>Poczatek zmiany: </b>{{personData.shift_start}}<br />
