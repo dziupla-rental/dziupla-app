@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -9,13 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  MAT_DIALOG_DATA, MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialog,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
+  MatDialogTitle,
+} from '@angular/material/dialog';
 
 export interface DialogData {
   username: string;
@@ -50,12 +51,11 @@ export class RegisterViewComponent {
   constructor(
     private authService: AuthService,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog,
-  ) {
-  }
+    public dialog: MatDialog
+  ) {}
 
   onSubmit(): void {
-    const {username, email, password} = this.form;
+    const { username, email, password } = this.form;
 
     this.authService.register(username, email, password).subscribe({
       next: (data) => {
@@ -78,7 +78,7 @@ export class RegisterViewComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SuccessfulRegistrationDialog, {
-      data: {username: this.form.username},
+      data: { username: this.form.username },
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -88,25 +88,25 @@ export class RegisterViewComponent {
   }
 }
 
-  @Component({
-    selector: 'successful-registration-dialog',
-    templateUrl: 'successful-registration-dialog.html',
-    standalone: true,
-    imports: [
-      MatFormFieldModule,
-      MatInputModule,
-      FormsModule,
-      MatButtonModule,
-      MatDialogTitle,
-      MatDialogContent,
-      MatDialogActions,
-      MatDialogClose,
-    ],
-  })
-  export class SuccessfulRegistrationDialog {
+@Component({
+  selector: 'successful-registration-dialog',
+  templateUrl: 'successful-registration-dialog.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+  ],
+})
+export class SuccessfulRegistrationDialog {
   constructor(
     public dialogRef: MatDialogRef<SuccessfulRegistrationDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   onNoClick(): void {

@@ -6,10 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { InMemoryDataService } from './services/in-memory-data.service';
-import {AuthService } from "./services/auth.service";
-import {StorageService} from "./services/storage.service";
-import {HttpClientModule} from "@angular/common/http";
-
+import { AuthService } from './services/auth.service';
+import { StorageService } from './services/storage.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const MATERIALS = [
   MatToolbarModule,
@@ -21,7 +20,7 @@ const MATERIALS = [
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MATERIALS, HttpClientModule,],
+  imports: [CommonModule, RouterOutlet, MATERIALS, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,10 +34,11 @@ export class AppComponent {
   title = 'dziupla-app';
 
   showFiller = false;
-  constructor(private readonly _data: InMemoryDataService,
-              private storageService: StorageService,
-              private authService: AuthService,
-              ) {}
+  constructor(
+    private readonly _data: InMemoryDataService,
+    private storageService: StorageService,
+    private authService: AuthService
+  ) {}
 
   onClick() {
     this._data.getVehicles([2, 5]).subscribe((vehicles) => {});
@@ -55,24 +55,22 @@ export class AppComponent {
 
       this.username = user.username;
     }
-
   }
   logout(): void {
     this.authService.logout().subscribe({
-      next: res => {
+      next: (res) => {
         console.log(res);
         this.storageService.clean();
 
         window.location.reload();
       },
-      error: err => {
+      error: (err) => {
         console.log(err);
-      }
+      },
     });
   }
 
   login(): void {
     window.location.href = '/login';
   }
-
 }

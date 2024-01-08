@@ -1,4 +1,9 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 import { FormsModule } from '@angular/forms';
@@ -11,13 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  MAT_DIALOG_DATA, MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialog,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
+  MatDialogTitle,
+} from '@angular/material/dialog';
 
 export interface DialogData {
   username: string;
@@ -54,7 +60,7 @@ export class LoginViewComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private authService: AuthService,
     private storageService: StorageService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -79,14 +85,14 @@ export class LoginViewComponent implements OnInit {
       error: (err) => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
-        this._snackBar.open('Błąd Logowania: '+this.errorMessage, '❌');
+        this._snackBar.open('Błąd Logowania: ' + this.errorMessage, '❌');
       },
     });
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SuccessfulLoginDialog, {
-      data: {username: this.form.username},
+      data: { username: this.form.username },
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -121,7 +127,7 @@ export class LoginViewComponent implements OnInit {
 export class SuccessfulLoginDialog {
   constructor(
     public dialogRef: MatDialogRef<SuccessfulLoginDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   onNoClick(): void {
