@@ -5,12 +5,7 @@
 
   <mat-card-content>
     @if (!isLoggedIn) {
-    <form
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
+    <form [formGroup]="form">
       <mat-form-field appearance="outline">
         <mat-label><b>Nazwa Użytkownika</b></mat-label>
         <input
@@ -18,12 +13,14 @@
           type="text"
           class="form-control"
           name="username"
-          [(ngModel)]="form.username"
+          formControlName="username"
           required
-          #username="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+          #username
+          [ngClass]="{
+            'is-invalid': form.controls.username.hasError('required')
+          }"
         />
-        @if (username.errors && f.submitted) {
+        @if (form.controls.username.hasError('required')) {
         <mat-error>Nazwa użytkownika jest wymagana!</mat-error>
         }
       </mat-form-field>
@@ -37,17 +34,18 @@
           matInput
           type="password"
           class="form-control"
-          name="password"
-          [(ngModel)]="form.password"
+          formControlName="password"
           required
           minlength="6"
-          #password="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          [ngClass]="{
+            'is-invalid': form.controls.password.hasError('required')
+          }"
         />
         <mat-error>
-          @if (password.errors && f.submitted) { @if
-          (password.errors['required']) { Hasło jest wymagane! } @if
-          (password.errors['minlength']) { Hasło jest za krótkie! } }
+          @if (!form.controls.password.valid) { @if
+          (form.controls.password.hasError('required')) { Hasło jest wymagane! }
+          @if (form.controls.password.value!.length! < 6) { Hasło jest za
+          krótkie! } }
         </mat-error>
       </mat-form-field>
       <br />
@@ -55,7 +53,9 @@
       <br />
       <!--uh-->
       <div>
-        <a href="/register" color="primary">Nie masz konta? Zarejestruj się.</a>
+        <a href="/register" class="global-accent"
+          >Nie masz konta? Zarejestruj się.</a
+        >
       </div>
       <br />
       <div>
@@ -63,6 +63,8 @@
           mat-raised-button
           color="primary"
           class="btn btn-primary btn-block"
+          [disabled]="!form.valid"
+          (click)="onSubmit()"
         >
           Zaloguj się
         </button>
@@ -73,7 +75,7 @@
     <br />
     <div>
       <button
-        (click)="home()"
+        (click)="onHomeClick()"
         mat-raised-button
         color="primary"
         class="btn btn-block"

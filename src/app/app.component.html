@@ -21,7 +21,7 @@
       <span class="example-spacer"></span>
       @if (!isLoggedIn) {
       <button
-        (click)="login()"
+        (click)="onLogin()"
         mat-icon-button
         aria-label="Login or account icon"
       >
@@ -33,7 +33,7 @@
       <span class="small-spacer"></span>
       {{ username }}
       <span class="small-spacer"></span>
-      <button (click)="logout()" mat-icon-button aria-label="Logout">
+      <button (click)="onLogout()" mat-icon-button aria-label="Logout">
         <mat-icon>logout</mat-icon>
       </button>
       }

@@ -6,7 +6,12 @@ import {
 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  Validators,
+} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,6 +29,8 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { SpinnerService } from '../../services/spinner.service';
 
 export interface DialogData {
   username: string;
@@ -47,65 +54,69 @@ export interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginViewComponent implements OnInit {
-  form: any = {
-    username: null,
-    password: null,
-  };
+  form = this._fb.group({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
+
   isLoggedIn = false;
   isLoginFailed = false;
+
   errorMessage = '';
   roles: string[] = [];
 
   constructor(
-    private _snackBar: MatSnackBar,
-    private authService: AuthService,
-    private storageService: StorageService,
-    public dialog: MatDialog
+    private readonly _snackBar: MatSnackBar,
+    private readonly _authService: AuthService,
+    private readonly _storageService: StorageService,
+    private readonly _fb: FormBuilder,
+    private readonly _router: Router,
+    private readonly _dialog: MatDialog,
+    private readonly _spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
+    if (this._storageService.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.roles = this.storageService.getUser().roles;
+      this.roles = this._storageService.getUser().roles;
     }
   }
 
   onSubmit(): void {
-    const { username, password } = this.form;
+    this._authService
+      .login(
+        this.form.controls.username.value!,
+        this.form.controls.password.value!
+      )
+      .subscribe({
+        next: (data) => {
+          this._storageService.saveUser(data);
 
-    this.authService.login(username, password).subscribe({
-      next: (data) => {
-        this.storageService.saveUser(data);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
-        this.openDialog();
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
-        this._snackBar.open('Błąd Logowania: ' + this.errorMessage, '❌');
-      },
-    });
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.roles = this._storageService.getUser().roles;
+          this.openDialog();
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message;
+          this.isLoginFailed = true;
+          this._snackBar.open('Błąd Logowania: ' + this.errorMessage, '❌');
+        },
+      });
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(SuccessfulLoginDialog, {
-      data: { username: this.form.username },
+    const dialogRef = this._dialog.open(SuccessfulLoginDialog, {
+      data: { username: this.form.controls.username.value },
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-      this.dialog.closeAll();
+      this._dialog.closeAll();
     });
   }
 
-  reloadPage(): void {
-    window.location.reload();
-  }
-  home(): void {
-    window.location.href = '/';
+  onHomeClick(): void {
+    this._router.navigate(['/']);
   }
 }
 
@@ -126,12 +137,13 @@ export class LoginViewComponent implements OnInit {
 })
 export class SuccessfulLoginDialog {
   constructor(
-    public dialogRef: MatDialogRef<SuccessfulLoginDialog>,
+    private readonly _dialogRef: MatDialogRef<SuccessfulLoginDialog>,
+    private readonly _router: Router,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   onNoClick(): void {
-    this.dialogRef.close();
-    window.location.href = '/';
+    this._dialogRef.close();
+    this._router.navigate(['/']);
   }
 }

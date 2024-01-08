@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpClientModule,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
-const AUTH_API = `${environment.appUrl}:${environment.backendPort}/api/auth/`;
+const AUTH_API = `${environment.apiUrl}/auth/`;
 
+//TODO: create http interceptor for this
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -18,10 +15,11 @@ const httpOptions = {
   providedIn: 'any',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
+  //TODO: add type
   login(username: string, password: string): Observable<any> {
-    return this.http.post(
+    return this._http.post(
       AUTH_API + 'signin',
       {
         username,
@@ -31,8 +29,9 @@ export class AuthService {
     );
   }
 
+  //TODO: add type
   register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(
+    return this._http.post(
       AUTH_API + 'signup',
       {
         username,
@@ -43,7 +42,8 @@ export class AuthService {
     );
   }
 
+  //TODO: add type
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', {}, httpOptions);
+    return this._http.post(AUTH_API + 'signout', {}, httpOptions);
   }
 }
