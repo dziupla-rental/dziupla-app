@@ -15,11 +15,24 @@
       >
         <mat-icon>menu</mat-icon>
       </button>
-      <img class="dziupla-logo" src="assets/logo-wide.svg" />
+      <img class="dziupla-logo" alt="dziupla" src="assets/logo-wide.svg" />
       <span class="example-spacer"></span>
-      <button mat-icon-button aria-label="Login or account icon">
+      @if (!isLoggedIn) {
+        <button (click)="login()" mat-icon-button aria-label="Login or account icon">
+          <mat-icon>person</mat-icon>
+        </button>
+      } @else {
+
         <mat-icon>person</mat-icon>
-      </button>
+        {{username}}
+
+        <button (click)="logout()" mat-icon-button aria-label="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      }
+
+
+
     </mat-toolbar>
 
     <router-outlet></router-outlet>

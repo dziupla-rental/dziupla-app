@@ -3,7 +3,6 @@
     <mat-card-title><h2>Rejestracja użytkownika</h2></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    @if (!isSuccessful) {
     <form
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
@@ -90,15 +89,6 @@
           Zarejestruj się
         </button>
       </div>
-
-      @if (f.submitted && isSignUpFailed) {
-      <div class="alert alert-warning">
-        Rejestracja nie powiodła się!<br />{{ errorMessage }}
-      </div>
-      }
     </form>
-    } @else {
-    <div class="alert alert-success">Rejestracja powiodła się!</div>
-    }
   </mat-card-content>
 </mat-card>

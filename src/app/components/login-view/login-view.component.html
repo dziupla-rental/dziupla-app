@@ -63,14 +63,9 @@
           Zaloguj się
         </button>
       </div>
-      @if (f.submitted && isLoginFailed) {
-      <div class="alert alert-danger" role="alert">
-        Logowanie nie powiodło się: {{ errorMessage }}
-      </div>
-      }
     </form>
     } @else {
-    <div class="alert alert-success">Zalogowano jako {{ roles }}.</div>
+    <p class="">Zalogowano jako {{ roles }}.</p>
     }
   </mat-card-content>
 </mat-card>

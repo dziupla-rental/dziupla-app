@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_DIALOG_DATA, MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+
+export interface DialogData {
+  username: string;
+}
 
 @Component({
   selector: 'app-register-view',
@@ -34,21 +47,70 @@ export class RegisterViewComponent {
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+  ) {
+  }
 
   onSubmit(): void {
-    const { username, email, password } = this.form;
+    const {username, email, password} = this.form;
 
     this.authService.register(username, email, password).subscribe({
       next: (data) => {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        this.openDialog();
+        // let successSnackBarRef = this.successSnackBar.open('Rejestracja zakończona sukcesem!', 'Zaloguj się');
+        // successSnackBarRef.onAction().subscribe(() => {
+        //   window.location.href = '/login';
+        // });
       },
       error: (err) => {
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
+        this._snackBar.open('Błąd rejestracji: ' + this.errorMessage, '❌');
       },
     });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(SuccessfulRegistrationDialog, {
+      data: {username: this.form.username},
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+      this.dialog.closeAll();
+    });
+  }
+}
+
+  @Component({
+    selector: 'successful-registration-dialog',
+    templateUrl: 'successful-registration-dialog.html',
+    standalone: true,
+    imports: [
+      MatFormFieldModule,
+      MatInputModule,
+      FormsModule,
+      MatButtonModule,
+      MatDialogTitle,
+      MatDialogContent,
+      MatDialogActions,
+      MatDialogClose,
+    ],
+  })
+  export class SuccessfulRegistrationDialog {
+  constructor(
+    public dialogRef: MatDialogRef<SuccessfulRegistrationDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+    window.location.href = '/login';
   }
 }

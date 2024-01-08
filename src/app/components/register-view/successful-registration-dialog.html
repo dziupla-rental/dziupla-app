@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Rejestracja powiodła się!</h1>
+<div mat-dialog-content>
+  <p>Zarejestrowano użytkownika {{data.username}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.username">OK</button>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Przejdź do logowania</button>
+</div>
