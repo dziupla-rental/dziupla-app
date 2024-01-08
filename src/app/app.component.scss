@@ -28,5 +28,16 @@ mat-toolbar {
 }
 
 .dziupla-logo {
+
   height: 70%;
+}
+.dziupla-link {
+  height:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.small-spacer {
+  width: 10px;
 }

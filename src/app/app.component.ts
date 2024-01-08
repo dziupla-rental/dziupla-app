@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { InMemoryDataService } from './services/in-memory-data.service';
-import {AuthService} from "./services/auth.service";
+import {AuthService } from "./services/auth.service";
 import {StorageService} from "./services/storage.service";
 import {HttpClientModule} from "@angular/common/http";
 

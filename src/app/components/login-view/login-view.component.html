@@ -55,6 +55,10 @@
       <br />
       <!--uh-->
       <div>
+        <a href="/register" color="primary">Nie masz konta? Zarejestruj się.</a>
+      </div>
+      <br>
+      <div>
         <button
           mat-raised-button
           color="primary"
@@ -65,7 +69,18 @@
       </div>
     </form>
     } @else {
-    <p class="">Zalogowano jako {{ roles }}.</p>
+    <p >Użytkownik już zalogowany.</p>
+      <br />
+      <div>
+        <button
+          (click)="home()"
+          mat-raised-button
+          color="primary"
+          class="btn btn-block"
+        >
+          Przejdź na stronę główną
+        </button>
+      </div>
     }
   </mat-card-content>
 </mat-card>

@@ -98,6 +98,9 @@ export class LoginViewComponent implements OnInit {
   reloadPage(): void {
     window.location.reload();
   }
+  home(): void {
+    window.location.href = '/';
+  }
 }
 
 @Component({
