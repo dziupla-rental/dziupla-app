@@ -1,70 +1,76 @@
+<mat-card class="login-box">
+  <mat-card-header>
+    <mat-card-title><h2>Login</h2></mat-card-title>
+  </mat-card-header>
 
-  <mat-card class="login-box">
-    <mat-card-header>
-      <mat-card-title><h2>Login</h2></mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      @if (!isLoggedIn) {
-        <form
-          name="form"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          #f="ngForm"
-          novalidate
+  <mat-card-content>
+    @if (!isLoggedIn) {
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <mat-form-field appearance="outline">
+        <mat-label><b>Nazwa Użytkownika</b></mat-label>
+        <input
+          matInput
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          #username="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+        />
+        @if (username.errors && f.submitted) {
+        <mat-error>Nazwa użytkownika jest wymagana!</mat-error>
+        }
+      </mat-form-field>
+      <br />
+      <!--uh-->
+      <br />
+      <!--uh-->
+      <mat-form-field appearance="outline">
+        <mat-label><b>Hasło</b></mat-label>
+        <input
+          matInput
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+        />
+        <mat-error>
+          @if (password.errors && f.submitted) { @if
+          (password.errors['required']) { Hasło jest wymagane! } @if
+          (password.errors['minlength']) { Hasło jest za krótkie! } }
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <!--uh-->
+      <br />
+      <!--uh-->
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          class="btn btn-primary btn-block"
         >
-            <mat-form-field appearance="outline">
-              <mat-label><b>Nazwa Użytkownika</b></mat-label>
-              <input matInput
-                type="text"
-                class="form-control"
-                name="username"
-                [(ngModel)]="form.username"
-                required
-                #username="ngModel"
-                [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
-              />
-              @if (username.errors && f.submitted) {
-                <mat-error>Nazwa użytkownika jest wymagana!</mat-error>
-              }
-            </mat-form-field>
-            <br> <!--uh-->
-            <br> <!--uh-->
-            <mat-form-field appearance="outline">
-              <mat-label><b>Hasło</b></mat-label>
-              <input matInput
-                type="password"
-                class="form-control"
-                name="password"
-                [(ngModel)]="form.password"
-                required
-                minlength="6"
-                #password="ngModel"
-                [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
-              />
-              <mat-error>
-                @if (password.errors && f.submitted) {
-                  @if (password.errors['required']) {
-                    Hasło jest wymagane!
-                  }
-                  @if (password.errors['minlength']) {
-                    Hasło jest za krótkie!
-                  }
-                }
-              </mat-error>
-            </mat-form-field>
-          <br> <!--uh-->
-          <br> <!--uh-->
-          <div>
-            <button mat-raised-button color="primary" class="btn btn-primary btn-block">Zaloguj się</button>
-          </div>
-            @if (f.submitted && isLoginFailed) {
-              <div class="alert alert-danger" role="alert">
-                Logowanie nie powiodło się: {{ errorMessage }}
-              </div>
-            }
-        </form>
-      } @else {
-        <div class="alert alert-success">Zalogowano jako {{ roles }}.</div>
+          Zaloguj się
+        </button>
+      </div>
+      @if (f.submitted && isLoginFailed) {
+      <div class="alert alert-danger" role="alert">
+        Logowanie nie powiodło się: {{ errorMessage }}
+      </div>
       }
-    </mat-card-content>
-  </mat-card>
+    </form>
+    } @else {
+    <div class="alert alert-success">Zalogowano jako {{ roles }}.</div>
+    }
+  </mat-card-content>
+</mat-card>

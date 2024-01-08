@@ -1,34 +1,46 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {StorageService} from "../../services/storage.service";
-import {FormsModule} from "@angular/forms";
-import { ReactiveFormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { StorageService } from '../../services/storage.service';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login-view',
   standalone: true,
-  imports: [ FormsModule, CommonModule, HttpClientModule, MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule ],
+  imports: [
+    FormsModule,
+    CommonModule,
+    HttpClientModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+  ],
   templateUrl: './login-view.component.html',
   styleUrl: './login-view.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginViewComponent implements OnInit {
   form: any = {
     username: null,
-    password: null
+    password: null,
   };
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
 
-  constructor(private authService: AuthService, private storageService: StorageService) { }
+  constructor(
+    private authService: AuthService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -41,7 +53,7 @@ export class LoginViewComponent implements OnInit {
     const { username, password } = this.form;
 
     this.authService.login(username, password).subscribe({
-      next: data => {
+      next: (data) => {
         this.storageService.saveUser(data);
 
         this.isLoginFailed = false;
@@ -49,10 +61,10 @@ export class LoginViewComponent implements OnInit {
         this.roles = this.storageService.getUser().roles;
         this.reloadPage();
       },
-      error: err => {
+      error: (err) => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
-      }
+      },
     });
   }
 
