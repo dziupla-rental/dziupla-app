@@ -66,6 +66,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "host": "dziupla.local"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
