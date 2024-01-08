@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy,   ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { EntryListComponent } from '../entry-list/entry-list.component';
-import { EmployeeDetailsComponent, PersonData } from './employee-details/employee-details.component';
+import {
+  EmployeeDetailsComponent,
+  PersonData,
+} from './employee-details/employee-details.component';
 
 export interface ListingRecord {
   name: string;
@@ -28,8 +35,8 @@ export interface ManagementData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementViewComponent {
-  personResponse? : PersonData;
-  
+  personResponse?: PersonData;
+
   responseData?: ManagementData = {
     employees: [
       { name: 'John Deere', id: 1 },
@@ -57,22 +64,22 @@ export class ManagementViewComponent {
     positions: ['Mechanik', 'Kierowca', 'Sprzedawca', 'Właściciel'],
   };
 
-  constructor(    private readonly _cdRef: ChangeDetectorRef){}
+  constructor(private readonly _cdRef: ChangeDetectorRef) {}
 
-  selectEntry(id: number){
+  selectEntry(id: number) {
     this.personResponse = {
-      first_name: this.personResponse?.first_name||'',
-      last_name: "Gomez",
-      position: "Mechanik",
+      first_name: this.personResponse?.first_name || '',
+      last_name: 'Gomez',
+      position: 'Mechanik',
       id: id,
-      salary: 12.30,
-      shift_start: "08:00",
-      shift_end: "20:00",
-      office: "Gliwice",
-    }
+      salary: 12.3,
+      shift_start: '08:00',
+      shift_end: '20:00',
+      office: 'Gliwice',
+    };
   }
-  modifyEmployee(employee: PersonData){
-    console.log("mg view", employee);
-    this.personResponse = {...employee};
+  modifyEmployee(employee: PersonData) {
+    console.log('mg view', employee);
+    this.personResponse = { ...employee };
   }
 }

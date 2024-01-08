@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { ListingRecord } from '../management-view/management-view.component';
 import { MatTableModule } from '@angular/material/table';
@@ -19,14 +26,14 @@ export class EntryListComponent implements OnChanges {
 
   @Output() selectionEmitter = new EventEmitter<number>();
 
-  displayedColumns: string[] = [ 'name', 'id'];
+  displayedColumns: string[] = ['name', 'id'];
   dataSource = PLACEHOLDER_DATA;
   ngOnChanges(): void {
     if (this.entries) {
       this.dataSource = this.entries;
     }
   }
-  clicked(id: number):void {
+  clicked(id: number): void {
     this.selectionEmitter.emit(id);
   }
 }
