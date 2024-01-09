@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { Vehicle } from '../../../model/external/vehicle';
 import { MatCardModule } from '@angular/material/card';
@@ -23,12 +25,16 @@ const MATERIALS = [MatCardModule, MatIconModule, MatButtonModule];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehicleCardComponent implements OnInit {
-  @Input() vehicle!: Vehicle;
+  @Input() vehicle?: Vehicle;
+  @Input() isShowButton: boolean = true;
+
+  @Output() vehicleSelected: EventEmitter<Vehicle> = new EventEmitter();
 
   chips: VehicleChip[] = [];
   constructor() {}
 
   ngOnInit(): void {
+    if (!this.vehicle) return;
     this.chips = [
       {
         icon: 'directions_car',
@@ -47,5 +53,9 @@ export class VehicleCardComponent implements OnInit {
         text: this.vehicle.isAvailable ? 'Dostępny' : 'Niedostępny',
       },
     ];
+  }
+
+  onOrderClick(): void {
+    this.vehicleSelected.emit(this.vehicle);
   }
 }
