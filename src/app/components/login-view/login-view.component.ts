@@ -116,7 +116,7 @@ export class LoginViewComponent implements OnInit {
   }
 
   onHomeClick(): void {
-    this._router.navigate(['/']);
+    this._router.navigate(['/']).then(() => {});
   }
 }
 
@@ -144,6 +144,6 @@ export class SuccessfulLoginDialog {
 
   onNoClick(): void {
     this._dialogRef.close();
-    this._router.navigate(['/']);
+    this._router.navigate(['/']).then(() => {});
   }
 }

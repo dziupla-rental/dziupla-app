@@ -17,6 +17,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import {Router} from "@angular/router";
 
 export interface DialogData {
   username: string;
@@ -63,10 +64,6 @@ export class RegisterViewComponent {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.openDialog();
-        // let successSnackBarRef = this.successSnackBar.open('Rejestracja zakończona sukcesem!', 'Zaloguj się');
-        // successSnackBarRef.onAction().subscribe(() => {
-        //   window.location.href = '/login';
-        // });
       },
       error: (err) => {
         this.errorMessage = err.error.message;
@@ -106,11 +103,12 @@ export class RegisterViewComponent {
 export class SuccessfulRegistrationDialog {
   constructor(
     public dialogRef: MatDialogRef<SuccessfulRegistrationDialog>,
+    private readonly _router: Router,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
-    window.location.href = '/login';
+    this._router.navigate(['/login']).then(() => {});
   }
 }
