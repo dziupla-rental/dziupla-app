@@ -113,8 +113,7 @@ export class VehicleFormComponent implements OnInit {
     this.selectedDates = this._vehicleFormService.selectedDates;
 
     if (!this.selectedVehicle) {
-      //this._router.navigate(['vehicle-selection']);
-      return;
+      this._router.navigate(['vehicle-selection']);
     }
     this.form.controls.startDate.setValue(this.selectedDates.startDate);
     this.form.controls.endDate.setValue(this.selectedDates.endDate);
