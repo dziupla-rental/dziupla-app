@@ -1,0 +1,114 @@
+.all {
+  width: 100%;
+  height: calc(100% - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-card {
+  min-width: 575px;
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 90%;
+  max-height: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  width: calc(100% - 48px);
+  height: 50%;
+  gap: 16px;
+  margin: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name,
+.surname {
+  width: 100%;
+}
+
+.datepickers,
+.renter-info {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+}
+
+.renter-info {
+  margin-bottom: -40px;
+}
+
+.extra-option {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.extras,
+.drivers-license {
+  padding: 16px;
+  border: 2px solid #ccc;
+  box-shadow: 5px 8px 21px -11px rgba(66, 68, 90, 1);
+  border-radius: 15px;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agreement-checkbox {
+  margin: 0 16px;
+  font-size: 12px;
+}
+
+.submit-button {
+  width: calc(100% - 32px);
+  margin: 16px 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.price-total {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+@media screen and (max-width: 930px) {
+  .row:first-child {
+    flex-direction: column-reverse;
+    height: fit-content;
+  }
+
+  .row:last-child {
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .datepickers,
+  .renter-info {
+    width: 75%;
+  }
+
+  .renter-info {
+    margin-bottom: 0;
+  }
+}
