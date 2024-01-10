@@ -21,7 +21,7 @@ COPY . .
 RUN npm install
 
 #creating angular build
-RUN npm run-script ng build --configuration=$build_env
+RUN npm run-script ng build -- --configuration=$build_env
 
 #STEP-2 RUN
 #Defining nginx img
