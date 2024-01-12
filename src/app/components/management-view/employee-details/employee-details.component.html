@@ -25,8 +25,8 @@
 <br />
 <b>Płaca: </b>{{ personData.salary }}<br />
 <br />
-<b>Poczatek zmiany: </b>{{ personData.shift_start }}<br />
-<b>Koniec zmiany: </b>{{ personData.shift_end }}<br />
+<b>Poczatek zmiany: </b>{{ personData.shiftStart }}<br />
+<b>Koniec zmiany: </b>{{ personData.shiftEnd }}<br />
 <b>ID: </b>{{ personData.id }}<br />
 
 } @else {
@@ -81,7 +81,7 @@
   <mat-form-field appearance="outline">
     <mat-label><b>Poczatek zmiany</b></mat-label>
     <input
-      formControlName="shift_start"
+      formControlName="shiftStart"
       class="example-right-align"
       type="time"
       matInput
@@ -90,7 +90,7 @@
   <mat-form-field appearance="outline">
     <mat-label><b>Koniec zmiany</b></mat-label>
     <input
-      formControlName="shift_end"
+      formControlName="shiftEnd"
       class="example-right-align"
       type="time"
       matInput

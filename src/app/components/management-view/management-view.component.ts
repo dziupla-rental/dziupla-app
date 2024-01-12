@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -10,6 +11,7 @@ import {
   EmployeeDetailsComponent,
   PersonData,
 } from './employee-details/employee-details.component';
+import { ManagementService } from '../../services/management.service';
 
 export interface ListingRecord {
   name: string;
@@ -17,8 +19,15 @@ export interface ListingRecord {
 }
 export interface ManagementData {
   employees: ListingRecord[];
-  offices: string[];
-  positions: string[];
+  offices?: string[];
+  positions?: string[];
+}
+export interface Employee {
+  email: string;
+  salary: number;
+  shiftStart: string;
+  shiftEnd: string;
+  id: number;
 }
 
 @Component({
@@ -34,7 +43,7 @@ export interface ManagementData {
   styleUrl: './management-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagementViewComponent {
+export class ManagementViewComponent implements OnInit {
   personResponse?: PersonData;
 
   responseData?: ManagementData = {
@@ -64,19 +73,30 @@ export class ManagementViewComponent {
     positions: ['Mechanik', 'Kierowca', 'Sprzedawca', 'Właściciel'],
   };
 
-  constructor(private readonly _cdRef: ChangeDetectorRef) {}
+  constructor(
+    private managementService: ManagementService,
+    private readonly _cdRef: ChangeDetectorRef
+  ) {}
 
   selectEntry(id: number) {
-    this.personResponse = {
-      first_name: this.personResponse?.first_name || '',
-      last_name: 'Gomez',
-      position: 'Mechanik',
-      id: id,
-      salary: 12.3,
-      shift_start: '08:00',
-      shift_end: '20:00',
-      office: 'Gliwice',
-    };
+    this.managementService.getEmployee(id).subscribe((employeeResponse) =>{
+      // employeeResponse.shiftStart = employeeResponse.shiftStart.slice(0,5);
+      // employeeResponse.shiftEnd = employeeResponse.shiftEnd.slice(0,5);
+      this.personResponse = employeeResponse;
+      
+      this._cdRef.markForCheck();
+    });
+  }
+  ngOnInit(): void {
+    this.managementService.getEmployees().subscribe((employeeList) => {
+      this.responseData = {
+        employees: employeeList.map((x: Employee) => ({
+          name: x.email,
+          id: x.id,
+        })),
+      };
+      this._cdRef.markForCheck();
+    });
   }
   modifyEmployee(employee: PersonData) {
     console.log('mg view', employee);

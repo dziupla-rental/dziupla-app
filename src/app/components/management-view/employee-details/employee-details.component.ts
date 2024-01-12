@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -34,8 +35,8 @@ export interface PersonData {
   position: string;
   id: number;
   salary: number;
-  shift_start: string;
-  shift_end: string;
+  shiftStart: string;
+  shiftEnd: string;
   office: string;
 }
 
@@ -64,9 +65,9 @@ export class EmployeeDetailsComponent implements OnChanges {
   @Input() officeList?: string[];
   @Input() positionList?: string[];
   edit: boolean = true;
-  isChecked = true;
+  isChecked = false;
 
-  constructor(private readonly _fb: FormBuilder) {}
+  constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef) {}
   getFormGroup() {
     return this._fb.group({
       first_name: new FormControl(this.personData?.first_name, [
@@ -80,10 +81,10 @@ export class EmployeeDetailsComponent implements OnChanges {
       ]),
       office: new FormControl(this.personData?.office, [Validators.required]),
       salary: new FormControl(this.personData?.salary, [Validators.required]),
-      shift_end: new FormControl(this.personData?.shift_end, [
+      shiftEnd: new FormControl(this.personData?.shiftEnd, [
         Validators.required,
       ]),
-      shift_start: new FormControl(this.personData?.shift_start, [
+      shiftStart: new FormControl(this.personData?.shiftStart, [
         Validators.required,
       ]),
     });
@@ -91,7 +92,9 @@ export class EmployeeDetailsComponent implements OnChanges {
   employeeForm = this.getFormGroup();
   ngOnChanges(changes: SimpleChanges): void {
     this.employeeForm = this.getFormGroup();
+    
   }
+
   delEmployee(): void {}
   modEmployee(): void {
     this.personData = {
@@ -100,8 +103,8 @@ export class EmployeeDetailsComponent implements OnChanges {
       position: this.employeeForm.controls.position.value!,
       id: this.personData?.id || 0,
       salary: Number(this.employeeForm.controls.salary.value!),
-      shift_start: this.employeeForm.controls.shift_start.value!,
-      shift_end: this.employeeForm.controls.shift_end.value!,
+      shiftStart: this.employeeForm.controls.shiftStart.value!,
+      shiftEnd: this.employeeForm.controls.shiftEnd.value!,
       office: this.employeeForm.controls.office.value!,
     };
     this.personEmitter.emit(this.personData);
