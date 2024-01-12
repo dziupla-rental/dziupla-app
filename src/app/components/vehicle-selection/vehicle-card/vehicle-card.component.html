@@ -1,8 +1,8 @@
 <mat-card class="vehicle-card">
   <div class="top">
-    <img class="vehicle-img" [src]="vehicle.photoUrl" alt="Vehicle Image" />
+    <img class="vehicle-img" [src]="vehicle?.photoUrl" alt="Vehicle Image" />
     <mat-card-content class="content">
-      <div class="vehicle-name">{{ vehicle.name }}</div>
+      <div class="vehicle-name">{{ vehicle?.name }}</div>
       <div class="chips">
         @for (chip of chips; track chip.text) {
         <app-car-chip
@@ -14,9 +14,16 @@
       </div>
     </mat-card-content>
   </div>
+  @if (isShowButton) {
   <div class="button-container">
-    <button color="primary" mat-raised-button class="order-button">
+    <button
+      color="primary"
+      mat-raised-button
+      class="order-button"
+      (click)="onOrderClick()"
+    >
       <div class="text">Zamów</div>
     </button>
   </div>
+  }
 </mat-card>
