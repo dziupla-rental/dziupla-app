@@ -6,7 +6,9 @@ import {
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button'
 import { EntryListComponent } from '../entry-list/entry-list.component';
+import {MatIconModule} from '@angular/material/icon';
 import {
   EmployeeDetailsComponent,
   Employee,
@@ -32,6 +34,8 @@ export interface ManagementData {
     FlexLayoutModule,
     EntryListComponent,
     EmployeeDetailsComponent,
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './management-view.component.html',
   styleUrl: './management-view.component.scss',
