@@ -49,6 +49,7 @@ export class AppComponent {
     if (this._storageService.isLoggedIn()) {
       const user = this._storageService.getUser();
       this.roles = user.roles;
+      this.isLoggedIn = true;
 
       //TODO: export roles into enum
       this.isShowOwnerBoard = this.roles.includes('ROLE_OWNER');
