@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { Employee } from '../components/management-view/employee-details/employee-details.component';
+
 
 const EMPLOYEE_API = `${environment.apiUrl}/employee`;
 
@@ -28,7 +30,19 @@ export class ManagementService {
       httpOptions
     );
   }
-
+  putEmployee(emp: Employee): Observable<any> {
+    return this._http.put(
+      EMPLOYEE_API,
+      emp,
+      httpOptions
+    );
+  }
+  deleteEmployee(id: number): Observable<any> {
+    return this._http.delete(
+      `${EMPLOYEE_API}/${String(id)}`,
+      httpOptions
+    );
+  }
 }
 
 

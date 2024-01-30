@@ -25,10 +25,11 @@
 
       <mat-card-content>
         <app-employee-details
-          [positionList]="responseData?.positions"
+          [positionList]="positions"
           [officeList]="responseData?.offices"
           [personData]="personResponse"
-          (personEmitter)="modifyEmployee($event)"
+          (modPersonEmitter)="modifyEmployee($event)"
+          (delPersonEmitter)="deleteEmployee($event)"
         ></app-employee-details>
       </mat-card-content>
     </mat-card>

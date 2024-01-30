@@ -14,13 +14,14 @@
 </h3>
 @if( !isChecked ){
 
-<h1>{{ personData.first_name }} {{ personData.last_name }}</h1>
+<h1>{{ personData.name }} {{ personData.lastName }}</h1>
 
-<h2><b>Biuro:</b>{{ personData.office }}</h2>
+<h2><b>Email:</b>{{ personData.email }}</h2>
 <br />
+<b>Biuro:</b>{{ personData.office }}
 <br />
 
-<b>Posada: </b> {{ personData.position }} <br />
+<b>Posada: </b> {{ personData.role?.replace("ROLE_", '')?.toLocaleLowerCase() }} <br />
 
 <br />
 <b>Płaca: </b>{{ personData.salary }}<br />
@@ -35,15 +36,19 @@
 <form [formGroup]="employeeForm">
   <mat-form-field appearance="outline">
     <mat-label><b>Imię</b></mat-label>
-    <input formControlName="first_name" matInput />
+    <input formControlName="name" matInput />
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label><b>Nazwisko</b></mat-label>
-    <input formControlName="last_name" matInput />
+    <input formControlName="lastName" matInput />
   </mat-form-field>
   <br />
-
+  <mat-form-field appearance="outline">
+    <mat-label><b>Email</b></mat-label>
+    <input formControlName="email" matInput />
+  </mat-form-field>
+  <br />
   <mat-form-field appearance="outline">
     <mat-label><b>Biuro</b></mat-label>
     <mat-select formControlName="office">

@@ -29,15 +29,16 @@ import {
   _MatSlideToggleRequiredValidatorModule,
 } from '@angular/material/slide-toggle';
 
-export interface PersonData {
-  first_name: string;
-  last_name: string;
-  position: string;
+export interface Employee {
+  name: string;
+  lastName: string;
+  role: string;
   id: number;
   salary: number;
   shiftStart: string;
   shiftEnd: string;
   office: string;
+  email: string;
 }
 
 @Component({
@@ -59,8 +60,9 @@ export interface PersonData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeDetailsComponent implements OnChanges {
-  @Output() personEmitter = new EventEmitter<PersonData>();
-  @Input() personData?: PersonData;
+  @Output() modPersonEmitter = new EventEmitter<Employee>();
+  @Output() delPersonEmitter = new EventEmitter<Employee>();
+  @Input() personData?: Employee;
 
   @Input() officeList?: string[];
   @Input() positionList?: string[];
@@ -70,13 +72,13 @@ export class EmployeeDetailsComponent implements OnChanges {
   constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef) {}
   getFormGroup() {
     return this._fb.group({
-      first_name: new FormControl(this.personData?.first_name, [
+      lastName: new FormControl(this.personData?.lastName, [
         Validators.required,
       ]),
-      last_name: new FormControl(this.personData?.last_name, [
+      name: new FormControl(this.personData?.name, [
         Validators.required,
       ]),
-      position: new FormControl(this.personData?.position, [
+      position: new FormControl(this.personData?.role, [
         Validators.required,
       ]),
       office: new FormControl(this.personData?.office, [Validators.required]),
@@ -87,6 +89,9 @@ export class EmployeeDetailsComponent implements OnChanges {
       shiftStart: new FormControl(this.personData?.shiftStart, [
         Validators.required,
       ]),
+      email: new FormControl(this.personData?.email, [
+        Validators.required,
+      ]),
     });
   }
   employeeForm = this.getFormGroup();
@@ -95,19 +100,24 @@ export class EmployeeDetailsComponent implements OnChanges {
     
   }
 
-  delEmployee(): void {}
+  delEmployee(): void {
+    this.delPersonEmitter.emit(this.personData);
+    this.isChecked = false;
+    this.personData = undefined;
+  }
   modEmployee(): void {
     this.personData = {
-      first_name: this.employeeForm.controls.first_name.value!,
-      last_name: this.employeeForm.controls.last_name.value!,
-      position: this.employeeForm.controls.position.value!,
+      name: this.employeeForm.controls.name.value!,
+      lastName: this.employeeForm.controls.lastName.value!,
+      role: this.employeeForm.controls.position.value!,
       id: this.personData?.id || 0,
       salary: Number(this.employeeForm.controls.salary.value!),
       shiftStart: this.employeeForm.controls.shiftStart.value!,
       shiftEnd: this.employeeForm.controls.shiftEnd.value!,
       office: this.employeeForm.controls.office.value!,
+      email: this.employeeForm.controls.email.value!,
     };
-    this.personEmitter.emit(this.personData);
+    this.modPersonEmitter.emit(this.personData);
     this.isChecked = false;
   }
 }

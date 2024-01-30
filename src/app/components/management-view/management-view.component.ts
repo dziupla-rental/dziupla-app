@@ -9,7 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { EntryListComponent } from '../entry-list/entry-list.component';
 import {
   EmployeeDetailsComponent,
-  PersonData,
+  Employee,
 } from './employee-details/employee-details.component';
 import { ManagementService } from '../../services/management.service';
 
@@ -22,13 +22,7 @@ export interface ManagementData {
   offices?: string[];
   positions?: string[];
 }
-export interface Employee {
-  email: string;
-  salary: number;
-  shiftStart: string;
-  shiftEnd: string;
-  id: number;
-}
+
 
 @Component({
   selector: 'app-management-view',
@@ -44,8 +38,15 @@ export interface Employee {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementViewComponent implements OnInit {
-  personResponse?: PersonData;
-
+  personResponse?: Employee;
+  positions:string[] = [
+    'ROLE_USER',
+    'ROLE_MODERATOR',
+    'ROLE_ADMIN',
+    'ROLE_EMPLOYEE',
+    'ROLE_EMPLOYEE_HR',
+    'ROLE_EMPLOYEE_MECHANIC',
+  ];
   responseData?: ManagementData = {
     employees: [
       { name: 'John Deere', id: 1 },
@@ -70,7 +71,7 @@ export class ManagementViewComponent implements OnInit {
       { name: 'Adam Małysz', id: 4 },
     ],
     offices: ['Gliwice', 'Warszawa', 'Katowice'],
-    positions: ['Mechanik', 'Kierowca', 'Sprzedawca', 'Właściciel'],
+
   };
 
   constructor(
@@ -79,11 +80,11 @@ export class ManagementViewComponent implements OnInit {
   ) {}
 
   selectEntry(id: number) {
-    this.managementService.getEmployee(id).subscribe((employeeResponse) =>{
+    this.managementService.getEmployee(id).subscribe((employeeResponse) => {
       // employeeResponse.shiftStart = employeeResponse.shiftStart.slice(0,5);
       // employeeResponse.shiftEnd = employeeResponse.shiftEnd.slice(0,5);
       this.personResponse = employeeResponse;
-      
+
       this._cdRef.markForCheck();
     });
   }
@@ -91,15 +92,30 @@ export class ManagementViewComponent implements OnInit {
     this.managementService.getEmployees().subscribe((employeeList) => {
       this.responseData = {
         employees: employeeList.map((x: Employee) => ({
-          name: x.email,
+          name: x.name+' '+x.lastName,
           id: x.id,
         })),
       };
       this._cdRef.markForCheck();
     });
   }
-  modifyEmployee(employee: PersonData) {
+  modifyEmployee(employee: Employee) {
     console.log('mg view', employee);
-    this.personResponse = { ...employee };
+    this.managementService.putEmployee(employee).subscribe((employeeResponse) => {
+      this.personResponse = employeeResponse;
+
+      this._cdRef.markForCheck();
+    });
+
+  }
+  deleteEmployee(employee: Employee) {
+    console.log('mg delete', employee);
+    this.managementService.deleteEmployee(employee.id).subscribe((employeeResponse) => {
+      console.log(employeeResponse);
+
+      this._cdRef.markForCheck();
+      this.ngOnInit(); // this updates the list, it's should probably be done some other way :3
+    });
+
   }
 }
