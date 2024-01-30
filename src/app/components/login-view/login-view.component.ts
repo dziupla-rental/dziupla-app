@@ -144,6 +144,7 @@ export class SuccessfulLoginDialog {
 
   onNoClick(): void {
     this._dialogRef.close();
-    this._router.navigate(['/']).then(() => {});
+    // Forcing a refresh. to see the logout buttons
+    this._router.navigate(['/']).then(() => {window.location.reload();});
   }
 }
