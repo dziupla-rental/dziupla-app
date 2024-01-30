@@ -26,7 +26,7 @@ const MATERIALS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private roles: string[] = [];
+  private role: string = "";
   isLoggedIn = false;
   isShowOwnerBoard = false;
   isShowManagementBoard = false;
@@ -48,12 +48,12 @@ export class AppComponent {
   ngOnInit(): void {
     if (this._storageService.isLoggedIn()) {
       const user = this._storageService.getUser();
-      this.roles = user.roles;
+      this.role = user.role;
       this.isLoggedIn = true;
 
       //TODO: export roles into enum
-      this.isShowOwnerBoard = this.roles.includes('ROLE_OWNER');
-      this.isShowManagementBoard = this.roles.includes('ROLE_MANAGER');
+      this.isShowOwnerBoard = this.role.includes('ROLE_OWNER');
+      this.isShowManagementBoard = this.role.includes('ROLE_MANAGER');
 
       this.username = user.username;
     }

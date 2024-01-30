@@ -63,7 +63,7 @@ export class LoginViewComponent implements OnInit {
   isLoginFailed = false;
 
   errorMessage = '';
-  roles: string[] = [];
+  role: string = "";
 
   constructor(
     private readonly _snackBar: MatSnackBar,
@@ -78,7 +78,7 @@ export class LoginViewComponent implements OnInit {
   ngOnInit(): void {
     if (this._storageService.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.roles = this._storageService.getUser().roles;
+      this.role = this._storageService.getUser().role;
     }
   }
 
@@ -94,7 +94,7 @@ export class LoginViewComponent implements OnInit {
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-          this.roles = this._storageService.getUser().roles;
+          this.role = this._storageService.getUser().role;
           this.openDialog();
         },
         error: (err) => {
