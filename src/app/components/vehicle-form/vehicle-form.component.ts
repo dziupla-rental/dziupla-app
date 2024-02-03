@@ -85,9 +85,9 @@ export class VehicleFormComponent implements OnInit {
       isSelected: false,
     },
     {
-      name: 'Ruchanie twojej starej na tylnym siedzeniu',
-      formLabel: 'test',
-      price: 6900,
+      name: 'Zatankowanie',
+      formLabel: 'refuel',
+      price: 50,
       isExtraInfoRequired: false,
       extraInfo: '',
       isSelected: false,
