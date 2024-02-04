@@ -75,4 +75,9 @@ export class OfficeViewComponent {
       this.fetchOffices();
     });
   }
+  deleteOffice(office: Office):  void {
+    this.officeService.deleteOffice(office.id).pipe(takeUntil(this._destroy$)).subscribe(() => {
+      this.fetchOffices();
+    });
+  }
 }

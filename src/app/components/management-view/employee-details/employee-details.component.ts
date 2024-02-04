@@ -40,6 +40,7 @@ import {
 import { Router } from '@angular/router';
 import { DialogData } from '../../register-view/register-view.component';
 import { Office } from '../../office-view/office-view.component';
+import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 
 export interface Employee {
   name: string;
@@ -134,8 +135,8 @@ export class EmployeeDetailsComponent implements OnChanges {
   }
 
   openDeleteDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {
-      data: { username: this.personData?.name },
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      data: { name: this.personData?.name, title:'pracownika' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -147,29 +148,3 @@ export class EmployeeDetailsComponent implements OnChanges {
   }
 }
 
-@Component({
-  selector: 'confirm-delete-dialog',
-  templateUrl: 'confirm-delete-dialog.html',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-  ],
-})
-export class ConfirmDeleteDialog {
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmDeleteDialog>,
-    private readonly _router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}

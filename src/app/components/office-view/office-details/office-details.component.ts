@@ -22,6 +22,7 @@ import {
   MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialog,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,6 +32,7 @@ import {
   MatSlideToggleModule,
   _MatSlideToggleRequiredValidatorModule,
 } from '@angular/material/slide-toggle';
+import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-office-details',
@@ -54,9 +56,11 @@ export class OfficeDetailsComponent implements OnChanges {
   @Input() office?: Office;
   @Input() isChecked = false;
   @Output() modOfficeEmitter = new EventEmitter<Office>();
+  @Output() delOfficeEmitter = new EventEmitter<Office>();
   constructor(
     private readonly _cdRef: ChangeDetectorRef,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    public dialog: MatDialog
   ) {}
 
   getFormGroup() {
@@ -69,7 +73,18 @@ export class OfficeDetailsComponent implements OnChanges {
     this.officeForm = this.getFormGroup();
   }
 
-  openDeleteDialog() {}
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      data: { name: this.office?.location, title:'biura' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.delOffice();
+      }
+      this.dialog.closeAll();
+    });
+  }
   modOffice() {
     this.office = {
       location: this.officeForm.controls.location.value!,
@@ -77,6 +92,15 @@ export class OfficeDetailsComponent implements OnChanges {
     };
     this.modOfficeEmitter.emit(this.office);
     this.isChecked = false;
+  }
+
+  delOffice(){
+    this.office = {
+      location: this.officeForm.controls.location.value!,
+      id: this.office?.id || 0,
+    };
+    this.delOfficeEmitter.emit(this.office);
+    this.office = undefined;
   }
 }
 

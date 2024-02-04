@@ -29,6 +29,8 @@
         [isChecked]="askForEdit"
         [office]="officeResponse"
         (modOfficeEmitter)="modifyOffice($event)"
+        (delOfficeEmitter)="deleteOffice($event)"
+
         ></app-office-details>
       </mat-card-content>
     </mat-card>
