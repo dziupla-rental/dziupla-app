@@ -1,0 +1,38 @@
+@if(!office){ Proszę wybrać biuro z listy
+    <mat-icon
+      id="missingData"
+      aria-hidden="false"
+      fontIcon="domain"
+    ></mat-icon>
+    
+} @else {
+    <h3 id="edit-toggle">
+        Edycja:<mat-slide-toggle
+          color="accent"
+          [(ngModel)]="isChecked"
+        ></mat-slide-toggle>
+      </h3>
+
+
+    @if( !isChecked ){
+    <h2>Lokalizacja: {{office.location}}</h2>
+    } @else{
+        <br/>
+        <form [formGroup]="officeForm">
+        <mat-form-field appearance="outline">
+            <mat-label><b>Lokalizacja</b></mat-label>
+            <input formControlName="location" [value]="office.location" matInput />
+          </mat-form-field>
+        </form>
+        <br />
+        <b>ID: </b>{{ office.id }}<br />
+        <div class="save-controls">
+          <button mat-raised-button color="warn" (click)="openDeleteDialog()">
+            <h5>Usuń biuro</h5>
+          </button>
+          <button mat-raised-button color="primary" (click)="modOffice()">
+            <h5>Zapisz zmiany</h5>
+          </button>
+        </div>
+    }
+} 

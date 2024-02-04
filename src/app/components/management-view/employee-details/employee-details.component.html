@@ -18,7 +18,7 @@
 
 <h2><b>Email:</b>{{ personData.email }}</h2>
 <br />
-<b>Biuro:</b>{{ personData.office }}
+<b>Biuro:</b>{{ personData.office?.location }}
 <br />
 
 <b>Posada: </b>
@@ -54,7 +54,7 @@
     <mat-label><b>Biuro</b></mat-label>
     <mat-select formControlName="office">
       @for (office of officeList; track office) {
-      <mat-option [value]="office">{{ office }}</mat-option>
+      <mat-option [value]="office.location">{{ office.location }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
