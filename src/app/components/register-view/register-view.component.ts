@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -40,6 +40,9 @@ export interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterViewComponent {
+  @Input() endpoint?: string;
+  @Input() title?: string = 'Rejestracja użytkownika';
+  @Output() successEmitter = new EventEmitter<string>();
   form: any = {
     username: null,
     email: null,
@@ -58,7 +61,7 @@ export class RegisterViewComponent {
   onSubmit(): void {
     const { username, email, password } = this.form;
 
-    this.authService.register(username, email, password).subscribe({
+    this.authService.register(username, email, password, this.endpoint).subscribe({
       next: (data) => {
         console.log(data);
         this.isSuccessful = true;
@@ -80,6 +83,7 @@ export class RegisterViewComponent {
 
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
+      this.successEmitter.emit(this.form.username);
       this.dialog.closeAll();
     });
   }

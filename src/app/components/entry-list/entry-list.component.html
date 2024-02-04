@@ -28,6 +28,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <button id="addEntry" (click)="addEntry()"mat-fab color="primary" aria-label="add a new employee">
+    <mat-icon>plus_one</mat-icon>
+  </button>
 </div>
 
 } @else {

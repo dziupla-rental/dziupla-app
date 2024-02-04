@@ -67,7 +67,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   @Input() officeList?: string[];
   @Input() positionList?: string[];
   edit: boolean = true;
-  isChecked = false;
+  @Input() isChecked = false;
 
   constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef) {}
   getFormGroup() {
@@ -102,7 +102,6 @@ export class EmployeeDetailsComponent implements OnChanges {
 
   delEmployee(): void {
     this.delPersonEmitter.emit(this.personData);
-    this.isChecked = false;
     this.personData = undefined;
   }
   modEmployee(): void {

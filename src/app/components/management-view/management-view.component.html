@@ -15,11 +15,10 @@
           name_header="Imię i nazwisko"
           [entries]="responseData?.employees"
           (selectionEmitter)="selectEntry($event)"
+          (creationEmitter)="createEmployee()"
         ></app-entry-list>
       </mat-card-content>
-      <button id="addEmp" mat-fab color="primary" aria-label="add a new employee">
-        <mat-icon>plus_one</mat-icon>
-      </button>
+      
     </mat-card>
     <mat-card fxFlex="50" fxFlexOrder="2" fxFlexOrder.xs="1">
       <mat-card-header>
@@ -31,10 +30,25 @@
           [positionList]="positions"
           [officeList]="responseData?.offices"
           [personData]="personResponse"
+          [isChecked]="askForEdit"
           (modPersonEmitter)="modifyEmployee($event)"
           (delPersonEmitter)="deleteEmployee($event)"
         ></app-employee-details>
       </mat-card-content>
     </mat-card>
+    @if(this.addNew){
+      <div id="registerBox">
+      <app-register-view 
+        [endpoint]="'employee'" 
+        [title]="'Zarejestruj pracownika'" 
+        (successEmitter)="registered($event)"  
+      >
+      
+    </app-register-view>
+    <button id="cancel" (click)="createEmployeeCancel()"mat-fab color="warn" aria-label="add a new employee">
+      <mat-icon>cancel</mat-icon>
+    </button>
+      </div>
+    }
   </div>
 </div>
