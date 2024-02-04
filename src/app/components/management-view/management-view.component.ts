@@ -17,6 +17,7 @@ import {
   RegisterViewComponent,
 } from '../register-view/register-view.component';
 import { ManagementService } from '../../services/management.service';
+import { Subject, takeUntil } from 'rxjs';
 
 export interface ListingRecord {
   name: string;
@@ -45,6 +46,7 @@ export interface ManagementData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementViewComponent implements OnInit {
+  private readonly _destroy$ = new Subject<void>();
   addNew: boolean = false;
   askForEdit: boolean = false;
   personResponse?: Employee;
@@ -64,7 +66,7 @@ export class ManagementViewComponent implements OnInit {
   ) {}
 
   selectEntry(id: number) {
-    this.managementService.getEmployee(id).subscribe((employeeResponse) => {
+    this.managementService.getEmployee(id).pipe(takeUntil(this._destroy$)).subscribe((employeeResponse) => {
       this.personResponse = employeeResponse;
 
       this._cdRef.markForCheck();

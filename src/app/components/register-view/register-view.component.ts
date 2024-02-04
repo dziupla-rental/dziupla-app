@@ -26,6 +26,7 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Employee } from '../management-view/employee-details/employee-details.component';
+import { Subject, takeUntil } from 'rxjs';
 
 export interface DialogData {
   username: string;
@@ -48,6 +49,7 @@ export interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterViewComponent {
+  private readonly _destroy$ = new Subject<void>();
   @Input() endpoint?: string;
   @Input() title?: string = 'Rejestracja użytkownika';
   @Output() successEmitter = new EventEmitter<Employee | null>();
@@ -71,6 +73,7 @@ export class RegisterViewComponent {
 
     this.authService
       .register(username, email, password, this.endpoint)
+      .pipe(takeUntil(this._destroy$))
       .subscribe({
         next: (data) => {
           console.log(data);

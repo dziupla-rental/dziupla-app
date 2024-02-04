@@ -39,8 +39,8 @@
     <div id="darkness" (click)="createEmployeeCancel()"></div>
     <div id="registerBox">
       <app-register-view
-        [endpoint]="'employee'"
-        [title]="'Zarejestruj pracownika'"
+        endpoint="employee"
+        title="Zarejestruj pracownika"
         (successEmitter)="registered($event)"
       >
       </app-register-view>
