@@ -18,7 +18,6 @@
           (creationEmitter)="createEmployee()"
         ></app-entry-list>
       </mat-card-content>
-      
     </mat-card>
     <mat-card fxFlex="50" fxFlexOrder="2" fxFlexOrder.xs="1">
       <mat-card-header>
@@ -37,20 +36,25 @@
       </mat-card-content>
     </mat-card>
     @if(this.addNew){
-      <div id="darkness" (click)="createEmployeeCancel()" ></div>
-      <div id="registerBox">
-          <app-register-view 
-            [endpoint]="'employee'" 
-            [title]="'Zarejestruj pracownika'" 
-            (successEmitter)="registered($event)"  
-          >
-          
-        </app-register-view>
-        <button id="cancel" (click)="createEmployeeCancel()"mat-fab color="warn" aria-label="add a new employee">
-          <mat-icon>cancel</mat-icon>
-        </button>
-          </div>
-      
+    <div id="darkness" (click)="createEmployeeCancel()"></div>
+    <div id="registerBox">
+      <app-register-view
+        [endpoint]="'employee'"
+        [title]="'Zarejestruj pracownika'"
+        (successEmitter)="registered($event)"
+      >
+      </app-register-view>
+      <button
+        id="cancel"
+        (click)="createEmployeeCancel()"
+        mat-fab
+        color="warn"
+        aria-label="add a new employee"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+
     }
   </div>
 </div>

@@ -30,7 +30,15 @@ import {
   MatSlideToggleModule,
   _MatSlideToggleRequiredValidatorModule,
 } from '@angular/material/slide-toggle';
-import { MatDialogTitle, MatDialogContent, MatDialog, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogData } from '../../register-view/register-view.component';
 
@@ -74,18 +82,18 @@ export class EmployeeDetailsComponent implements OnChanges {
   edit: boolean = true;
   @Input() isChecked = false;
 
-  constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef,    public dialog: MatDialog) {}
+  constructor(
+    private readonly _fb: FormBuilder,
+    private readonly _cdRef: ChangeDetectorRef,
+    public dialog: MatDialog
+  ) {}
   getFormGroup() {
     return this._fb.group({
       lastName: new FormControl(this.personData?.lastName, [
         Validators.required,
       ]),
-      name: new FormControl(this.personData?.name, [
-        Validators.required,
-      ]),
-      position: new FormControl(this.personData?.role, [
-        Validators.required,
-      ]),
+      name: new FormControl(this.personData?.name, [Validators.required]),
+      position: new FormControl(this.personData?.role, [Validators.required]),
       office: new FormControl(this.personData?.office, [Validators.required]),
       salary: new FormControl(this.personData?.salary, [Validators.required]),
       shiftEnd: new FormControl(this.personData?.shiftEnd, [
@@ -94,15 +102,12 @@ export class EmployeeDetailsComponent implements OnChanges {
       shiftStart: new FormControl(this.personData?.shiftStart, [
         Validators.required,
       ]),
-      email: new FormControl(this.personData?.email, [
-        Validators.required,
-      ]),
+      email: new FormControl(this.personData?.email, [Validators.required]),
     });
   }
   employeeForm = this.getFormGroup();
   ngOnChanges(changes: SimpleChanges): void {
     this.employeeForm = this.getFormGroup();
-    
   }
 
   delEmployee(): void {
@@ -131,11 +136,12 @@ export class EmployeeDetailsComponent implements OnChanges {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if(result) {this.delEmployee();}
+      if (result) {
+        this.delEmployee();
+      }
       this.dialog.closeAll();
     });
   }
-
 }
 
 @Component({
