@@ -1,0 +1,32 @@
+.layoutBox-v {
+  margin: 1%;
+  height: 88%;
+}
+.layoutBox-h {
+  height: 100%;
+}
+mat-card-content {
+  overflow-y: scroll;
+}
+#registerBox{
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+#cancel {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: translate(50%, 0%) ;
+  z-index: 2000;
+}
+#darkness {
+  position: absolute;
+  z-index: 500;
+  background: black;
+  opacity: 75%;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+}

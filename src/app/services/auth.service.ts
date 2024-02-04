@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { Employee } from '../components/management-view/employee-details/employee-details.component';
 
 const AUTH_API = `${environment.apiUrl}/auth/`;
 
@@ -30,9 +31,9 @@ export class AuthService {
   }
 
   //TODO: add type
-  register(username: string, email: string, password: string): Observable<any> {
-    return this._http.post(
-      AUTH_API + 'signup',
+  register(username: string, email: string, password: string, endpoint?: string): Observable<Employee|null> {
+    return this._http.post<Employee|null>(
+      AUTH_API + 'signup' + (endpoint ? `/${endpoint}`: ''),
       {
         username,
         email,
@@ -46,4 +47,6 @@ export class AuthService {
   logout(): Observable<any> {
     return this._http.post(AUTH_API + 'signout', {}, httpOptions);
   }
+
+
 }

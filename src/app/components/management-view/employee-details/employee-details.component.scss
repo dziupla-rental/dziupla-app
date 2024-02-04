@@ -1,0 +1,26 @@
+#missingData {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(7, 7);
+}
+.example-right-align {
+  text-align: right;
+}
+#edit-toggle {
+  position: absolute;
+  right: 5%;
+}
+.save-controls {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.details-container {
+  min-height: 70vh;
+  background: red;
+}
+button {
+  margin: 10px;
+  padding: 10px;
+}

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,7 +24,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { Employee } from '../management-view/employee-details/employee-details.component';
+import { Subject, takeUntil } from 'rxjs';
 
 export interface DialogData {
   username: string;
@@ -40,6 +49,10 @@ export interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterViewComponent {
+  private readonly _destroy$ = new Subject<void>();
+  @Input() endpoint?: string;
+  @Input() title?: string = 'Rejestracja użytkownika';
+  @Output() successEmitter = new EventEmitter<Employee | null>();
   form: any = {
     username: null,
     email: null,
@@ -58,19 +71,25 @@ export class RegisterViewComponent {
   onSubmit(): void {
     const { username, email, password } = this.form;
 
-    this.authService.register(username, email, password).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.openDialog();
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-        this._snackBar.open('Błąd rejestracji: ' + this.errorMessage, '❌');
-      },
-    });
+    this.authService
+      .register(username, email, password, this.endpoint)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isSuccessful = true;
+          this.isSignUpFailed = false;
+          this.successEmitter.emit(data);
+          if (!this.endpoint) {
+            this.openDialog();
+          }
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message;
+          this.isSignUpFailed = true;
+          this._snackBar.open('Błąd rejestracji: ' + this.errorMessage, '❌');
+        },
+      });
   }
 
   openDialog(): void {
