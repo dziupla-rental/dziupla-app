@@ -17,5 +17,16 @@ mat-card-content {
 #cancel {
   position: absolute;
   top: 0px;
+  right: 0px;
+  transform: translate(50%, 0%) ;
   z-index: 2000;
+}
+#darkness {
+  position: absolute;
+  z-index: 500;
+  background: black;
+  opacity: 75%;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
 }

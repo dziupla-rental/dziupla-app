@@ -37,18 +37,20 @@
       </mat-card-content>
     </mat-card>
     @if(this.addNew){
+      <div id="darkness" (click)="createEmployeeCancel()" ></div>
       <div id="registerBox">
-      <app-register-view 
-        [endpoint]="'employee'" 
-        [title]="'Zarejestruj pracownika'" 
-        (successEmitter)="registered($event)"  
-      >
+          <app-register-view 
+            [endpoint]="'employee'" 
+            [title]="'Zarejestruj pracownika'" 
+            (successEmitter)="registered($event)"  
+          >
+          
+        </app-register-view>
+        <button id="cancel" (click)="createEmployeeCancel()"mat-fab color="warn" aria-label="add a new employee">
+          <mat-icon>cancel</mat-icon>
+        </button>
+          </div>
       
-    </app-register-view>
-    <button id="cancel" (click)="createEmployeeCancel()"mat-fab color="warn" aria-label="add a new employee">
-      <mat-icon>cancel</mat-icon>
-    </button>
-      </div>
     }
   </div>
 </div>

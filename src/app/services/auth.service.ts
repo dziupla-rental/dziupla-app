@@ -31,8 +31,8 @@ export class AuthService {
   }
 
   //TODO: add type
-  register(username: string, email: string, password: string, endpoint?: string): Observable<any> {
-    return this._http.post(
+  register(username: string, email: string, password: string, endpoint?: string): Observable<Employee|null> {
+    return this._http.post<Employee|null>(
       AUTH_API + 'signup' + (endpoint ? `/${endpoint}`: ''),
       {
         username,

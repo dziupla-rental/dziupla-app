@@ -96,7 +96,7 @@ export class ManagementViewComponent implements OnInit {
       this._cdRef.markForCheck();
     });
   }
-  ngOnInit(): void {
+  fetchEmployees(){
     this.managementService.getEmployees().subscribe((employeeList) => {
       this.responseData = {
         employees: employeeList.map((x: Employee) => ({
@@ -115,13 +115,16 @@ export class ManagementViewComponent implements OnInit {
       this._cdRef.markForCheck();
     });
   }
+  ngOnInit(): void {
+    this.fetchEmployees();
+  }
   modifyEmployee(employee: Employee) {
     console.log('mg view', employee);
     this.askForEdit = false;
     this.managementService.putEmployee(employee).subscribe((employeeResponse) => {
       this.personResponse = employeeResponse;
 
-      this.ngOnInit();
+      this.fetchEmployees();
     });
 
   }
@@ -130,7 +133,7 @@ export class ManagementViewComponent implements OnInit {
 
     this.managementService.deleteEmployee(employee.id).subscribe((employeeResponse) => {
       console.log(employeeResponse);
-      this.ngOnInit(); // this updates the list, it's should probably be done some other way :3
+      this.fetchEmployees(); // this updates the list, it's should probably be done some other way :3
     });
 
   }
@@ -146,7 +149,7 @@ export class ManagementViewComponent implements OnInit {
   }
   registered(username: string){
     console.log('new employee', username);
-    this.ngOnInit();
+    this.fetchEmployees();
   }
   
 }
