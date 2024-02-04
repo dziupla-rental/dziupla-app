@@ -52,8 +52,8 @@ export class AppComponent {
       this.isLoggedIn = true;
 
       //TODO: export roles into enum
-      this.isShowOwnerBoard = this.role.includes('ROLE_OWNER');
-      this.isShowManagementBoard = this.role.includes('ROLE_MANAGER');
+      this.isShowOwnerBoard = this.role == 'ROLE_OWNER';
+      this.isShowManagementBoard = this.role == 'ROLE_OWNER';
 
       this.username = user.username;
     }
