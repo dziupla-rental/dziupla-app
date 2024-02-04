@@ -95,12 +95,12 @@ export class ManagementViewComponent implements OnInit {
         })),
       };
       if (this.addNew) {
-        // while adding a new employee we want to load the new entry into details editor
-        const newId: number | undefined =
-          this.responseData?.employees?.pop()?.id; // pop is fine since we don't want to display the null null fella
-        if (newId) {
-          this.selectEntry(newId);
-        }
+        // // while adding a new employee we want to load the new entry into details editor
+        // const newId: number | undefined =
+        //   this.responseData?.employees?.pop()?.id; // pop is fine since we don't want to display the null null fella
+        // if (newId) {
+        //   this.selectEntry(newId);
+        // }
         this.addNew = false;
         this.askForEdit = true;
       }
@@ -132,7 +132,7 @@ export class ManagementViewComponent implements OnInit {
       });
   }
   createEmployee() {
-    // TODO signup dialog then open new employee in details view
+
     console.log('adding new employee');
     this.addNew = true;
   }
@@ -142,6 +142,9 @@ export class ManagementViewComponent implements OnInit {
   }
   registered(employee: Employee | null) {
     console.log('new employee', employee);
+    if(employee){
+      this.personResponse = employee;
+    }
     this.fetchEmployees();
   }
 }
