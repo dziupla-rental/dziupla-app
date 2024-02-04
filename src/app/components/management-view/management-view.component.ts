@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   OnInit,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -13,8 +14,13 @@ import {
   EmployeeDetailsComponent,
   Employee,
 } from './employee-details/employee-details.component';
-import { RegisterViewComponent } from '../register-view/register-view.component';
+import { DialogData, RegisterViewComponent } from '../register-view/register-view.component';
 import { ManagementService } from '../../services/management.service';
+import { FormsModule } from '@angular/forms';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 export interface ListingRecord {
   name: string;
@@ -55,32 +61,7 @@ export class ManagementViewComponent implements OnInit {
     'ROLE_EMPLOYEE_HR',
     'ROLE_EMPLOYEE_MECHANIC',
   ];
-  responseData?: ManagementData = {
-    employees: [
-      { name: 'John Deere', id: 1 },
-      { name: 'Jan Paweł 2', id: 2 },
-      { name: 'Zbigniew Wodecki', id: 3 },
-      { name: 'Adam Małysz', id: 4 },
-      { name: 'John Deere', id: 1 },
-      { name: 'Jan Paweł 2', id: 2 },
-      { name: 'Zbigniew Wodecki', id: 3 },
-      { name: 'Adam Małysz', id: 4 },
-      { name: 'John Deere', id: 1 },
-      { name: 'Jan Paweł 2', id: 2 },
-      { name: 'Zbigniew Wodecki', id: 3 },
-      { name: 'Adam Małysz', id: 4 },
-      { name: 'John Deere', id: 1 },
-      { name: 'Jan Paweł 2', id: 2 },
-      { name: 'Zbigniew Wodecki', id: 3 },
-      { name: 'Adam Małysz', id: 4 },
-      { name: 'John Deere', id: 1 },
-      { name: 'Jan Paweł 2', id: 2 },
-      { name: 'Zbigniew Wodecki', id: 3 },
-      { name: 'Adam Małysz', id: 4 },
-    ],
-    offices: ['Gliwice', 'Warszawa', 'Katowice'],
-
-  };
+  responseData?: ManagementData;
 
   constructor(
     private managementService: ManagementService,
@@ -100,7 +81,7 @@ export class ManagementViewComponent implements OnInit {
     this.managementService.getEmployees().subscribe((employeeList) => {
       this.responseData = {
         employees: employeeList.map((x: Employee) => ({
-          name: x.name+' '+x.lastName,
+          name: (x.name && x.lastName)?x.name+' '+x.lastName:x.email,
           id: x.id,
         })),
       };
@@ -147,9 +128,11 @@ export class ManagementViewComponent implements OnInit {
     this.addNew = false;
     this.askForEdit = false;
   }
-  registered(username: string){
-    console.log('new employee', username);
+  registered(employee: Employee|null){
+    console.log('new employee', employee);
     this.fetchEmployees();
   }
   
 }
+
+

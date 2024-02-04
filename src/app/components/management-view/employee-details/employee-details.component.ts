@@ -3,11 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
 } from '@angular/core';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -28,6 +30,9 @@ import {
   MatSlideToggleModule,
   _MatSlideToggleRequiredValidatorModule,
 } from '@angular/material/slide-toggle';
+import { MatDialogTitle, MatDialogContent, MatDialog, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DialogData } from '../../register-view/register-view.component';
 
 export interface Employee {
   name: string;
@@ -69,7 +74,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   edit: boolean = true;
   @Input() isChecked = false;
 
-  constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef) {}
+  constructor(private readonly _fb: FormBuilder, private readonly _cdRef: ChangeDetectorRef,    public dialog: MatDialog) {}
   getFormGroup() {
     return this._fb.group({
       lastName: new FormControl(this.personData?.lastName, [
@@ -118,5 +123,44 @@ export class EmployeeDetailsComponent implements OnChanges {
     };
     this.modPersonEmitter.emit(this.personData);
     this.isChecked = false;
+  }
+
+  openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {
+      data: { username: this.personData?.name },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result) {this.delEmployee();}
+      this.dialog.closeAll();
+    });
+  }
+
+}
+
+@Component({
+  selector: 'confirm-delete-dialog',
+  templateUrl: 'confirm-delete-dialog.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+  ],
+})
+export class ConfirmDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDeleteDialog>,
+    private readonly _router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

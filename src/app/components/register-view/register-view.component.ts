@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,7 +24,8 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { Employee } from '../management-view/employee-details/employee-details.component';
 
 export interface DialogData {
   username: string;
@@ -42,7 +50,7 @@ export interface DialogData {
 export class RegisterViewComponent {
   @Input() endpoint?: string;
   @Input() title?: string = 'Rejestracja użytkownika';
-  @Output() successEmitter = new EventEmitter<string>();
+  @Output() successEmitter = new EventEmitter<Employee | null>();
   form: any = {
     username: null,
     email: null,
@@ -61,19 +69,24 @@ export class RegisterViewComponent {
   onSubmit(): void {
     const { username, email, password } = this.form;
 
-    this.authService.register(username, email, password, this.endpoint).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.openDialog();
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-        this._snackBar.open('Błąd rejestracji: ' + this.errorMessage, '❌');
-      },
-    });
+    this.authService
+      .register(username, email, password, this.endpoint)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isSuccessful = true;
+          this.isSignUpFailed = false;
+          this.successEmitter.emit(data);
+          if (!this.endpoint) {
+            this.openDialog();
+          }
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message;
+          this.isSignUpFailed = true;
+          this._snackBar.open('Błąd rejestracji: ' + this.errorMessage, '❌');
+        },
+      });
   }
 
   openDialog(): void {
@@ -83,7 +96,6 @@ export class RegisterViewComponent {
 
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
-      this.successEmitter.emit(this.form.username);
       this.dialog.closeAll();
     });
   }
