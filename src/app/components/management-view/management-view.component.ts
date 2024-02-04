@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   OnInit,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -15,22 +14,9 @@ import {
   Employee,
 } from './employee-details/employee-details.component';
 import {
-  DialogData,
   RegisterViewComponent,
 } from '../register-view/register-view.component';
 import { ManagementService } from '../../services/management.service';
-import { FormsModule } from '@angular/forms';
-import {
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
 
 export interface ListingRecord {
   name: string;
@@ -79,8 +65,6 @@ export class ManagementViewComponent implements OnInit {
 
   selectEntry(id: number) {
     this.managementService.getEmployee(id).subscribe((employeeResponse) => {
-      // employeeResponse.shiftStart = employeeResponse.shiftStart.slice(0,5);
-      // employeeResponse.shiftEnd = employeeResponse.shiftEnd.slice(0,5);
       this.personResponse = employeeResponse;
 
       this._cdRef.markForCheck();
@@ -95,12 +79,6 @@ export class ManagementViewComponent implements OnInit {
         })),
       };
       if (this.addNew) {
-        // // while adding a new employee we want to load the new entry into details editor
-        // const newId: number | undefined =
-        //   this.responseData?.employees?.pop()?.id; // pop is fine since we don't want to display the null null fella
-        // if (newId) {
-        //   this.selectEntry(newId);
-        // }
         this.addNew = false;
         this.askForEdit = true;
       }
