@@ -25,10 +25,19 @@
 {{ personData.role?.replace("ROLE_", "")?.toLocaleLowerCase() }} <br />
 
 <br />
-<b>Płaca: </b>{{ personData.salary }}<br />
+<b>Płaca: </b>{{ personData.salary }} zł/h<br />
 <br />
-<b>Poczatek zmiany: </b>{{ personData.shiftStart }}<br />
-<b>Koniec zmiany: </b>{{ personData.shiftEnd }}<br />
+<table>
+  <tr>
+    <td><b>Poczatek zmiany: </b></td>
+    <td>{{ personData.shiftStart }}</td>
+  </tr>
+  <tr>
+    <td><b>Koniec zmiany: </b></td>
+    <td>{{ personData.shiftEnd }}</td>
+  </tr>
+</table>
+<br />
 <b>ID: </b>{{ personData.id }}<br />
 
 } @else {

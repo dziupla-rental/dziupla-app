@@ -75,7 +75,7 @@ export class OfficeDetailsComponent implements OnChanges {
 
   openDeleteDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-      data: { name: this.office?.location, title:'biura' },
+      data: { name: this.office?.location, title: 'biura' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -94,7 +94,7 @@ export class OfficeDetailsComponent implements OnChanges {
     this.isChecked = false;
   }
 
-  delOffice(){
+  delOffice() {
     this.office = {
       location: this.officeForm.controls.location.value!,
       id: this.office?.id || 0,
@@ -103,5 +103,3 @@ export class OfficeDetailsComponent implements OnChanges {
     this.office = undefined;
   }
 }
-
-

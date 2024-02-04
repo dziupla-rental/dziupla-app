@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-
 import {
   FormBuilder,
   Validators,
@@ -95,7 +94,9 @@ export class EmployeeDetailsComponent implements OnChanges {
       ]),
       name: new FormControl(this.personData?.name, [Validators.required]),
       position: new FormControl(this.personData?.role, [Validators.required]),
-      office: new FormControl(this.personData?.office?.location, [Validators.required]),
+      office: new FormControl(this.personData?.office?.location, [
+        Validators.required,
+      ]),
       salary: new FormControl(this.personData?.salary, [Validators.required]),
       shiftEnd: new FormControl(this.personData?.shiftEnd, [
         Validators.required,
@@ -116,7 +117,9 @@ export class EmployeeDetailsComponent implements OnChanges {
     this.personData = undefined;
   }
   modEmployee(): void {
-    const selectedOffice = this.officeList?.find(office => office.location ===  this.employeeForm.controls.office.value!);
+    const selectedOffice = this.officeList?.find(
+      (office) => office.location === this.employeeForm.controls.office.value!
+    );
     this.personData = {
       name: this.employeeForm.controls.name.value!,
       lastName: this.employeeForm.controls.lastName.value!,
@@ -136,7 +139,7 @@ export class EmployeeDetailsComponent implements OnChanges {
 
   openDeleteDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-      data: { name: this.personData?.name, title:'pracownika' },
+      data: { name: this.personData?.name, title: 'pracownika' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -147,4 +150,3 @@ export class EmployeeDetailsComponent implements OnChanges {
     });
   }
 }
-
