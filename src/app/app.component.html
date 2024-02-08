@@ -4,7 +4,12 @@
     @if (showFiller) {
     <p>Lorem, ipsum dolor sit amet consectetur.</p>
     }
-    <button (click)="onClick()" mat-raised-button>Toggle extra text</button>
+    <button class="site-button" (click)="navigate('/vehicle-selection');drawer.toggle();" mat-raised-button>Wyszukiwanie</button><br/>
+    <button class="site-button" (click)="navigate('/owner');drawer.toggle();" mat-raised-button>Widok właściciela</button><br/>
+    <button class="site-button" (click)="navigate('/manager');drawer.toggle();" mat-raised-button>Widok manadżera</button><br/>
+    <button class="site-button" (click)="navigate('/manager/offices');drawer.toggle();" mat-raised-button>przegląd biur</button><br/>
+    
+    
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar color="accent">
