@@ -7,10 +7,14 @@ import {
   Output,
 } from '@angular/core';
 import { SpinnerComponent } from '../spinner/spinner.component';
-import { ListingRecord } from '../management-view/management-view.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
+export interface ListingRecord {
+  name: string;
+  id: number;
+}
 
 const PLACEHOLDER_DATA: ListingRecord[] = [];
 

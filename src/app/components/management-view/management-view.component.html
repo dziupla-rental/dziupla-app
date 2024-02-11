@@ -13,7 +13,7 @@
       <mat-card-content>
         <app-entry-list
           name_header="Imię i nazwisko"
-          [entries]="responseData?.employees"
+          [entries]="employeeEntries"
           (selectionEmitter)="selectEntry($event)"
           (creationEmitter)="createEmployee()"
         ></app-entry-list>
@@ -27,7 +27,7 @@
       <mat-card-content>
         <app-employee-details
           [positionList]="positions"
-          [officeList]="responseData?.offices"
+          [officeList]="offices"
           [personData]="personResponse"
           [isChecked]="askForEdit"
           (modPersonEmitter)="modifyEmployee($event)"

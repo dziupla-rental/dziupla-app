@@ -7,7 +7,7 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
-import { EntryListComponent } from '../entry-list/entry-list.component';
+import { EntryListComponent, ListingRecord } from '../entry-list/entry-list.component';
 import { MatIconModule } from '@angular/material/icon';
 import {
   EmployeeDetailsComponent,
@@ -18,14 +18,13 @@ import {
 } from '../register-view/register-view.component';
 import { ManagementService } from '../../services/management.service';
 import { Subject, takeUntil } from 'rxjs';
+import { Office } from '../office-view/office-view.component';
+import { OfficeService } from '../../services/office.service';
 
-export interface ListingRecord {
-  name: string;
-  id: number;
-}
+
 export interface ManagementData {
   employees: ListingRecord[];
-  offices?: string[];
+  offices?: Office[];
   positions?: string[];
 }
 
@@ -58,10 +57,12 @@ export class ManagementViewComponent implements OnInit {
     'ROLE_EMPLOYEE_HR',
     'ROLE_EMPLOYEE_MECHANIC',
   ];
-  responseData?: ManagementData;
 
+  offices?: Office[];
+  employeeEntries?: ListingRecord[]; 
   constructor(
     private managementService: ManagementService,
+    private officeService: OfficeService,
     private readonly _cdRef: ChangeDetectorRef
   ) {}
 
@@ -73,13 +74,12 @@ export class ManagementViewComponent implements OnInit {
     });
   }
   fetchEmployees() {
-    this.managementService.getEmployees().subscribe((employeeList) => {
-      this.responseData = {
-        employees: employeeList.map((x: Employee) => ({
+    this.managementService.getEmployees().pipe(takeUntil(this._destroy$)).subscribe((employeeList) => {
+      this.employeeEntries = employeeList.map((x: Employee) => ({
           name: x.name && x.lastName ? x.name + ' ' + x.lastName : x.email,
           id: x.id,
-        })),
-      };
+        }));
+      
       if (this.addNew) {
         this.addNew = false;
         this.askForEdit = true;
@@ -87,8 +87,18 @@ export class ManagementViewComponent implements OnInit {
       this._cdRef.markForCheck();
     });
   }
+
+  fetchOffices() {
+    this.officeService.getOffices().subscribe((officeList) => {
+      if(officeList) {this.offices = officeList};
+      console.log('Offices:', officeList);
+      this._cdRef.markForCheck();
+    });
+  }
+
   ngOnInit(): void {
-    this.fetchEmployees();
+   this.fetchEmployees();
+  this.fetchOffices();
   }
   modifyEmployee(employee: Employee) {
     console.log('mg view', employee);
@@ -108,7 +118,7 @@ export class ManagementViewComponent implements OnInit {
       .deleteEmployee(employee.id)
       .subscribe((employeeResponse) => {
         console.log(employeeResponse);
-        this.fetchEmployees(); // this updates the list, it's should probably be done some other way :3
+        this.fetchEmployees(); 
       });
   }
   createEmployee() {

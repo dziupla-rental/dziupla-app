@@ -18,17 +18,26 @@
 
 <h2><b>Email:</b>{{ personData.email }}</h2>
 <br />
-<b>Biuro:</b>{{ personData.office }}
+<b>Biuro:</b>{{ personData.office?.location }}
 <br />
 
 <b>Posada: </b>
 {{ personData.role?.replace("ROLE_", "")?.toLocaleLowerCase() }} <br />
 
 <br />
-<b>Płaca: </b>{{ personData.salary }}<br />
+<b>Płaca: </b>{{ personData.salary }} zł/h<br />
 <br />
-<b>Poczatek zmiany: </b>{{ personData.shiftStart }}<br />
-<b>Koniec zmiany: </b>{{ personData.shiftEnd }}<br />
+<table>
+  <tr>
+    <td><b>Poczatek zmiany: </b></td>
+    <td>{{ personData.shiftStart }}</td>
+  </tr>
+  <tr>
+    <td><b>Koniec zmiany: </b></td>
+    <td>{{ personData.shiftEnd }}</td>
+  </tr>
+</table>
+<br />
 <b>ID: </b>{{ personData.id }}<br />
 
 } @else {
@@ -54,7 +63,7 @@
     <mat-label><b>Biuro</b></mat-label>
     <mat-select formControlName="office">
       @for (office of officeList; track office) {
-      <mat-option [value]="office">{{ office }}</mat-option>
+      <mat-option [value]="office.location">{{ office.location }}</mat-option>
       }
     </mat-select>
   </mat-form-field>

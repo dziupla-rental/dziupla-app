@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-
 import {
   FormBuilder,
   Validators,
@@ -39,6 +38,8 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogData } from '../../register-view/register-view.component';
+import { Office } from '../../office-view/office-view.component';
+import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 
 export interface Employee {
   name: string;
@@ -48,8 +49,9 @@ export interface Employee {
   salary: number;
   shiftStart: string;
   shiftEnd: string;
-  office: string;
+  office?: Office;
   email: string;
+  officeId?: number;
 }
 
 @Component({
@@ -75,7 +77,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   @Output() delPersonEmitter = new EventEmitter<Employee>();
   @Input() personData?: Employee;
 
-  @Input() officeList?: string[];
+  @Input() officeList?: Office[];
   @Input() positionList?: string[];
   edit: boolean = true;
   @Input() isChecked = false;
@@ -92,7 +94,9 @@ export class EmployeeDetailsComponent implements OnChanges {
       ]),
       name: new FormControl(this.personData?.name, [Validators.required]),
       position: new FormControl(this.personData?.role, [Validators.required]),
-      office: new FormControl(this.personData?.office, [Validators.required]),
+      office: new FormControl(this.personData?.office?.location, [
+        Validators.required,
+      ]),
       salary: new FormControl(this.personData?.salary, [Validators.required]),
       shiftEnd: new FormControl(this.personData?.shiftEnd, [
         Validators.required,
@@ -113,6 +117,9 @@ export class EmployeeDetailsComponent implements OnChanges {
     this.personData = undefined;
   }
   modEmployee(): void {
+    const selectedOffice = this.officeList?.find(
+      (office) => office.location === this.employeeForm.controls.office.value!
+    );
     this.personData = {
       name: this.employeeForm.controls.name.value!,
       lastName: this.employeeForm.controls.lastName.value!,
@@ -121,16 +128,18 @@ export class EmployeeDetailsComponent implements OnChanges {
       salary: Number(this.employeeForm.controls.salary.value!),
       shiftStart: this.employeeForm.controls.shiftStart.value!,
       shiftEnd: this.employeeForm.controls.shiftEnd.value!,
-      office: this.employeeForm.controls.office.value!,
+      office: selectedOffice,
+      officeId: selectedOffice?.id ?? 0,
       email: this.employeeForm.controls.email.value!,
     };
+    console.log('modified employee:', this.personData);
     this.modPersonEmitter.emit(this.personData);
     this.isChecked = false;
   }
 
   openDeleteDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {
-      data: { username: this.personData?.name },
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      data: { name: this.personData?.name, title: 'pracownika' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -139,32 +148,5 @@ export class EmployeeDetailsComponent implements OnChanges {
       }
       this.dialog.closeAll();
     });
-  }
-}
-
-@Component({
-  selector: 'confirm-delete-dialog',
-  templateUrl: 'confirm-delete-dialog.html',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-  ],
-})
-export class ConfirmDeleteDialog {
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmDeleteDialog>,
-    private readonly _router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }
