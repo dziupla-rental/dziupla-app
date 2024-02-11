@@ -75,4 +75,8 @@ export class AppComponent {
   onLogin(): void {
     this._router.navigate(['/login']);
   }
+  navigate(location: String): void{
+    this._router.navigate([location]);
+
+  }
 }

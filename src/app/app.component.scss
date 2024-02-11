@@ -40,3 +40,13 @@ mat-toolbar {
 .small-spacer {
   width: 10px;
 }
+.site-button {
+  margin: 5px;
+  width: 100%;
+}
+.sidenav-header{
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
