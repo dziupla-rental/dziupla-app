@@ -33,6 +33,7 @@ import {
   _MatSlideToggleRequiredValidatorModule,
 } from '@angular/material/slide-toggle';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-office-details',
@@ -53,6 +54,7 @@ import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confir
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OfficeDetailsComponent implements OnChanges {
+  private readonly _destroy$ = new Subject<void>();
   @Input() office?: Office;
   @Input() isChecked = false;
   @Output() modOfficeEmitter = new EventEmitter<Office>();
@@ -78,7 +80,7 @@ export class OfficeDetailsComponent implements OnChanges {
       data: { name: this.office?.location, title: 'biura' },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this._destroy$)).subscribe((result) => {
       if (result) {
         this.delOffice();
       }

@@ -74,7 +74,7 @@ export class ManagementViewComponent implements OnInit {
     });
   }
   fetchEmployees() {
-    this.managementService.getEmployees().subscribe((employeeList) => {
+    this.managementService.getEmployees().pipe(takeUntil(this._destroy$)).subscribe((employeeList) => {
       this.employeeEntries = employeeList.map((x: Employee) => ({
           name: x.name && x.lastName ? x.name + ' ' + x.lastName : x.email,
           id: x.id,
