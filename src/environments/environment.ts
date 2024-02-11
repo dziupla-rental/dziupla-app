@@ -6,4 +6,4 @@ export const environment = {
 };
 
 environment.apiUrl =
-  environment.appUrl + ':' + environment.backendPort + '/api';
+  'api.' + environment.appUrl + ':' + environment.backendPort + '/api';
