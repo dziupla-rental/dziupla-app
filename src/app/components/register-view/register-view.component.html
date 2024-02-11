@@ -1,0 +1,94 @@
+<mat-card class="register-box">
+  <mat-card-header>
+    <mat-card-title><h2>{{this.title}}</h2></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <br />
+      <mat-form-field appearance="outline">
+        <mat-label><b>Nazwa Użytkownika</b></mat-label>
+        <input
+          matInput
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          minlength="3"
+          maxlength="20"
+          #username="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+        />
+        @if (username.errors && f.submitted) {
+        <mat-error>
+          @if (username.errors['required']) { Nazwa użytkownika jest wymagana! }
+          @if (username.errors['minlength']) { Nazwa użytkownika musi mieć co
+          najmniej 3 znaki! } @if (username.errors['maxlength']) { Nazwa
+          użytkownika może mieć maksymalnie 20 znaków! }
+        </mat-error>
+        }
+      </mat-form-field>
+      <br />
+      <br />
+      <mat-form-field appearance="outline">
+        <mat-label><b>E-mail</b></mat-label>
+        <input
+          matInput
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          required
+          email
+          #email="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+        />
+        @if (email.errors && f.submitted) {
+        <mat-error>
+          @if (email.errors['required']) { E-mail jest wymagany! } @if
+          (email.errors['email']) { E-mail jest niepoprawny! }
+        </mat-error>
+        }
+      </mat-form-field>
+      <br />
+      <br />
+      <mat-form-field appearance="outline">
+        <mat-label><b>Hasło</b></mat-label>
+        <input
+          matInput
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+        />
+        @if (password.errors && f.submitted) {
+        <mat-error>
+          @if (password.errors['required']) { Hasło jest wymagane! } @if
+          (password.errors['minlength']) { Hasło musi mieć co najmniej 6 znaków!
+          }
+        </mat-error>
+        }
+      </mat-form-field>
+      <br />
+      <br />
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          class="btn btn-primary btn-block"
+        >
+          Zarejestruj
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

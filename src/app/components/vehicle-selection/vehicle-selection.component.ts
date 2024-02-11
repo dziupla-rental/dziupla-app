@@ -14,6 +14,8 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import { SortBoxComponent } from './sort-box/sort-box.component';
 import { FilterUtils } from '../../shared/filter-utils';
 import { MatIconModule } from '@angular/material/icon';
+import { VehicleFormService } from '../../services/vehicle-form.service';
+import { Router } from '@angular/router';
 
 const MATERIALS = [MatIconModule];
 
@@ -52,7 +54,9 @@ export class VehicleSelectionComponent {
 
   constructor(
     private readonly _data: InMemoryDataService,
-    private readonly _cdRef: ChangeDetectorRef
+    private readonly _cdRef: ChangeDetectorRef,
+    private readonly _vehicleFormService: VehicleFormService,
+    private readonly _router: Router
   ) {}
 
   onFiltersChange(filters: FilterValues): void {
@@ -76,6 +80,16 @@ export class VehicleSelectionComponent {
   onSortChange(sort: sortValue): void {
     this.currentSort = sort;
     this.filterAndSortVehicles();
+  }
+
+  onVehicleSelected(vehicle: Vehicle): void {
+    this._vehicleFormService.selectedVehicle = vehicle;
+    this._vehicleFormService.selectedDates = {
+      startDate: this.currentFilters.startDate,
+      endDate: this.currentFilters.endDate,
+    };
+
+    this._router.navigate(['form']).then(() => {});
   }
 
   private filterAndSortVehicles(): void {

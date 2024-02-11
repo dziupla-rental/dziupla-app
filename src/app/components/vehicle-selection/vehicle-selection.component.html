@@ -20,7 +20,10 @@
     } @else {
     <div class="search-results-list">
       @for (vehicle of vehicles; track vehicle) {
-      <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
+      <app-vehicle-card
+        [vehicle]="vehicle"
+        (vehicleSelected)="onVehicleSelected($event)"
+      ></app-vehicle-card>
       }
     </div>
 

@@ -3,7 +3,7 @@ import { IStatistics } from '../components/owner-view/owner-view.component';
 import { Observable, delay, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class StatisticsService {
   private readonly _response =

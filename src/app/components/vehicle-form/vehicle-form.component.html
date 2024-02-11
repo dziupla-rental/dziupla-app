@@ -1,0 +1,151 @@
+<div class="all">
+  <mat-card class="main-card">
+    <form style="width: 100%; height: 100%" [formGroup]="form">
+      <div class="row">
+        <div class="renter-info">
+          <div class="title">Dane najemcy</div>
+          <mat-form-field class="name">
+            <mat-label>Imię</mat-label>
+            <input matInput formControlName="renterName" />
+          </mat-form-field>
+          <mat-form-field class="surname">
+            <mat-label>Nazwisko</mat-label>
+            <input matInput formControlName="renterSurname" />
+          </mat-form-field>
+          <mat-checkbox formControlName="isCompany" color="primary"
+            >Wynajem na firmę?</mat-checkbox
+          >
+        </div>
+        <div class="datepickers">
+          <div class="title">Data najmu</div>
+          <mat-form-field class="filter-select-box">
+            <mat-label>Od</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              formControlName="startDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="startPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="filter-select-box">
+            <mat-label>Do</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              formControlName="endDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="endPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="car-card">
+          <app-vehicle-card [vehicle]="selectedVehicle!" [isShowButton]="false">
+          </app-vehicle-card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="extras">
+          <div class="title">A może usługi dodatkowe?</div>
+          <div class="extras-container">
+            @for (extraOption of extraOptions; track extraOption.isSelected) {
+            <div class="extra-option">
+              <mat-checkbox
+                (change)="onExtraOptionChange(extraOption)"
+                color="primary"
+              >
+                {{ extraOption.name }}
+              </mat-checkbox>
+              @if (extraOption.isExtraInfoRequired) {
+              <mat-form-field style="margin-bottom: -20px">
+                <mat-label>Dodatkowe informacje</mat-label>
+                <input
+                  matInput
+                  [disabled]="!extraOption.isSelected"
+                  (input)="onExtraOptionInput($event, extraOption)"
+                />
+              </mat-form-field>
+              }
+              <div class="price">({{ extraOption.price }}zł)</div>
+            </div>
+
+            }
+          </div>
+        </div>
+        <div class="drivers-license">
+          <div class="title">Prawo jazdy</div>
+          <mat-form-field style="width: 75%">
+            <mat-label>Prawo jazdy</mat-label>
+            <input matInput formControlName="driversLicense" />
+          </mat-form-field>
+          <mat-form-field style="width: 75%">
+            <mat-label>Data wygaśnięcia</mat-label>
+            <input
+              matInput
+              [min]="lastDate"
+              formControlName="expiryDate"
+              [matDatepicker]="picker"
+              placeholder="Choose a date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <div class="category">
+            Kategoria:
+            <mat-checkbox
+              (change)="onCategoryChange($event, 'A')"
+              color="primary"
+              labelPosition="before"
+              >A</mat-checkbox
+            >
+            <mat-checkbox
+              (change)="onCategoryChange($event, 'B')"
+              color="primary"
+              labelPosition="before"
+              >B</mat-checkbox
+            >
+            <mat-checkbox
+              (change)="onCategoryChange($event, 'C')"
+              color="primary"
+              labelPosition="before"
+              >C</mat-checkbox
+            >
+          </div>
+        </div>
+      </div>
+      <div class="agreement-checkbox">
+        <mat-checkbox color="primary" (change)="isAgreed = !isAgreed"
+          >Wyrażam zgodę na przetwarzanie moich danych osobowych i oświadczam że
+          zapoznałem/am się z umową użytkownika Dziupla Sp. Z.O.O. oraz
+          potwierdzam że Janusz Łożysko jest od teraz właścicielem wszystkich
+          moich dóbr materialnych.</mat-checkbox
+        >
+      </div>
+      <div class="price-total">
+        <div class="price-title">Cena:</div>
+        <div class="price-value">{{ totalPrice }}zł</div>
+      </div>
+      <button
+        class="submit-button"
+        mat-raised-button
+        [disabled]="!form.valid || !isAgreed || isExtraNotFilled"
+        color="primary"
+        (click)="onSubmit()"
+      >
+        Zarezerwuj
+      </button>
+    </form>
+  </mat-card>
+</div>

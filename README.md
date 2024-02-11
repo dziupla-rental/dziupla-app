@@ -1,4 +1,7 @@
 # dziupla-app
+[![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/powered-by-energy-drinks.svg)](https://forthebadge.com)
+
+[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
 

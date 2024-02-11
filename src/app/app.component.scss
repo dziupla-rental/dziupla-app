@@ -30,3 +30,23 @@ mat-toolbar {
 .dziupla-logo {
   height: 70%;
 }
+.dziupla-link {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.small-spacer {
+  width: 10px;
+}
+.site-button {
+  margin: 5px;
+  width: 100%;
+}
+.sidenav-header{
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
