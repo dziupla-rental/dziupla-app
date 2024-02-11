@@ -1,13 +1,11 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="over">
-    <p>Auto-resizing sidenav</p>
-    @if (showFiller) {
-    <p>Lorem, ipsum dolor sit amet consectetur.</p>
-    }
-    <button class="site-button" (click)="navigate('/vehicle-selection');drawer.toggle();" mat-raised-button>Wyszukiwanie</button><br/>
-    <button class="site-button" (click)="navigate('/owner');drawer.toggle();" mat-raised-button>Widok właściciela</button><br/>
-    <button class="site-button" (click)="navigate('/manager');drawer.toggle();" mat-raised-button>Widok manadżera</button><br/>
-    <button class="site-button" (click)="navigate('/manager/offices');drawer.toggle();" mat-raised-button>przegląd biur</button><br/>
+    <b>Nawigacja</b>
+    <br/><br/>
+    <a class="site-button" (click)="navigate('/vehicle-selection');drawer.toggle();" mat-flat-button>Wyszukiwanie</a><br/>
+    <a class="site-button" (click)="navigate('/owner');drawer.toggle();" mat-flat-button>Widok właściciela</a><br/>
+    <a class="site-button" (click)="navigate('/manager');drawer.toggle();" mat-flat-button>Widok manadżera</a><br/>
+    <a class="site-button" (click)="navigate('/manager/offices');drawer.toggle();" mat-flat-button>Przegląd biur</a><br/>
     
     
   </mat-drawer>
