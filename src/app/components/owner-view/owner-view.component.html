@@ -20,7 +20,7 @@
             title="Pojazdy wypożyczone"
             [value]="
               statistics
-                ? round((statistics.cars_rented / statistics.cars_total) * 100)
+                ? round((statistics.rentedCars / statistics.carCount) * 100)
                 : 0
             "
           ></app-percentage-indicator>
@@ -30,10 +30,10 @@
             [value]="
               statistics
                 ? round(
-                    ((statistics.cars_total -
-                      statistics.cars_rented -
-                      statistics.cars_service) /
-                      statistics.cars_total) *
+                    ((statistics.carCount -
+                      statistics.rentedCars -
+                      statistics.servicedCars) /
+                      statistics.carCount) *
                       100
                   )
                 : 0
@@ -44,7 +44,7 @@
             title="Pojazdy w serwisie"
             [value]="
               statistics
-                ? round((statistics.cars_service / statistics.cars_total) * 100)
+                ? round((statistics.servicedCars / statistics.carCount) * 100)
                 : 0
             "
             color="warn"
@@ -55,7 +55,7 @@
   </div>
 
   <app-financial-report
-    [data]="statistics ? statistics.earnings_stats : []"
+    [data]="statistics ? statistics.income : []"
   ></app-financial-report>
 </div>
 } @else {

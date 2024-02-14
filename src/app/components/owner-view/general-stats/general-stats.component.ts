@@ -7,7 +7,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { IStatistics } from '../owner-view.component';
+import { Statistics } from '../owner-view.component';
 export interface StatElement {
   name: string;
   icon: string;
@@ -33,7 +33,7 @@ const PLACEHOLDER_DATA: StatElement[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralStatsComponent implements OnChanges {
-  @Input() stats?: IStatistics;
+  @Input() stats?: Statistics;
 
   displayedColumns: string[] = ['icon', 'name', 'value'];
   dataSource = PLACEHOLDER_DATA;
@@ -44,40 +44,40 @@ export class GeneralStatsComponent implements OnChanges {
         {
           name: 'Liczba aut',
           icon: 'directions_car',
-          value: this.stats.cars_total,
+          value: this.stats.carCount,
         },
         {
           name: 'Liczba aut wypożyczonych',
           icon: 'sell',
-          value: this.stats.cars_rented,
+          value: this.stats.rentedCars,
         },
         {
           name: 'Liczba aut w serwisie',
           icon: 'build',
-          value: this.stats.cars_service,
+          value: this.stats.servicedCars,
         },
         {
           name: 'Liczba aut w lokalach',
           icon: 'home',
           value:
-            this.stats.cars_total -
-            this.stats.cars_rented -
-            this.stats.cars_service,
+            this.stats.carCount -
+            this.stats.rentedCars -
+            this.stats.servicedCars,
         },
         {
           name: 'Liczba klientów',
           icon: 'face',
-          value: this.stats.clients_total,
+          value: this.stats.clientCount,
         },
         {
           name: 'Liczba lokali',
           icon: 'store',
-          value: this.stats.offices_total,
+          value: this.stats.officeCount,
         },
         {
           name: 'Liczba pracowników',
           icon: 'accessibility',
-          value: this.stats.employees_total,
+          value: this.stats.employeeCount,
         },
       ];
     }
