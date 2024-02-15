@@ -22,7 +22,13 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { FilterValues } from '../../model/internal/filter-values';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FuelType, VehicleType } from '../../model/external/vehicle';
+import {
+  FuelType,
+  FuelTypeName,
+  VehicleType,
+} from '../../model/external/vehicle';
+import { VehicleSelectionService } from '../../services/vehicle-selection.service';
+import { Subject, takeUntil } from 'rxjs';
 const MATERIALS = [
   MatCardModule,
   MatFormFieldModule,
@@ -46,45 +52,42 @@ const MATERIALS = [
 export class FiltersComponent implements OnInit {
   @Output() filtersChange: EventEmitter<FilterValues> = new EventEmitter();
 
+  private readonly _destroy$ = new Subject<void>();
+
   today: Date = new Date();
   locationSelect: FilterSelect = {
     name: 'Lokalizacja*',
     label: 'location',
-    list: [
-      'Warsaw',
-      'Cracow',
-      'Wroclaw',
-      'Gdansk',
-      'Poznan',
-      'Szczecin',
-      'Lodz',
-      'Lublin',
-      'Katowice',
-      'Bialystok',
-    ],
+    list: ['Not empty'],
   };
 
   readonly basicFilters: FilterSelect[] = [
     {
       name: 'Ilość miejsc',
       label: 'numberOfSeats',
-      list: ['2', '5', '7', '10', '10+'],
+      list: ['2', '3', '4', '5', '7', '10', '10+'],
     },
     {
       name: 'Rodzaj paliwa',
       label: 'fuelType',
       list: [
-        FuelType.DIESEL,
-        FuelType.ELECTRIC,
-        FuelType.GASOLINE,
-        FuelType.HYBRID,
-        FuelType.LPG,
+        FuelTypeName.DIESEL,
+        FuelTypeName.GASOLINE,
+        FuelTypeName.LPG,
+        FuelTypeName.HYBRID,
+        FuelTypeName.ELECTRIC,
       ],
     },
     {
       name: 'Typ nadwozia',
       label: 'vehicleType',
-      list: [VehicleType.CAR, VehicleType.TRUCK, VehicleType.BUS],
+      list: [
+        VehicleType.COMBI,
+        VehicleType.COUPE,
+        VehicleType.HATCHBACK,
+        VehicleType.SEDAN,
+        VehicleType.SUV,
+      ],
     },
   ];
 
@@ -98,9 +101,19 @@ export class FiltersComponent implements OnInit {
     vehicleType: new FormControl(''),
   });
 
-  constructor(private readonly _fb: FormBuilder) {}
+  constructor(
+    private readonly _fb: FormBuilder,
+    private readonly _vehicleSelectionService: VehicleSelectionService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._vehicleSelectionService
+      .getOffices()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((offices) => {
+        this.locationSelect.list = offices.map((office) => office.location);
+      });
+  }
 
   onApplyFilters(): void {
     this.filtersChange.emit({

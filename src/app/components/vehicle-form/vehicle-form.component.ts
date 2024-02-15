@@ -25,7 +25,9 @@ import {
 } from '@angular/material/checkbox';
 import { ExtraOption } from '../../model/internal/extra-option';
 import { MatButtonModule } from '@angular/material/button';
-import moment from 'moment';
+import { Rental } from '../../model/external/rental';
+import { StorageService } from '../../services/storage.service';
+import { RentalService } from '../../services/rental.service';
 
 const MATERIALS = [
   MatCardModule,
@@ -104,8 +106,10 @@ export class VehicleFormComponent implements OnInit {
 
   constructor(
     private readonly _vehicleFormService: VehicleFormService,
+    private readonly _rentalService: RentalService,
     private readonly _router: Router,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _storage: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +119,7 @@ export class VehicleFormComponent implements OnInit {
     if (!this.selectedVehicle) {
       this._router.navigate(['vehicle-selection']);
     }
+
     this.form.controls.startDate.setValue(this.selectedDates.startDate);
     this.form.controls.endDate.setValue(this.selectedDates.endDate);
 
@@ -125,7 +130,7 @@ export class VehicleFormComponent implements OnInit {
 
     this.totalPrice =
       this.selectedVehicle!.deposit +
-      daysDifference * this.selectedVehicle!.pricePerDay;
+      daysDifference * this.selectedVehicle!.cost;
 
     this.lastDate = new Date(
       this.selectedDates.endDate.getTime() + 24 * 60 * 60 * 1000
@@ -164,5 +169,19 @@ export class VehicleFormComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    const rental: Rental = {
+      carId: this.selectedVehicle!.id,
+      clientId: this._storage.getUser()?.id ?? 0,
+      originOfficeId: 8,
+      destinationOfficeId: 6,
+      protocolNumber: 0,
+      startDate: this.selectedDates.startDate,
+      endDate: this.selectedDates.endDate,
+      additions: this.extraOptions
+        .filter((option) => option.isSelected)
+        .map((option) => option.formLabel),
+    };
+    this._rentalService.addRental(rental);
+  }
 }

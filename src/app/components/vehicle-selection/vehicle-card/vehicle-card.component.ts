@@ -42,15 +42,15 @@ export class VehicleCardComponent implements OnInit {
       },
       {
         icon: 'people_alt',
-        text: String(this.vehicle.numberOfSeats),
+        text: String(this.vehicle.seatNumber),
       },
       {
         icon: 'attach_money',
-        text: this.vehicle.pricePerDay + 'zł/d',
+        text: this.vehicle.cost + 'zł/d',
       },
       {
         icon: 'event_available',
-        text: this.vehicle.isAvailable ? 'Dostępny' : 'Niedostępny',
+        text: this.vehicle.available ? 'Dostępny' : 'Niedostępny',
       },
     ];
   }

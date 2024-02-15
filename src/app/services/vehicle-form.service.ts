@@ -11,6 +11,7 @@ export interface SelectedDates {
 })
 export class VehicleFormService {
   private _selectedVehicle?: Vehicle;
+  private _office?: string;
 
   public get selectedVehicle(): Vehicle | undefined {
     return this._selectedVehicle;
@@ -31,6 +32,14 @@ export class VehicleFormService {
 
   public set selectedDates(dates: SelectedDates) {
     this._selectedDates = dates;
+  }
+
+  public get office(): string | undefined {
+    return this._office;
+  }
+
+  public set office(office: string) {
+    this._office = office;
   }
 
   constructor() {}
