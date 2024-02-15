@@ -54,7 +54,7 @@ export class FinancialReportComponent implements OnChanges, AfterViewInit {
       .map((entry, index) => ({ x: 23 - index, y: entry }));
 
     const today = new Date();
-    const startMonth = today.getMonth() + 1;
+    const startMonth = today.getMonth();
     const startYear = today.getFullYear() - 2;
     const labelsX: string[] = Array.from({ length: 24 }, (v, i) => {
       return (

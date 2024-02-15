@@ -13,15 +13,16 @@ import { GeneralStatsComponent } from './general-stats/general-stats.component';
 import { StatisticsService } from '../../services/statistics.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { Subject, takeUntil } from 'rxjs';
 
-export interface IStatistics {
-  cars_total: number;
-  cars_rented: number;
-  cars_service: number;
-  employees_total: number;
-  offices_total: number;
-  clients_total: number;
-  earnings_stats: number[];
+export interface Statistics {
+  carCount: number;
+  rentedCars: number;
+  servicedCars: number;
+  employeeCount: number;
+  officeCount: number;
+  clientCount: number;
+  income: number[];
 }
 @Component({
   selector: 'app-owner-view',
@@ -40,17 +41,22 @@ export interface IStatistics {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OwnerViewComponent implements OnInit {
-  statistics?: IStatistics;
+  private readonly _destroy$ = new Subject<void>();
+  statistics?: Statistics;
+
   constructor(
     private statisticsService: StatisticsService,
     private readonly _cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.statisticsService.getStatistics().subscribe((statsJSON) => {
-      this.statistics = JSON.parse(statsJSON);
-      this._cdRef.markForCheck();
-    });
+    this.statisticsService
+      .getStatistics()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((stats) => {
+        this.statistics = stats || undefined;
+        this._cdRef.markForCheck();
+      });
   }
 
   round(x: number): number {
