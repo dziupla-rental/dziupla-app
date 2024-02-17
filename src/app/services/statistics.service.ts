@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import { IStatistics } from '../components/owner-view/owner-view.component';
+import { Statistics } from '../components/owner-view/owner-view.component';
 import { Observable, delay, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
+const STATISTICS_API = `${environment.apiUrl}/statistics`;
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 @Injectable({
   providedIn: 'any',
 })
 export class StatisticsService {
-  private readonly _response =
-    '{"cars_total":680,"cars_rented":40,"cars_service":300,"employees_total":8,"offices_total":4,"clients_total":200,"earnings_stats":[211.3,223.1,421.1,211.3,223.1,421.1,900,223.1,421.1,211.3,223.1,421.1,-200]}';
+  constructor(private readonly _http: HttpClient) {}
 
-  constructor() {}
-
-  getStatistics(): Observable<string> {
-    return of(this._response).pipe(delay(1000));
+  getStatistics(): Observable<Statistics | null> {
+    return this._http.get<Statistics | null>(`${STATISTICS_API}`, httpOptions);
   }
 }

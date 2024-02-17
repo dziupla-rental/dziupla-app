@@ -1,4 +1,6 @@
-export enum FuelType {
+import { Office } from './office';
+
+export enum FuelTypeName {
   NULL = '',
   GASOLINE = 'BENZYNA',
   DIESEL = 'DIESEL',
@@ -7,8 +9,33 @@ export enum FuelType {
   HYBRID = 'HYBRYDOWY',
 }
 
-export enum VehicleType {
+export enum FuelType {
   NULL = '',
+  PETROL = 'PETROL',
+  DIESEL = 'DIESEL',
+  LPG = 'LPG',
+  ELECTRIC = 'ELECTRICAL',
+  HYBRID = 'HYBRID',
+}
+
+export const FUEL_TYPE_NAMES: { value: FuelType; name: FuelTypeName }[] = [
+  { value: FuelType.NULL, name: FuelTypeName.NULL },
+  { value: FuelType.PETROL, name: FuelTypeName.GASOLINE },
+  { value: FuelType.DIESEL, name: FuelTypeName.DIESEL },
+  { value: FuelType.LPG, name: FuelTypeName.LPG },
+  { value: FuelType.ELECTRIC, name: FuelTypeName.ELECTRIC },
+  { value: FuelType.HYBRID, name: FuelTypeName.HYBRID },
+];
+
+export enum VehicleType {
+  COMBI = 'COMBI',
+  COUPE = 'COUPE',
+  HATCHBACK = 'HATCHBACK',
+  LIFTBACK = 'LIFTBACK',
+  SEDAN = 'SEDAN',
+  SUV = 'SUV',
+  NULL = '',
+  //Unused???
   CAR = 'OSOBOWY',
   BUS = 'AUTOBUS',
   TRUCK = 'DOSTAWCZY',
@@ -16,13 +43,17 @@ export enum VehicleType {
 
 export interface Vehicle {
   id: number;
-  name: string;
-  type: VehicleType;
-  numberOfSeats: number;
-  isAvailable: boolean;
-  fuelType: FuelType;
+  cost: number;
   deposit: number;
-  pricePerDay: number;
-  photoUrl: string;
-  office: string;
+  insuranceNumber: number;
+  available: boolean;
+  model: string;
+  office: Office;
+  officeId: number;
+  seatNumber: number;
+  technicalStatus: boolean;
+  fuelType: FuelType | FuelTypeName;
+  photo: string;
+  type: VehicleType;
+  licence: string;
 }
