@@ -112,6 +112,8 @@ export class VehicleSelectionComponent implements OnInit {
       endDate: this.currentFilters.endDate,
     };
 
+    this._vehicleFormService.office = this.currentFilters.location;
+
     this._router.navigate(['form']).then(() => {});
   }
 
