@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
   SelectedDates,
@@ -25,7 +30,12 @@ import {
 } from '@angular/material/checkbox';
 import { ExtraOption } from '../../model/internal/extra-option';
 import { MatButtonModule } from '@angular/material/button';
-import moment from 'moment';
+import { Rental } from '../../model/external/rental';
+import { StorageService } from '../../services/storage.service';
+import { RentalService } from '../../services/rental.service';
+import { VehicleSelectionService } from '../../services/vehicle-selection.service';
+import { Subject, switchMap, takeUntil } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const MATERIALS = [
   MatCardModule,
@@ -47,7 +57,10 @@ const MATERIALS = [
   styleUrl: './vehicle-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VehicleFormComponent implements OnInit {
+export class VehicleFormComponent implements OnInit, OnDestroy {
+  private readonly _destroy$ = new Subject<void>();
+  private readonly _sendRental$ = new Subject<Rental>();
+
   selectedVehicle?: Vehicle;
   selectedDates: SelectedDates = { startDate: new Date(), endDate: new Date() };
 
@@ -70,7 +83,7 @@ export class VehicleFormComponent implements OnInit {
   readonly extraOptions: ExtraOption[] = [
     {
       name: 'Dekoracja pojazdu z okazji',
-      formLabel: 'vehicleDecor',
+      formLabel: 'ADDITION_DECORATION',
       price: 100,
       isExtraInfoRequired: true,
       extraInfo: '',
@@ -78,15 +91,15 @@ export class VehicleFormComponent implements OnInit {
     },
     {
       name: 'Dodatkowe ubezpieczenie',
-      formLabel: 'additionalInsurance',
+      formLabel: 'ADDITION_INSURANCE',
       price: 600,
       isExtraInfoRequired: false,
       extraInfo: '',
       isSelected: false,
     },
     {
-      name: 'Zatankowanie',
-      formLabel: 'refuel',
+      name: 'Dowiezienie do klienta',
+      formLabel: 'ADDITION_DELIVERY',
       price: 50,
       isExtraInfoRequired: false,
       extraInfo: '',
@@ -104,8 +117,12 @@ export class VehicleFormComponent implements OnInit {
 
   constructor(
     private readonly _vehicleFormService: VehicleFormService,
+    private readonly _vehicleSelectionService: VehicleSelectionService,
+    private readonly _rentalService: RentalService,
     private readonly _router: Router,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _storage: StorageService,
+    private readonly _matSnackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +132,7 @@ export class VehicleFormComponent implements OnInit {
     if (!this.selectedVehicle) {
       this._router.navigate(['vehicle-selection']);
     }
+
     this.form.controls.startDate.setValue(this.selectedDates.startDate);
     this.form.controls.endDate.setValue(this.selectedDates.endDate);
 
@@ -125,11 +143,18 @@ export class VehicleFormComponent implements OnInit {
 
     this.totalPrice =
       this.selectedVehicle!.deposit +
-      daysDifference * this.selectedVehicle!.pricePerDay;
+      daysDifference * this.selectedVehicle!.cost;
 
     this.lastDate = new Date(
       this.selectedDates.endDate.getTime() + 24 * 60 * 60 * 1000
     ); // Add a day to the endDate
+
+    this.listenForRental();
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   onExtraOptionChange(extraOption: ExtraOption): void {
@@ -164,5 +189,46 @@ export class VehicleFormComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this._vehicleSelectionService
+      .getOffices()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((offices) => {
+        const office = offices.find(
+          (off) => off.location === this._vehicleFormService.office
+        )!;
+        const rental: Rental = {
+          carId: this.selectedVehicle!.id,
+          clientId: this._storage.getUser()?.id ?? 1,
+          originOfficeId: office.id,
+          destinationOfficeId: office.id,
+          protocolNumber: 0,
+          startDate: this.selectedDates.startDate,
+          endDate: this.selectedDates.endDate,
+          additions: this.extraOptions
+            .filter((option) => option.isSelected)
+            .map((option) => {
+              return { [option.formLabel]: option.extraInfo };
+            }),
+        };
+
+        this._sendRental$.next(rental);
+      });
+  }
+
+  listenForRental(): void {
+    this._sendRental$
+      .pipe(
+        switchMap((rental) => this._rentalService.addRental(rental)),
+        takeUntil(this._destroy$)
+      )
+      .subscribe((result) => {
+        if (result) {
+          this._matSnackBar.open('Wypożyczenie zakończone pomyślnie', 'OK');
+          this._router.navigate(['']).then(() => {});
+        } else {
+          this._matSnackBar.open('Wystąpił błąd podczas wypożyczenia', 'OK');
+        }
+      });
+  }
 }

@@ -20,11 +20,11 @@ export namespace FilterUtils {
         filters.endDate.getTime() < vehicle.startDate.getTime():
       */
 
-          case filters.location !== vehicle.office:
+          case filters.location !== vehicle.office.location:
           case filters.seatAmount &&
-            ((filters.seatAmount === '10+' && vehicle.numberOfSeats < 10) ||
+            ((filters.seatAmount === '10+' && vehicle.seatNumber < 10) ||
               (filters.seatAmount !== '10+' &&
-                filters.seatAmount !== String(vehicle.numberOfSeats))):
+                filters.seatAmount !== String(vehicle.seatNumber))):
           case filters.fuelType && filters.fuelType !== vehicle.fuelType:
           case filters.vehicleType && filters.vehicleType !== vehicle.type:
             return false;
@@ -37,12 +37,12 @@ export namespace FilterUtils {
           case 'typ':
             return a.type.localeCompare(b.type) * sortFactor;
           case 'ilość miejsc':
-            return (a.numberOfSeats - b.numberOfSeats) * sortFactor;
+            return (a.seatNumber - b.seatNumber) * sortFactor;
           case 'cena':
-            return (a.pricePerDay - b.pricePerDay) * sortFactor;
+            return (a.cost - b.cost) * sortFactor;
           case 'dostępność':
             return (
-              (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1) *
+              (a.available === b.available ? 0 : a.available ? -1 : 1) *
               sortFactor
             );
           default:
