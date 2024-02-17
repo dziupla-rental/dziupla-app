@@ -6,5 +6,5 @@ export interface Rental {
   protocolNumber: number;
   startDate: Date;
   endDate: Date;
-  additions: { value: string; info: string | undefined }[];
+  additions: { [key: string]: string }[];
 }

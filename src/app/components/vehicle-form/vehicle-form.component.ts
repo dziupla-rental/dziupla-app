@@ -208,7 +208,7 @@ export class VehicleFormComponent implements OnInit, OnDestroy {
           additions: this.extraOptions
             .filter((option) => option.isSelected)
             .map((option) => {
-              return { value: option.formLabel, info: option.extraInfo };
+              return { [option.formLabel]: option.extraInfo };
             }),
         };
 
