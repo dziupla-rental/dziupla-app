@@ -15,11 +15,13 @@ export class VehicleSelectionService {
   constructor(private readonly _http: HttpClient) {}
 
   getAvailableVehicles(
-    office: string,
+    officeId: number,
     startDate: string,
     endDate: string
   ): Observable<Vehicle[]> {
-    return this._http.get<Vehicle[]>(VEHICLE_URL);
+    return this._http.get<Vehicle[]>(
+      `${VEHICLE_URL}/carByDate?params=${officeId}&params=${startDate}&params=${endDate}`
+    );
   }
 
   getAllVehicles(): Observable<Vehicle[]> {
