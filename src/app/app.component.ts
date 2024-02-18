@@ -58,7 +58,7 @@ export class AppComponent {
       const user = this._storageService.getUser();
 
       if (user) {
-         this.role = user.roles;
+         this.role = user.roles as Role;
          this.isLoggedIn = true;
 
           this.isShowOwnerBoard = this.role == Role.admin;
