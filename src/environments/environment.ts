@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  appUrl: 'https://api.dziupla.shop',
+  appUrl: 'http://api.dziupla.shop',
   backendPort: 80,
   apiUrl: '',
 };
