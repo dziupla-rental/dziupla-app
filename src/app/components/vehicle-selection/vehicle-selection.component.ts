@@ -10,7 +10,7 @@ import {
 import { InMemoryDataService } from '../../services/in-memory-data.service';
 import { FiltersComponent } from '../filters/filters.component';
 import { FilterValues, sortValue } from '../../model/internal/filter-values';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, of, switchMap, takeUntil } from 'rxjs';
 import {
   FUEL_TYPE_NAMES,
   FuelType,
@@ -25,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { VehicleFormService } from '../../services/vehicle-form.service';
 import { Router } from '@angular/router';
 import { VehicleSelectionService } from '../../services/vehicle-selection.service';
+import moment from 'moment';
 
 const MATERIALS = [MatIconModule];
 
@@ -77,9 +78,25 @@ export class VehicleSelectionComponent implements OnInit {
     this.isReady = true;
     this.currentFilters = filters;
     this.vehicles = [];
+
     this._vehicleSelectionService
-      .getAllVehicles()
-      .pipe(takeUntil(this._destroy$))
+      .getOffices()
+      .pipe(
+        switchMap((offices) => {
+          const officeId = offices.find(
+            (off) => off.location == filters.location
+          )!.id;
+
+          const startDate = moment(filters.startDate).format('DD-MM-YYYY');
+          const endDate = moment(filters.startDate).format('DD-MM-YYYY');
+          return this._vehicleSelectionService.getAvailableVehicles(
+            officeId,
+            startDate,
+            endDate
+          );
+        }),
+        takeUntil(this._destroy$)
+      )
       .subscribe((vehicles) => {
         //This is so stupid but oh well
         //(Map the fuel type to the polish name of the fuel type)
