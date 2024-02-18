@@ -32,7 +32,9 @@ export enum Role {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+
   private role?: Role;
+
   isLoggedIn = false;
   isShowOwnerBoard = false;
   isShowManagementBoard = false;
@@ -54,14 +56,17 @@ export class AppComponent {
   ngOnInit(): void {
     if (this._storageService.isLoggedIn()) {
       const user = this._storageService.getUser();
-      this.role = user.roles;
-      this.isLoggedIn = true;
 
-      this.isShowOwnerBoard = this.role == Role.admin;
-      this.isShowManagementBoard =
-        this.role == Role.admin || this.role == Role.empHR;
+      if (user) {
+         this.role = user.roles;
+         this.isLoggedIn = true;
 
-      this.username = user.username;
+          this.isShowOwnerBoard = this.role == Role.admin;
+          this.isShowManagementBoard =
+            this.role == Role.admin || this.role == Role.empHR;
+
+          this.username = user.username;
+      }
     }
   }
 

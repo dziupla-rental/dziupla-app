@@ -31,6 +31,7 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../../services/spinner.service';
+import { User } from '../../model/external/user';
 
 export interface DialogData {
   username: string;
@@ -63,7 +64,7 @@ export class LoginViewComponent implements OnInit {
   isLoginFailed = false;
 
   errorMessage = '';
-  role: string = "";
+  role: string = '';
 
   constructor(
     private readonly _snackBar: MatSnackBar,
@@ -78,29 +79,35 @@ export class LoginViewComponent implements OnInit {
   ngOnInit(): void {
     if (this._storageService.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.role = this._storageService.getUser().role;
+      this.role = this._storageService.getUser()?.roles ?? '';
     }
   }
 
   onSubmit(): void {
+    this._spinnerService.open('Login onSubmit');
     this._authService
       .login(
         this.form.controls.username.value!,
         this.form.controls.password.value!
       )
       .subscribe({
-        next: (data) => {
+        next: (data: User) => {
           this._storageService.saveUser(data);
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-          this.role = this._storageService.getUser().role;
+          this.role = data.roles;
           this.openDialog();
+          this._spinnerService.close('Login onSubmit');
         },
         error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
-          this._snackBar.open('Błąd Logowania: ' + this.errorMessage, '❌');
+          this._snackBar.open(
+            'Błąd Logowania: ' + (this.errorMessage ?? 'NIEZNANY'),
+            '❌'
+          );
+          this._spinnerService.close('Login onSubmit');
         },
       });
   }
@@ -145,6 +152,8 @@ export class SuccessfulLoginDialog {
   onNoClick(): void {
     this._dialogRef.close();
     // Forcing a refresh. to see the logout buttons
-    this._router.navigate(['/']).then(() => {window.location.reload();});
+    this._router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 }
