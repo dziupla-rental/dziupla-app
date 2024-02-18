@@ -17,11 +17,11 @@ const MATERIALS = [
   MatSidenavModule,
 ];
 export enum Role {
-  admin = 'ROLE_ADMIN',
-  empHR = 'ROLE_EMPLOYEE_HR',
-  user = 'ROLE_USER',
-  emp = 'ROLE_EMPLOYEE',
-  empMech = 'ROLE_EMPLOYEE_MECHANIC',
+  ADMIN = 'ROLE_ADMIN',
+  EMP_HR = 'ROLE_EMPLOYEE_HR',
+  USER = 'ROLE_USER',
+  EMP = 'ROLE_EMPLOYEE',
+  EMP_MECH = 'ROLE_EMPLOYEE_MECHANIC',
 }
 @Component({
   selector: 'app-root',
@@ -61,9 +61,9 @@ export class AppComponent {
          this.role = user.roles as Role;
          this.isLoggedIn = true;
 
-          this.isShowOwnerBoard = this.role == Role.admin;
+          this.isShowOwnerBoard = this.role == Role.ADMIN;
           this.isShowManagementBoard =
-            this.role == Role.admin || this.role == Role.empHR;
+            this.role == Role.ADMIN || this.role == Role.EMP_HR;
 
           this.username = user.username;
       }

@@ -13,18 +13,22 @@
       (click)="navigate('/owner'); drawer.toggle()"
       mat-flat-button
       >Widok właściciela</a
-    ><br />} @if(isShowManagementBoard){<a
+    ><br />
+    } @if(isShowManagementBoard){
+    <a
       class="site-button"
       (click)="navigate('/manager'); drawer.toggle()"
       mat-flat-button
       >Widok manadżera</a
-    ><br />} @if(isShowManagementBoard){
+    >
+    <br />
     <a
       class="site-button"
       (click)="navigate('/manager/offices'); drawer.toggle()"
       mat-flat-button
       >Przegląd biur</a
-    ><br />
+    >
+    <br />
     }
   </mat-drawer>
   <mat-drawer-content>
