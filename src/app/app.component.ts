@@ -16,7 +16,13 @@ const MATERIALS = [
   MatIconModule,
   MatSidenavModule,
 ];
-
+export enum Role {
+  ADMIN = 'ROLE_ADMIN',
+  EMP_HR = 'ROLE_EMPLOYEE_HR',
+  USER = 'ROLE_USER',
+  EMP = 'ROLE_EMPLOYEE',
+  EMP_MECH = 'ROLE_EMPLOYEE_MECHANIC',
+}
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -26,7 +32,9 @@ const MATERIALS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private role: string = '';
+
+  private role?: Role;
+
   isLoggedIn = false;
   isShowOwnerBoard = false;
   isShowManagementBoard = false;
@@ -48,15 +56,16 @@ export class AppComponent {
   ngOnInit(): void {
     if (this._storageService.isLoggedIn()) {
       const user = this._storageService.getUser();
+
       if (user) {
-        this.role = user.roles;
-        this.isLoggedIn = true;
+         this.role = user.roles as Role;
+         this.isLoggedIn = true;
 
-        //TODO: export roles into enum
-        this.isShowOwnerBoard = this.role == 'ROLE_OWNER';
-        this.isShowManagementBoard = this.role == 'ROLE_OWNER';
+          this.isShowOwnerBoard = this.role == Role.ADMIN;
+          this.isShowManagementBoard =
+            this.role == Role.ADMIN || this.role == Role.EMP_HR;
 
-        this.username = user.username;
+          this.username = user.username;
       }
     }
   }
