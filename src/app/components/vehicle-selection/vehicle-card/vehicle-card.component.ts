@@ -48,10 +48,6 @@ export class VehicleCardComponent implements OnInit {
         icon: 'attach_money',
         text: this.vehicle.cost + 'zł/d',
       },
-      {
-        icon: 'event_available',
-        text: this.vehicle.available ? 'Dostępny' : 'Niedostępny',
-      },
     ];
   }
 
