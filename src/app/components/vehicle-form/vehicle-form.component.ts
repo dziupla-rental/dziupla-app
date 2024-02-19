@@ -197,6 +197,12 @@ export class VehicleFormComponent implements OnInit, OnDestroy {
         const office = offices.find(
           (off) => off.location === this._vehicleFormService.office
         )!;
+        const additions = {};
+        this.extraOptions
+          .filter((option) => option.isSelected)
+          .forEach(({ formLabel, extraInfo }) =>
+            Object.assign(additions, { [formLabel]: extraInfo })
+          );
         const rental: Rental = {
           carId: this.selectedVehicle!.id,
           clientId: this._storage.getUser()?.id ?? 1,
@@ -205,11 +211,7 @@ export class VehicleFormComponent implements OnInit, OnDestroy {
           protocolNumber: 0,
           startDate: this.selectedDates.startDate,
           endDate: this.selectedDates.endDate,
-          additions: this.extraOptions
-            .filter((option) => option.isSelected)
-            .map((option) => {
-              return { [option.formLabel]: option.extraInfo };
-            }),
+          additions: additions,
         };
 
         this._sendRental$.next(rental);
