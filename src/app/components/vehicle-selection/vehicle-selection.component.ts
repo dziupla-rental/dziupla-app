@@ -88,7 +88,7 @@ export class VehicleSelectionComponent implements OnInit {
           )!.id;
 
           const startDate = moment(filters.startDate).format('DD-MM-YYYY');
-          const endDate = moment(filters.startDate).format('DD-MM-YYYY');
+          const endDate = moment(filters.endDate).format('DD-MM-YYYY');
           return this._vehicleSelectionService.getAvailableVehicles(
             officeId,
             startDate,
