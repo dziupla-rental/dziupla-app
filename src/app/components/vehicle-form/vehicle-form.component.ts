@@ -208,7 +208,8 @@ export class VehicleFormComponent implements OnInit, OnDestroy {
           clientId: this._storage.getUser()?.id ?? 1,
           originOfficeId: office.id,
           destinationOfficeId: office.id,
-          protocolNumber: 0,
+          // generate unique number
+          protocolNumber: Date.now(), 
           startDate: this.selectedDates.startDate,
           endDate: this.selectedDates.endDate,
           additions: additions,
