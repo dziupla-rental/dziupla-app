@@ -1,3 +1,8 @@
+export interface Additions {
+  ADDITION_DELIVERY?: string,
+  ADDITION_INSURANCE?: string,
+  ADDITION_DECORATION?: string,
+}
 export interface Rental {
   carId: number;
   clientId: number;
@@ -6,5 +11,5 @@ export interface Rental {
   protocolNumber: number;
   startDate: Date;
   endDate: Date;
-  additions: { [key: string]: string }[];
+  additions: Additions;
 }

@@ -41,6 +41,11 @@ export enum VehicleType {
   TRUCK = 'DOSTAWCZY',
 }
 
+export interface Photo {
+  url: string;
+  id: number;
+}
+
 export interface Vehicle {
   id: number;
   cost: number;
@@ -53,7 +58,7 @@ export interface Vehicle {
   seatNumber: number;
   technicalStatus: boolean;
   fuelType: FuelType | FuelTypeName;
-  photo: string;
+  photo: Photo;
   type: VehicleType;
   licence: string;
 }
